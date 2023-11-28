@@ -1,0 +1,4 @@
+---
+LLM: chatGPT
+dataset: USMLE
+prompt_file: "prompts/USMLE.json"

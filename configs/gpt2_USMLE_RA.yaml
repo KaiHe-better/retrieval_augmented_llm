@@ -1,0 +1,8 @@
+---
+LLM: gpt2
+dataset: USMLE
+prompt: "full-prompt"
+prompt_file: "prompts/USMLE.json"
+if_RA: True
+retrieval_raw_data_dir: "datasets/USMLE/textbooks/en"
+retrieval_processed_file_dir: "datasets/USMLE/process_retrieval_corpus/"

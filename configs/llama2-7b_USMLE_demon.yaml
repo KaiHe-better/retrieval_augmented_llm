@@ -1,0 +1,9 @@
+---
+LLM: llama2-7b
+dataset: USMLE
+prompt_file: "prompts/USMLE.json"
+max_new_tokens: 5
+demonstration: true
+
+
+
