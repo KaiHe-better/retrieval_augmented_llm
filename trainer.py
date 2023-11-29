@@ -141,6 +141,7 @@ class My_Trainer:
         return all_doc, text_splitter
 
     def updata_retri_embedding(self):
+        self.print_logger.info("updata_retri_embedding ...")
         start_time = time.time()
         with torch.no_grad():
             self.vectordb = Chroma.from_documents(self.retrieved_document, self.embeddings_fn)  

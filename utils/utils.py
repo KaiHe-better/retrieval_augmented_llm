@@ -243,11 +243,14 @@ def load_retriever(args, print_logger):
     else:
         print_logger.info("loading retriever ...")
         if args.triever == "dragon+":
-            tokenizer_path = "./checkpoint/orginal_model/dragon+/facebook_dragon-plus-query-encoder"
-            query_encoder_path = "./checkpoint/orginal_model/dragon+/facebook_dragon-plus-query-encoder"
-            context_encoder_path = "./checkpoint/orginal_model/dragon+/facebook_dragon-plus-query-encoder"
-
+            tokenizer_path = "../LLM_models/dragon+/facebook_dragon-plus-query-encoder"
+            query_encoder_path = "../LLM_models/dragon+/facebook_dragon-plus-query-encoder"
+            context_encoder_path = "../LLM_models/dragon+/facebook_dragon-plus-query-encoder"
             retri_encoder_path = context_encoder_path
+
+        if args.triever == "NIL":
+            tokenizer_path = "../LLM_models/google/t5_xxl_true_nli_mixture"
+            retri_encoder_path = "../LLM_models/google/t5_xxl_true_nli_mixture"
 
         return retri_encoder_path, tokenizer_path
     
