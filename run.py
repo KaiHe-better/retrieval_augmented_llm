@@ -9,7 +9,7 @@ parser = argparse.ArgumentParser()
 
 # system settings
 parser.add_argument('--ID', type=str, default='0', help='run ID')
-parser.add_argument("--config", type=str, default="llama2-7b_USMLE_demon.yaml", help="Path to the config file")
+parser.add_argument("--config", type=str, default="llama2-7b_USMLE_RA_NIL.yaml", help="Path to the config file")
 parser.add_argument('--gpu', default="7", type=str, help='gpu device numbers')
 parser.add_argument('--seed', default=42, help='trandom seed')
 parser.add_argument('--num_workers', default=16, type=int, help='data_loader_work')

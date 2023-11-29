@@ -1,0 +1,35 @@
+2023-11-29 20:54:34,684 **************** Configuration **************** 
+2023-11-29 20:54:34,685 ID: 0
+2023-11-29 20:54:34,685 config: llama2-7b_USMLE_RA_NIL.yaml
+2023-11-29 20:54:34,685 gpu: 5,6,7
+2023-11-29 20:54:34,685 seed: 42
+2023-11-29 20:54:34,685 num_workers: 16
+2023-11-29 20:54:34,685 if_RA: True
+2023-11-29 20:54:34,685 LLM: llama2-7b
+2023-11-29 20:54:34,685 triever: NIL
+2023-11-29 20:54:34,685 dataset: USMLE
+2023-11-29 20:54:34,685 prompt_file: prompts/USMLE.json
+2023-11-29 20:54:34,685 retrieval_raw_data_dir: datasets/USMLE/textbooks/en
+2023-11-29 20:54:34,685 retrieval_processed_file_dir: datasets/USMLE/process_retrieval_corpus/
+2023-11-29 20:54:34,685 chunk_size: 512
+2023-11-29 20:54:34,685 chunk_overlap: 20
+2023-11-29 20:54:34,685 similarity_threshold: 0.7
+2023-11-29 20:54:34,685 multi_query: False
+2023-11-29 20:54:34,685 max_document_num: 9
+2023-11-29 20:54:34,685 retri_batch_size: 512
+2023-11-29 20:54:34,685 batch_size: 1
+2023-11-29 20:54:34,685 demonstration: True
+2023-11-29 20:54:34,685 demons_cnt: 1
+2023-11-29 20:54:34,685 temperature: 0
+2023-11-29 20:54:34,685 top_p: 0
+2023-11-29 20:54:34,685 max_new_tokens: 2
+2023-11-29 20:54:34,685 max_length: 2048
+2023-11-29 20:54:34,685 device: cuda
+2023-11-29 20:54:34,685 dir_path: ./results/output/gpu_5_6_7_config_llama2-7b_USMLE_RA_NIL.yaml_demonstration_true_demons_cnt_1
+2023-11-29 20:54:34,685 print_logger: <Logger print (DEBUG)>
+2023-11-29 20:54:34,685 result_logger: <Logger result (DEBUG)>
+2023-11-29 20:54:34,686 **************** Configuration **************** 
+
+
+2023-11-29 20:54:34,686 loading retriever ...
+2023-11-29 20:54:34,686 Loading ../LLM_models/llama2/Llama-2-7b-chat-hf in torch.float16...

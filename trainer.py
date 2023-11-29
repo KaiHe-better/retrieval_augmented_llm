@@ -56,7 +56,7 @@ class My_Trainer:
             self.retriever_embedding = []
             self.retriever_txt = []
             self.retrieved_document, self.text_splitter = self.process_document()
-            self.embeddings_fn = HuggingFaceEmbeddings(model_name="facebook/dragon-plus-query-encoder", cache_folder=retri_encoder_path, 
+            self.embeddings_fn = HuggingFaceEmbeddings(model_name=retri_encoder_path, 
                                                        model_kwargs = {'device': self.device, }, 
                                                        encode_kwargs = {'normalize_embeddings': False, "batch_size":self.args.retri_batch_size }, 
                                                        )
@@ -131,11 +131,11 @@ class My_Trainer:
                 chunks = text_splitter.split_documents(documents)
                 all_doc += chunks
                 
-        #         break
-        #     break
-        # self.print_logger.info("===============================breaking ===============================")
-        # self.print_logger.info("===============================breaking ===============================")
-        # self.print_logger.info("===============================breaking ===============================")
+                break
+            break
+        self.print_logger.info("===============================breaking ===============================")
+        self.print_logger.info("===============================breaking ===============================")
+        self.print_logger.info("===============================breaking ===============================")
 
         self.print_logger.info("process retrieval files finish in %.2f sec. \n"% (time.time() - start_time))
         return all_doc, text_splitter
@@ -164,7 +164,7 @@ class My_Trainer:
     def random_select_demonstration(self, train_data_loader):
         demon_prompt = ""
         for index, item in enumerate(train_data_loader):
-            demon_prompt += "Demonstration: " + str(index)+"\n Question: {} \n Options: {} \n Answer: <{}> \n\n".format(item["question"][0], item["options"][0], item["answer"][0])
+            demon_prompt += "Demonstration " + str(index)+"\n Question: {} \n Options: {} \n Answer: <{}> \n\n".format(item["question"][0], item["options"][0], item["answer"][0])
         self.result_logger.info(f" \n {demon_prompt} \n")
         return demon_prompt
     
