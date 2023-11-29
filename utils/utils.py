@@ -181,13 +181,13 @@ def load_LLM(args, dtype=torch.float16, int8=False, reserve_memory=10):
                 model_name_or_path = "gpt2"
 
             if model_name_or_path == "llama2-7b":
-                model_name_or_path = "/raid/hpc/hekai/WorkShop/My_project/LLM_models/llama2/Llama-2-7b-chat-hf"
+                model_name_or_path = "../LLM_models/llama2/Llama-2-7b-chat-hf"
 
             if model_name_or_path == "llama2-13b":
-                model_name_or_path = "/raid/hpc/hekai/WorkShop/My_project/LLM_models/llama2/Llama-2-13b-chat-hf"
+                model_name_or_path = "../LLM_models/llama2/Llama-2-13b-chat-hf"
 
             if model_name_or_path == "llama2-70b":
-                model_name_or_path = "/raid/hpc/hekai/WorkShop/My_project/LLM_models/llama2/Llama-2-70b-chat-hf"
+                model_name_or_path = "../LLM_models/llama2/Llama-2-70b-chat-hf"
 
             model_name_or_path = os.path.join(model_name_or_path)
         else:
@@ -247,6 +247,8 @@ def load_retriever(args, print_logger):
             query_encoder_path = "./checkpoint/orginal_model/dragon+/facebook_dragon-plus-query-encoder"
             context_encoder_path = "./checkpoint/orginal_model/dragon+/facebook_dragon-plus-query-encoder"
 
-        return query_encoder_path,  context_encoder_path, tokenizer_path
+            retri_encoder_path = context_encoder_path
+
+        return retri_encoder_path, tokenizer_path
     
 

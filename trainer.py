@@ -26,7 +26,7 @@ from utils.utils import extracted_label, LineListOutputParser
 
 class My_Trainer:
 
-    def __init__(self, args, LLM, LLM_tokenizer, retri_query_encoder_path,  retri_context_encoder_path, triever_tokenizer_path, device):
+    def __init__(self, args, LLM, LLM_tokenizer, retri_encoder_path, triever_tokenizer_path, device):
         self.args = args
         self.print_logger = args.print_logger
         self.result_logger = args.result_logger
@@ -56,8 +56,10 @@ class My_Trainer:
             self.retriever_embedding = []
             self.retriever_txt = []
             self.retrieved_document, self.text_splitter = self.process_document()
-            self.embeddings_fn = HuggingFaceEmbeddings(model_name="facebook/dragon-plus-query-encoder", cache_folder=retri_context_encoder_path, 
-                                                       model_kwargs = {'device': self.device}, encode_kwargs = {'normalize_embeddings': False})
+            self.embeddings_fn = HuggingFaceEmbeddings(model_name="facebook/dragon-plus-query-encoder", cache_folder=retri_encoder_path, 
+                                                       model_kwargs = {'device': self.device, }, 
+                                                       encode_kwargs = {'normalize_embeddings': False, "batch_size":self.args.retri_batch_size }, 
+                                                       )
             if self.args.demonstration:
                 prompt_format = "retrieve-demonstration-prompt"
             else:
@@ -155,13 +157,14 @@ class My_Trainer:
                 tmp_len_list.append(len(i.page_content))
 
         self.print_logger.info(f"retrieve document num: {len(retrieve_doc)}, length: {str(tmp_len_list)}")
-        self.result_logger.info(f"retrieve document: \n{tmp_str}")
+        self.result_logger.info(f"retrieve document: \n{tmp_str} \n")
         return tmp_str
 
     def random_select_demonstration(self, train_data_loader):
         for item in train_data_loader:
             demon_prompt = "{} \n {} \n {} \n".format(item["question"][0], item["options"][0], item["answer"][0])
             break
+        self.result_logger.info(f"Demonstration: {demon_prompt} \n")
         return demon_prompt
     
     def train_proc(self, train_data_loader, dev_data_loader, test_data_loader):
@@ -176,12 +179,15 @@ class My_Trainer:
         
         cnt = 0
         for index, data_item in enumerate(test_data_loader):
-            self.print_logger.info(f"process num: {index}")
-
             query = data_item['question'][0]
             options = data_item['options'][0]
             label = data_item["label"][0]
-  
+
+            self.print_logger.info(f"process num: {index}")
+            self.result_logger.info(f"process num: {index}")
+            self.result_logger.info(f"query: {query} \n")
+            self.result_logger.info(f"options: {options} \n")
+
             if self.args.if_RA:
                 retrieve_doc = self.retrieve(query)
                 if self.args.demonstration:

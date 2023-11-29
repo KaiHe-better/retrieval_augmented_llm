@@ -10,7 +10,7 @@ parser = argparse.ArgumentParser()
 # system settings
 parser.add_argument('--ID', type=str, default='0', help='run ID')
 parser.add_argument("--config", type=str, default="llama2-7b_USMLE_RA.yaml", help="Path to the config file")
-parser.add_argument('--gpu', default="7", type=str, help='gpu device numbers')
+parser.add_argument('--gpu', default="5,6,7", type=str, help='gpu device numbers')
 parser.add_argument('--seed', default=42, help='trandom seed')
 parser.add_argument('--num_workers', default=16, type=int, help='data_loader_work')
 
@@ -87,12 +87,12 @@ args.print_logger.info("**************** Configuration **************** \n\n")
 
 
 def main(args):
-    retri_query_encoder_path,  retri_context_encoder_path, triever_tokenizer_path = load_retriever(args, args.print_logger)
+    retri_encoder_path, triever_tokenizer_path = load_retriever(args, args.print_logger)
     my_LLM, LLM_tokenizer, _ = load_LLM(args)
     
     train_data_loader, dev_data_loader, test_data_loader = get_loader(args)
     
-    trainer = My_Trainer(args, my_LLM, LLM_tokenizer, retri_query_encoder_path,  retri_context_encoder_path, triever_tokenizer_path, device)
+    trainer = My_Trainer(args, my_LLM, LLM_tokenizer, retri_encoder_path, triever_tokenizer_path, device)
     trainer.train_proc(train_data_loader, dev_data_loader, test_data_loader)
      
     

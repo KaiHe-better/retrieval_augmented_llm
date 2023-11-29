@@ -1,7 +1,3 @@
-retrieve_doc = [1,2,3,4]
+import tensorboard
 
-
-res = "Doucment {}:".format(index).join(i for index, i in enumerate(retrieve_doc))
-
-
-print(res)
+print(tensorboard.__version__)
