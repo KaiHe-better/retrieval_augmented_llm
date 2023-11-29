@@ -2,4 +2,4 @@
 LLM: llama2-13b
 dataset: USMLE
 prompt_file: "prompts/USMLE.json"
-max_new_tokens: 5 
+max_new_tokens: 2 

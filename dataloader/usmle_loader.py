@@ -24,6 +24,7 @@ class USMLE(Dataset):
     def __getitem__(self, index):
 
         data_item = eval(self.data[index])
+        question = data_item['question'].replace("\n\n", "\n")
         answ = data_item['answer_idx']
         label = self.idx2label[answ]
 
@@ -31,7 +32,7 @@ class USMLE(Dataset):
         for k, v in data_item['options'].items():
             options += "<"+str(k) + "> " + str(v)+ ". " 
 
-        return {"question": data_item['question'], 'options': options,  'label': label, "answer": answ}
+        return {"question": question, 'options': options,  'label': label, "answer": answ}
 
 
 

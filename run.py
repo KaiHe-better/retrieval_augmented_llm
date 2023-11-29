@@ -8,9 +8,9 @@ import argparse
 parser = argparse.ArgumentParser()
 
 # system settings
-parser.add_argument('--ID', default='0', help='run ID')
-parser.add_argument("--config", type=str, default="llama2-7b_USMLE.yaml", help="Path to the config file")
-parser.add_argument('--gpu', default="5,6,7", type=str, help='gpu device numbers')
+parser.add_argument('--ID', type=str, default='0', help='run ID')
+parser.add_argument("--config", type=str, default="llama2-7b_USMLE_RA.yaml", help="Path to the config file")
+parser.add_argument('--gpu', default="7", type=str, help='gpu device numbers')
 parser.add_argument('--seed', default=42, help='trandom seed')
 parser.add_argument('--num_workers', default=16, type=int, help='data_loader_work')
 
@@ -25,14 +25,15 @@ parser.add_argument('--prompt_file', type=str, default="prompts/USMLE.json",  he
 parser.add_argument('--retrieval_raw_data_dir', type=str, default="datasets/USMLE/textbooks/en", help='retrieval_raw_data_dir')
 parser.add_argument('--retrieval_processed_file_dir', type=str, default="datasets/USMLE/process_retrieval_corpus/", help='retrieval_processed_file_dir')
 parser.add_argument('--chunk_size', type=int, default=512, help='chunk_sizen, not token length')
-parser.add_argument('--chunk_overlap', type=int, default=50, help='chunk_size')
+parser.add_argument('--chunk_overlap', type=int, default=20, help='chunk_size')
 
 # retrieval
 parser.add_argument('--similarity_threshold', type=float, default=0.7, help='similarity_threshold')
 parser.add_argument('--multi_query', type=bool, default=False, help='multi_query, using open AI')
+parser.add_argument('--max_document_num', type=int, default=3, help='max_document_num')
 
 # train
-parser.add_argument('--retri_batch_size', type=int, default=128, help='batch_size')
+parser.add_argument('--retri_batch_size', type=int, default=512, help='batch_size')
 parser.add_argument('--batch_size', type=int, default=1, help='batch_size')
 parser.add_argument('--demonstration', type=bool, default=False, help='in_context learning')
 parser.add_argument('--demons_cnt', type=int, default=1, help='demonstration number')
@@ -52,7 +53,7 @@ args = parser.parse_args()
 os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
 os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
 os.environ["TOKENIZERS_PARALLELISM"] = "true"
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = "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"
 
 from dataloader.data_loader import get_loader  
 from trainer import My_Trainer 

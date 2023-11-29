@@ -1,0 +1,39 @@
+2023-11-29 10:35:46,315 **************** Configuration **************** 
+2023-11-29 10:35:46,315 ID: 0
+2023-11-29 10:35:46,315 config: llama2-13b_USMLE_RA.yaml
+2023-11-29 10:35:46,315 gpu: 5,6,7
+2023-11-29 10:35:46,315 seed: 42
+2023-11-29 10:35:46,315 num_workers: 16
+2023-11-29 10:35:46,315 if_RA: True
+2023-11-29 10:35:46,315 LLM: llama2-13b
+2023-11-29 10:35:46,315 triever: dragon+
+2023-11-29 10:35:46,315 dataset: USMLE
+2023-11-29 10:35:46,315 prompt_file: prompts/USMLE.json
+2023-11-29 10:35:46,315 retrieval_raw_data_dir: datasets/USMLE/textbooks/en
+2023-11-29 10:35:46,315 retrieval_processed_file_dir: datasets/USMLE/process_retrieval_corpus/
+2023-11-29 10:35:46,316 chunk_size: 512
+2023-11-29 10:35:46,316 chunk_overlap: 20
+2023-11-29 10:35:46,316 similarity_threshold: 0.7
+2023-11-29 10:35:46,316 multi_query: False
+2023-11-29 10:35:46,316 max_document_num: 1
+2023-11-29 10:35:46,316 retri_batch_size: 512
+2023-11-29 10:35:46,316 batch_size: 1
+2023-11-29 10:35:46,316 demonstration: False
+2023-11-29 10:35:46,316 demons_cnt: 1
+2023-11-29 10:35:46,316 temperature: 0
+2023-11-29 10:35:46,316 top_p: 0
+2023-11-29 10:35:46,316 max_new_tokens: 2
+2023-11-29 10:35:46,316 max_length: 2048
+2023-11-29 10:35:46,316 device: cuda
+2023-11-29 10:35:46,316 dir_path: ./results/output/gpu_5_6_7_config_llama2-13b_USMLE_RA.yaml_max_document_num_1
+2023-11-29 10:35:46,316 print_logger: <Logger print (DEBUG)>
+2023-11-29 10:35:46,316 result_logger: <Logger result (DEBUG)>
+2023-11-29 10:35:46,316 **************** Configuration **************** 
+
+
+2023-11-29 10:35:46,316 loading retriever ...
+2023-11-29 10:35:46,316 Loading /raid/hpc/hekai/WorkShop/My_project/LLM_models/llama2/Llama-2-13b-chat-hf in torch.float16...
+2023-11-29 10:36:39,403 Finish loading in 53.09 sec.
+2023-11-29 10:36:39,453 Loading data ...
+2023-11-29 10:36:39,499 chunk retrieval files ... 
+

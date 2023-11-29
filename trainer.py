@@ -15,6 +15,7 @@ from langchain.prompts import PromptTemplate
 from langchain.llms import HuggingFacePipeline
 import json
 import os
+import time
 import torch
 from tqdm import tqdm
 from transformers import AutoTokenizer
@@ -113,12 +114,11 @@ class My_Trainer:
         return retriever
 
     def process_document(self):
-        
+        start_time = time.time()
         if not os.path.exists(self.args.retrieval_processed_file_dir):
             os.makedirs(self.args.retrieval_processed_file_dir)
         
         text_splitter = RecursiveCharacterTextSplitter.from_huggingface_tokenizer(self.triever_tokenizer, chunk_size=self.args.chunk_size, chunk_overlap=self.args.chunk_overlap)
-        # text_splitter = CharacterTextSplitter(chunk_size=300, chunk_overlap=0, separator=". ")
 
         all_doc = []
         self.print_logger.info("chunk retrieval files ... \n")
@@ -131,24 +131,32 @@ class My_Trainer:
                 
         #         break
         #     break
-        # print("===============================breaking ===============================")
-        # print("===============================breaking ===============================")
-        # print("===============================breaking ===============================")
+        # self.print_logger.info("===============================breaking ===============================")
+        # self.print_logger.info("===============================breaking ===============================")
+        # self.print_logger.info("===============================breaking ===============================")
 
-        self.print_logger.info("process retrieval files finish ! \n")
+        self.print_logger.info("process retrieval files finish in %.2f sec. \n"% (time.time() - start_time))
         return all_doc, text_splitter
 
     def updata_retri_embedding(self):
+        start_time = time.time()
         with torch.no_grad():
             self.vectordb = Chroma.from_documents(self.retrieved_document, self.embeddings_fn)  
+        self.print_logger.info("updata_retri_embedding in %.2f sec. \n"% (time.time() - start_time))
 
     def retrieve(self, query):
         retrieve_doc = self.retriever.get_relevant_documents(query=query)
+        tmp_str = ""
+        tmp_len_list = []
         if len(retrieve_doc)>0:
-            retrieve_doc = retrieve_doc[0].page_content
-        else:
-            retrieve_doc = ""
-        return retrieve_doc
+            for index, i in enumerate(retrieve_doc[:self.args.max_document_num]):
+                tmp_str += "document ("+ str(index) + ") \n\n"
+                tmp_str = tmp_str + i.page_content + "\n\n"
+                tmp_len_list.append(len(i.page_content))
+
+        self.print_logger.info(f"retrieve document num: {len(retrieve_doc)}, length: {str(tmp_len_list)}")
+        self.result_logger.info(f"retrieve document: \n{tmp_str}")
+        return tmp_str
 
     def random_select_demonstration(self, train_data_loader):
         for item in train_data_loader:
@@ -163,12 +171,13 @@ class My_Trainer:
 
         self.print_logger.info("Start training... \n ")
 
-        test_par = tqdm(test_data_loader)
         all_test_labels = []
         all_test_predictions = []
         
         cnt = 0
-        for data_item in test_par:
+        for index, data_item in enumerate(test_data_loader):
+            self.print_logger.info(f"process num: {index}")
+
             query = data_item['question'][0]
             options = data_item['options'][0]
             label = data_item["label"][0]
@@ -197,8 +206,8 @@ class My_Trainer:
 
         acc, precision, recall, f1 = self.my_metrics.metrics_task_res(all_test_labels, all_test_predictions)
 
-        self.args.print_logger.info(f"acc {acc}")
-        self.args.print_logger.info(f"precision {precision}")
-        self.args.print_logger.info(f"recall {recall}")
-        self.args.print_logger.info(f"f1 {f1}")
+        self.args.print_logger.info(f"acc {round(acc*100, 2)}")
+        self.args.print_logger.info(f"precision {round(precision*100, 2)}")
+        self.args.print_logger.info(f"recall {round(recall*100, 2)}")
+        self.args.print_logger.info(f"f1 {round(f1*100, 2)}")
 
