@@ -1,66 +1,41 @@
-2023-11-29 14:01:30,002 **************** Configuration **************** 
-2023-11-29 14:01:30,002 ID: 0
-2023-11-29 14:01:30,003 config: llama2-7b_USMLE_RA.yaml
-2023-11-29 14:01:30,003 gpu: 7
-2023-11-29 14:01:30,003 seed: 42
-2023-11-29 14:01:30,003 num_workers: 16
-2023-11-29 14:01:30,003 if_RA: True
-2023-11-29 14:01:30,003 LLM: llama2-7b
-2023-11-29 14:01:30,003 triever: dragon+
-2023-11-29 14:01:30,003 dataset: USMLE
-2023-11-29 14:01:30,003 prompt_file: prompts/USMLE.json
-2023-11-29 14:01:30,003 retrieval_raw_data_dir: datasets/USMLE/textbooks/en
-2023-11-29 14:01:30,003 retrieval_processed_file_dir: datasets/USMLE/process_retrieval_corpus/
-2023-11-29 14:01:30,003 chunk_size: 512
-2023-11-29 14:01:30,003 chunk_overlap: 20
-2023-11-29 14:01:30,003 similarity_threshold: 0.7
-2023-11-29 14:01:30,003 multi_query: False
-2023-11-29 14:01:30,003 max_document_num: 5
-2023-11-29 14:01:30,003 retri_batch_size: 512
-2023-11-29 14:01:30,003 batch_size: 1
-2023-11-29 14:01:30,003 demonstration: False
-2023-11-29 14:01:30,003 demons_cnt: 1
-2023-11-29 14:01:30,003 temperature: 0
-2023-11-29 14:01:30,003 top_p: 0
-2023-11-29 14:01:30,003 max_new_tokens: 2
-2023-11-29 14:01:30,003 max_length: 2048
-2023-11-29 14:01:30,003 device: cuda
-2023-11-29 14:01:30,003 dir_path: ./results/output/[]
-2023-11-29 14:01:30,003 print_logger: <Logger print (DEBUG)>
-2023-11-29 14:01:30,003 result_logger: <Logger result (DEBUG)>
-2023-11-29 14:01:30,003 **************** Configuration **************** 
+2023-11-29 20:30:42,472 **************** Configuration **************** 
+2023-11-29 20:30:42,473 ID: 0
+2023-11-29 20:30:42,473 config: llama2-7b_USMLE_demon.yaml
+2023-11-29 20:30:42,473 gpu: 7
+2023-11-29 20:30:42,473 seed: 42
+2023-11-29 20:30:42,473 num_workers: 16
+2023-11-29 20:30:42,473 if_RA: False
+2023-11-29 20:30:42,473 LLM: llama2-7b
+2023-11-29 20:30:42,473 triever: dragon+
+2023-11-29 20:30:42,473 dataset: USMLE
+2023-11-29 20:30:42,473 prompt_file: prompts/USMLE.json
+2023-11-29 20:30:42,474 retrieval_raw_data_dir: datasets/USMLE/textbooks/en
+2023-11-29 20:30:42,474 retrieval_processed_file_dir: datasets/USMLE/process_retrieval_corpus/
+2023-11-29 20:30:42,474 chunk_size: 512
+2023-11-29 20:30:42,474 chunk_overlap: 20
+2023-11-29 20:30:42,474 similarity_threshold: 0.7
+2023-11-29 20:30:42,474 multi_query: False
+2023-11-29 20:30:42,474 max_document_num: 9
+2023-11-29 20:30:42,474 retri_batch_size: 512
+2023-11-29 20:30:42,474 batch_size: 1
+2023-11-29 20:30:42,474 demonstration: True
+2023-11-29 20:30:42,475 demons_cnt: 2
+2023-11-29 20:30:42,475 temperature: 0
+2023-11-29 20:30:42,475 top_p: 0
+2023-11-29 20:30:42,475 max_new_tokens: 2
+2023-11-29 20:30:42,475 max_length: 2048
+2023-11-29 20:30:42,475 device: cuda
+2023-11-29 20:30:42,475 dir_path: ./results/output/[]
+2023-11-29 20:30:42,475 print_logger: <Logger print (DEBUG)>
+2023-11-29 20:30:42,475 result_logger: <Logger result (DEBUG)>
+2023-11-29 20:30:42,475 **************** Configuration **************** 
 
 
-2023-11-29 14:01:30,003 loading retriever ...
-2023-11-29 14:01:30,003 Loading ../LLM_models/llama2/Llama-2-7b-chat-hf in torch.float16...
-2023-11-29 14:01:52,089 Finish loading in 22.09 sec.
-2023-11-29 14:01:52,140 Loading data ...
-2023-11-29 14:01:52,186 chunk retrieval files ... 
+2023-11-29 20:30:42,476 Loading ../LLM_models/llama2/Llama-2-7b-chat-hf in torch.float16...
+2023-11-29 20:31:03,294 Finish loading in 20.82 sec.
+2023-11-29 20:31:03,549 Loading data ...
+2023-11-29 20:31:03,590 prompt_format: general-demonstration-prompt 
 
-2023-11-29 14:01:53,644 ===============================breaking ===============================
-2023-11-29 14:01:53,645 ===============================breaking ===============================
-2023-11-29 14:01:53,645 ===============================breaking ===============================
-2023-11-29 14:01:53,645 process retrieval files finish in 1.46 sec. 
-
-2023-11-29 14:01:57,251 prompt_format: retrieve-prompt 
-
-2023-11-29 14:02:07,182 updata_retri_embedding in 9.93 sec. 
-
-2023-11-29 14:02:07,183 Start training... 
+2023-11-29 20:31:03,591 Start training... 
  
-2023-11-29 14:02:08,558 process num: 0
-2023-11-29 14:02:08,790 retrieve document num: 4, length: [1787, 2166, 2319, 1792]
-2023-11-29 14:02:09,355 process num: 1
-2023-11-29 14:02:09,423 retrieve document num: 4, length: [1558, 1867, 1994, 1398]
-2023-11-29 14:02:09,977 process num: 2
-2023-11-29 14:02:10,046 retrieve document num: 4, length: [1616, 1683, 1818, 1802]
-2023-11-29 14:02:10,750 process num: 3
-2023-11-29 14:02:10,820 retrieve document num: 4, length: [1760, 1904, 1738, 1699]
-2023-11-29 14:02:11,439 process num: 4
-2023-11-29 14:02:11,506 retrieve document num: 4, length: [1337, 1398, 1658, 1883]
-2023-11-29 14:02:12,058 process num: 5
-2023-11-29 14:02:12,124 retrieve document num: 3, length: [1776, 1412, 1986]
-2023-11-29 14:02:12,529 process num: 6
-2023-11-29 14:02:12,596 retrieve document num: 4, length: [1312, 1614, 1995, 1846]
-2023-11-29 14:02:13,102 process num: 7
-2023-11-29 14:02:13,169 retrieve document num: 4, length: [1614, 1802, 1785, 1520]
+2023-11-29 20:31:04,228 process num: 0

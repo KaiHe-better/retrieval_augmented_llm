@@ -162,10 +162,10 @@ class My_Trainer:
         return tmp_str
 
     def random_select_demonstration(self, train_data_loader):
-        for item in train_data_loader:
-            demon_prompt = "{} \n {} \n {} \n".format(item["question"][0], item["options"][0], item["answer"][0])
-            break
-        self.result_logger.info(f"Demonstration: {demon_prompt} \n")
+        demon_prompt = ""
+        for index, item in enumerate(train_data_loader):
+            demon_prompt += "Demonstration: " + str(index)+"\n Question: {} \n Options: {} \n Answer: <{}> \n\n".format(item["question"][0], item["options"][0], item["answer"][0])
+        self.result_logger.info(f" \n {demon_prompt} \n")
         return demon_prompt
     
     def train_proc(self, train_data_loader, dev_data_loader, test_data_loader):

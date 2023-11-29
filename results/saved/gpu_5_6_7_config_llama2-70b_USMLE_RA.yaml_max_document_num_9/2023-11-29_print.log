@@ -1,0 +1,2598 @@
+2023-11-29 17:30:17,551 **************** Configuration **************** 
+2023-11-29 17:30:17,551 ID: 0
+2023-11-29 17:30:17,551 config: llama2-70b_USMLE_RA.yaml
+2023-11-29 17:30:17,551 gpu: 5,6,7
+2023-11-29 17:30:17,551 seed: 42
+2023-11-29 17:30:17,551 num_workers: 16
+2023-11-29 17:30:17,551 if_RA: True
+2023-11-29 17:30:17,551 LLM: llama2-70b
+2023-11-29 17:30:17,551 triever: dragon+
+2023-11-29 17:30:17,551 dataset: USMLE
+2023-11-29 17:30:17,551 prompt_file: prompts/USMLE.json
+2023-11-29 17:30:17,551 retrieval_raw_data_dir: datasets/USMLE/textbooks/en
+2023-11-29 17:30:17,551 retrieval_processed_file_dir: datasets/USMLE/process_retrieval_corpus/
+2023-11-29 17:30:17,551 chunk_size: 512
+2023-11-29 17:30:17,551 chunk_overlap: 20
+2023-11-29 17:30:17,551 similarity_threshold: 0.7
+2023-11-29 17:30:17,551 multi_query: False
+2023-11-29 17:30:17,551 max_document_num: 9
+2023-11-29 17:30:17,551 retri_batch_size: 512
+2023-11-29 17:30:17,551 batch_size: 1
+2023-11-29 17:30:17,551 demonstration: False
+2023-11-29 17:30:17,551 demons_cnt: 1
+2023-11-29 17:30:17,551 temperature: 0
+2023-11-29 17:30:17,552 top_p: 0
+2023-11-29 17:30:17,552 max_new_tokens: 2
+2023-11-29 17:30:17,552 max_length: 2048
+2023-11-29 17:30:17,552 device: cuda
+2023-11-29 17:30:17,552 dir_path: ./results/output/gpu_5_6_7_config_llama2-70b_USMLE_RA.yaml_max_document_num_9
+2023-11-29 17:30:17,552 print_logger: <Logger print (DEBUG)>
+2023-11-29 17:30:17,552 result_logger: <Logger result (DEBUG)>
+2023-11-29 17:30:17,552 **************** Configuration **************** 
+
+
+2023-11-29 17:30:17,552 loading retriever ...
+2023-11-29 17:30:17,552 Loading ../LLM_models/llama2/Llama-2-70b-chat-hf in torch.float16...
+2023-11-29 17:32:02,413 Finish loading in 104.86 sec.
+2023-11-29 17:32:02,496 Loading data ...
+2023-11-29 17:32:02,543 chunk retrieval files ... 
+
+2023-11-29 17:37:22,739 process retrieval files finish in 320.20 sec. 
+
+2023-11-29 17:37:26,669 prompt_format: retrieve-prompt 
+
+2023-11-29 17:37:26,670 updata_retri_embedding ...
+2023-11-29 17:45:10,977 updata_retri_embedding in 464.31 sec. 
+
+2023-11-29 17:45:10,978 Start training... 
+ 
+2023-11-29 17:45:12,857 process num: 0
+2023-11-29 17:45:12,960 retrieve document num: 4, length: [568, 610, 611, 636]
+2023-11-29 17:45:24,311 process num: 1
+2023-11-29 17:45:24,424 retrieve document num: 6, length: [2059, 1628, 1733, 361, 620, 602]
+2023-11-29 17:45:27,458 process num: 2
+2023-11-29 17:45:27,585 retrieve document num: 7, length: [1777, 1593, 1801, 605, 672, 592, 230]
+2023-11-29 17:45:31,480 process num: 3
+2023-11-29 17:45:31,550 retrieve document num: 4, length: [1749, 1821, 1306, 2058]
+2023-11-29 17:45:34,868 process num: 4
+2023-11-29 17:45:34,944 retrieve document num: 4, length: [1951, 1847, 1998, 1705]
+2023-11-29 17:45:37,802 process num: 5
+2023-11-29 17:45:37,887 retrieve document num: 4, length: [624, 618, 587, 2041]
+2023-11-29 17:45:39,269 process num: 6
+2023-11-29 17:45:39,338 retrieve document num: 4, length: [616, 668, 1498, 1682]
+2023-11-29 17:45:40,742 process num: 7
+2023-11-29 17:45:40,811 retrieve document num: 4, length: [1805, 1771, 1216, 1369]
+2023-11-29 17:45:43,281 process num: 8
+2023-11-29 17:45:43,406 retrieve document num: 6, length: [2408, 1596, 594, 565, 588, 540]
+2023-11-29 17:45:45,550 process num: 9
+2023-11-29 17:45:45,616 retrieve document num: 4, length: [1465, 335, 578, 599]
+2023-11-29 17:45:46,737 process num: 10
+2023-11-29 17:45:46,805 retrieve document num: 4, length: [2148, 2039, 1470, 1887]
+2023-11-29 17:45:49,559 process num: 11
+2023-11-29 17:45:49,627 retrieve document num: 4, length: [1422, 1887, 1248, 1589]
+2023-11-29 17:45:52,339 process num: 12
+2023-11-29 17:45:52,399 retrieve document num: 4, length: [1628, 1733, 1378, 1088]
+2023-11-29 17:45:54,272 process num: 13
+2023-11-29 17:45:54,372 retrieve document num: 5, length: [673, 1551, 2003, 641, 571]
+2023-11-29 17:45:56,122 process num: 14
+2023-11-29 17:45:56,255 retrieve document num: 8, length: [613, 1822, 609, 636, 574, 613, 569, 104]
+2023-11-29 17:45:58,195 process num: 15
+2023-11-29 17:45:58,264 retrieve document num: 4, length: [1839, 1344, 2148, 2261]
+2023-11-29 17:46:00,779 process num: 16
+2023-11-29 17:46:00,848 retrieve document num: 4, length: [2132, 1913, 1483, 1457]
+2023-11-29 17:46:03,377 process num: 17
+2023-11-29 17:46:03,482 retrieve document num: 5, length: [2413, 1833, 2250, 567, 660]
+2023-11-29 17:46:06,122 process num: 18
+2023-11-29 17:46:06,196 retrieve document num: 4, length: [1620, 1385, 1413, 2191]
+2023-11-29 17:46:08,778 process num: 19
+2023-11-29 17:46:08,852 retrieve document num: 4, length: [1903, 2172, 1773, 1794]
+2023-11-29 17:46:11,258 process num: 20
+2023-11-29 17:46:11,327 retrieve document num: 4, length: [2061, 2038, 1350, 1551]
+2023-11-29 17:46:13,854 process num: 21
+2023-11-29 17:46:13,927 retrieve document num: 4, length: [612, 630, 1511, 628]
+2023-11-29 17:46:15,125 process num: 22
+2023-11-29 17:46:15,197 retrieve document num: 4, length: [1735, 2201, 996, 1871]
+2023-11-29 17:46:17,723 process num: 23
+2023-11-29 17:46:17,800 retrieve document num: 4, length: [1637, 791, 1937, 632]
+2023-11-29 17:46:20,083 process num: 24
+2023-11-29 17:46:20,154 retrieve document num: 4, length: [2180, 1823, 2267, 1871]
+2023-11-29 17:46:23,057 process num: 25
+2023-11-29 17:46:23,129 retrieve document num: 4, length: [670, 940, 1602, 1892]
+2023-11-29 17:46:24,724 process num: 26
+2023-11-29 17:46:24,786 retrieve document num: 4, length: [1716, 1746, 1511, 1757]
+2023-11-29 17:46:27,127 process num: 27
+2023-11-29 17:46:27,197 retrieve document num: 4, length: [1837, 1596, 1344, 661]
+2023-11-29 17:46:29,091 process num: 28
+2023-11-29 17:46:29,188 retrieve document num: 6, length: [613, 1498, 1903, 627, 646, 432]
+2023-11-29 17:46:31,321 process num: 29
+2023-11-29 17:46:31,389 retrieve document num: 4, length: [1814, 1728, 2287, 1451]
+2023-11-29 17:46:33,896 process num: 30
+2023-11-29 17:46:33,969 retrieve document num: 4, length: [1839, 1743, 675, 570]
+2023-11-29 17:46:35,983 process num: 31
+2023-11-29 17:46:36,061 retrieve document num: 4, length: [639, 702, 657, 1992]
+2023-11-29 17:46:37,440 process num: 32
+2023-11-29 17:46:37,508 retrieve document num: 4, length: [1666, 1208, 1464, 1644]
+2023-11-29 17:46:40,185 process num: 33
+2023-11-29 17:46:40,258 retrieve document num: 4, length: [599, 1422, 661, 1765]
+2023-11-29 17:46:41,831 process num: 34
+2023-11-29 17:46:41,897 retrieve document num: 4, length: [1684, 1576, 775, 1655]
+2023-11-29 17:46:44,475 process num: 35
+2023-11-29 17:46:44,540 retrieve document num: 4, length: [613, 616, 641, 1498]
+2023-11-29 17:46:45,746 process num: 36
+2023-11-29 17:46:45,806 retrieve document num: 4, length: [600, 578, 640, 360]
+2023-11-29 17:46:46,710 process num: 37
+2023-11-29 17:46:46,803 retrieve document num: 6, length: [632, 1856, 587, 891, 592, 296]
+2023-11-29 17:46:48,502 process num: 38
+2023-11-29 17:46:48,611 retrieve document num: 6, length: [2079, 1825, 938, 663, 616, 598]
+2023-11-29 17:46:51,160 process num: 39
+2023-11-29 17:46:51,296 retrieve document num: 7, length: [2104, 1903, 620, 630, 577, 602, 622]
+2023-11-29 17:46:53,708 process num: 40
+2023-11-29 17:46:53,804 retrieve document num: 6, length: [1344, 1853, 1520, 509, 612, 537]
+2023-11-29 17:46:56,436 process num: 41
+2023-11-29 17:46:56,513 retrieve document num: 0, length: []
+2023-11-29 17:46:57,107 process num: 42
+2023-11-29 17:46:57,178 retrieve document num: 4, length: [1983, 2155, 1833, 1732]
+2023-11-29 17:47:00,215 process num: 43
+2023-11-29 17:47:00,285 retrieve document num: 4, length: [1309, 2248, 2060, 610]
+2023-11-29 17:47:02,049 process num: 44
+2023-11-29 17:47:02,143 retrieve document num: 5, length: [1837, 1895, 1344, 567, 566]
+2023-11-29 17:47:04,725 process num: 45
+2023-11-29 17:47:04,798 retrieve document num: 4, length: [1893, 2249, 1671, 2056]
+2023-11-29 17:47:07,421 process num: 46
+2023-11-29 17:47:07,490 retrieve document num: 4, length: [1602, 1623, 1750, 822]
+2023-11-29 17:47:09,805 process num: 47
+2023-11-29 17:47:09,873 retrieve document num: 4, length: [2170, 1897, 2063, 1897]
+2023-11-29 17:47:12,742 process num: 48
+2023-11-29 17:47:12,816 retrieve document num: 4, length: [1907, 1781, 2006, 2137]
+2023-11-29 17:47:15,718 process num: 49
+2023-11-29 17:47:15,786 retrieve document num: 4, length: [2129, 1848, 2213, 1704]
+2023-11-29 17:47:18,722 process num: 50
+2023-11-29 17:47:18,788 retrieve document num: 4, length: [636, 718, 630, 641]
+2023-11-29 17:47:19,724 process num: 51
+2023-11-29 17:47:19,789 retrieve document num: 4, length: [1576, 1684, 1349, 775]
+2023-11-29 17:47:22,508 process num: 52
+2023-11-29 17:47:22,588 retrieve document num: 4, length: [1829, 1270, 604, 599]
+2023-11-29 17:47:24,182 process num: 53
+2023-11-29 17:47:24,249 retrieve document num: 4, length: [1523, 597, 613, 641]
+2023-11-29 17:47:25,363 process num: 54
+2023-11-29 17:47:25,475 retrieve document num: 6, length: [612, 1958, 2298, 554, 647, 606]
+2023-11-29 17:47:27,346 process num: 55
+2023-11-29 17:47:27,415 retrieve document num: 4, length: [1910, 2217, 2422, 1996]
+2023-11-29 17:47:30,285 process num: 56
+2023-11-29 17:47:30,399 retrieve document num: 4, length: [2255, 660, 688, 657]
+2023-11-29 17:47:31,634 process num: 57
+2023-11-29 17:47:31,699 retrieve document num: 4, length: [1657, 1534, 1518, 1994]
+2023-11-29 17:47:33,951 process num: 58
+2023-11-29 17:47:34,022 retrieve document num: 4, length: [1916, 1718, 1538, 1570]
+2023-11-29 17:47:36,986 process num: 59
+2023-11-29 17:47:37,055 retrieve document num: 4, length: [1344, 1710, 1922, 1088]
+2023-11-29 17:47:39,225 process num: 60
+2023-11-29 17:47:39,325 retrieve document num: 5, length: [591, 2084, 608, 589, 634]
+2023-11-29 17:47:40,900 process num: 61
+2023-11-29 17:47:40,964 retrieve document num: 4, length: [586, 582, 1635, 634]
+2023-11-29 17:47:42,193 process num: 62
+2023-11-29 17:47:42,290 retrieve document num: 6, length: [1763, 1482, 663, 509, 612, 537]
+2023-11-29 17:47:44,616 process num: 63
+2023-11-29 17:47:44,686 retrieve document num: 4, length: [2040, 2337, 2452, 1773]
+2023-11-29 17:47:47,530 process num: 64
+2023-11-29 17:47:47,640 retrieve document num: 6, length: [1793, 627, 1771, 1811, 646, 432]
+2023-11-29 17:47:50,558 process num: 65
+2023-11-29 17:47:50,631 retrieve document num: 4, length: [643, 1987, 1777, 1897]
+2023-11-29 17:47:52,625 process num: 66
+2023-11-29 17:47:52,687 retrieve document num: 4, length: [587, 575, 637, 639]
+2023-11-29 17:47:53,682 process num: 67
+2023-11-29 17:47:53,749 retrieve document num: 4, length: [1896, 1704, 2024, 2200]
+2023-11-29 17:47:56,412 process num: 68
+2023-11-29 17:47:56,479 retrieve document num: 4, length: [1238, 1696, 642, 620]
+2023-11-29 17:47:58,045 process num: 69
+2023-11-29 17:47:58,114 retrieve document num: 4, length: [613, 2047, 1797, 1498]
+2023-11-29 17:48:00,038 process num: 70
+2023-11-29 17:48:00,108 retrieve document num: 4, length: [1986, 2356, 1371, 1716]
+2023-11-29 17:48:02,777 process num: 71
+2023-11-29 17:48:02,851 retrieve document num: 4, length: [2085, 1842, 1413, 2068]
+2023-11-29 17:48:05,397 process num: 72
+2023-11-29 17:48:05,468 retrieve document num: 4, length: [2047, 774, 2356, 1414]
+2023-11-29 17:48:08,178 process num: 73
+2023-11-29 17:48:08,253 retrieve document num: 4, length: [1344, 590, 2196, 1657]
+2023-11-29 17:48:10,247 process num: 74
+2023-11-29 17:48:10,314 retrieve document num: 4, length: [1344, 2136, 1772, 1454]
+2023-11-29 17:48:12,819 process num: 75
+2023-11-29 17:48:12,886 retrieve document num: 4, length: [2030, 1911, 2341, 1910]
+2023-11-29 17:48:15,371 process num: 76
+2023-11-29 17:48:15,446 retrieve document num: 4, length: [2077, 1765, 1986, 1983]
+2023-11-29 17:48:18,350 process num: 77
+2023-11-29 17:48:18,441 retrieve document num: 5, length: [1422, 606, 1762, 585, 635]
+2023-11-29 17:48:20,137 process num: 78
+2023-11-29 17:48:20,204 retrieve document num: 4, length: [628, 630, 1487, 657]
+2023-11-29 17:48:21,304 process num: 79
+2023-11-29 17:48:21,380 retrieve document num: 4, length: [617, 625, 702, 1839]
+2023-11-29 17:48:22,825 process num: 80
+2023-11-29 17:48:22,896 retrieve document num: 4, length: [611, 606, 360, 2248]
+2023-11-29 17:48:24,115 process num: 81
+2023-11-29 17:48:24,182 retrieve document num: 4, length: [1422, 650, 599, 606]
+2023-11-29 17:48:25,360 process num: 82
+2023-11-29 17:48:25,421 retrieve document num: 4, length: [649, 654, 609, 611]
+2023-11-29 17:48:26,370 process num: 83
+2023-11-29 17:48:26,468 retrieve document num: 6, length: [1637, 2223, 1249, 509, 537, 612]
+2023-11-29 17:48:29,321 process num: 84
+2023-11-29 17:48:29,387 retrieve document num: 4, length: [2132, 2110, 1811, 1599]
+2023-11-29 17:48:32,105 process num: 85
+2023-11-29 17:48:32,196 retrieve document num: 5, length: [1732, 1904, 1933, 300, 633]
+2023-11-29 17:48:34,796 process num: 86
+2023-11-29 17:48:34,865 retrieve document num: 4, length: [1872, 1543, 1983, 666]
+2023-11-29 17:48:36,826 process num: 87
+2023-11-29 17:48:36,894 retrieve document num: 4, length: [1576, 1887, 1422, 1684]
+2023-11-29 17:48:39,801 process num: 88
+2023-11-29 17:48:39,870 retrieve document num: 4, length: [2054, 2287, 2077, 1842]
+2023-11-29 17:48:42,991 process num: 89
+2023-11-29 17:48:43,065 retrieve document num: 4, length: [1828, 1393, 2039, 1533]
+2023-11-29 17:48:45,680 process num: 90
+2023-11-29 17:48:45,755 retrieve document num: 4, length: [1557, 678, 1886, 646]
+2023-11-29 17:48:47,647 process num: 91
+2023-11-29 17:48:47,723 retrieve document num: 4, length: [2101, 651, 657, 691]
+2023-11-29 17:48:49,146 process num: 92
+2023-11-29 17:48:49,205 retrieve document num: 4, length: [644, 627, 578, 671]
+2023-11-29 17:48:50,132 process num: 93
+2023-11-29 17:48:50,200 retrieve document num: 4, length: [2065, 2061, 2153, 1922]
+2023-11-29 17:48:53,005 process num: 94
+2023-11-29 17:48:53,078 retrieve document num: 4, length: [2054, 2099, 677, 620]
+2023-11-29 17:48:54,948 process num: 95
+2023-11-29 17:48:55,014 retrieve document num: 4, length: [1922, 1449, 1774, 1544]
+2023-11-29 17:48:57,534 process num: 96
+2023-11-29 17:48:57,644 retrieve document num: 6, length: [1945, 1696, 2041, 656, 637, 675]
+2023-11-29 17:49:00,502 process num: 97
+2023-11-29 17:49:00,572 retrieve document num: 4, length: [1963, 1464, 1312, 1900]
+2023-11-29 17:49:03,146 process num: 98
+2023-11-29 17:49:03,223 retrieve document num: 4, length: [2132, 626, 613, 621]
+2023-11-29 17:49:04,439 process num: 99
+2023-11-29 17:49:04,536 retrieve document num: 4, length: [1422, 2288, 599, 620]
+2023-11-29 17:49:06,082 process num: 100
+2023-11-29 17:49:06,150 retrieve document num: 4, length: [2210, 1831, 1745, 1616]
+2023-11-29 17:49:08,996 process num: 101
+2023-11-29 17:49:09,054 retrieve document num: 4, length: [1359, 1819, 1459, 1882]
+2023-11-29 17:49:11,027 process num: 102
+2023-11-29 17:49:11,097 retrieve document num: 4, length: [1261, 1786, 585, 1705]
+2023-11-29 17:49:12,937 process num: 103
+2023-11-29 17:49:13,003 retrieve document num: 4, length: [1576, 1684, 775, 1984]
+2023-11-29 17:49:15,545 process num: 104
+2023-11-29 17:49:15,610 retrieve document num: 4, length: [2003, 1332, 1411, 1825]
+2023-11-29 17:49:18,050 process num: 105
+2023-11-29 17:49:18,118 retrieve document num: 4, length: [1921, 2391, 2172, 1989]
+2023-11-29 17:49:20,873 process num: 106
+2023-11-29 17:49:20,980 retrieve document num: 6, length: [1879, 1623, 641, 582, 687, 442]
+2023-11-29 17:49:23,121 process num: 107
+2023-11-29 17:49:23,192 retrieve document num: 4, length: [2082, 1483, 1901, 691]
+2023-11-29 17:49:25,338 process num: 108
+2023-11-29 17:49:25,400 retrieve document num: 4, length: [635, 602, 652, 657]
+2023-11-29 17:49:26,332 process num: 109
+2023-11-29 17:49:26,399 retrieve document num: 4, length: [1465, 2136, 1431, 1599]
+2023-11-29 17:49:29,008 process num: 110
+2023-11-29 17:49:29,077 retrieve document num: 4, length: [1422, 1887, 1576, 1589]
+2023-11-29 17:49:31,920 process num: 111
+2023-11-29 17:49:31,993 retrieve document num: 4, length: [1757, 2267, 2119, 2039]
+2023-11-29 17:49:34,674 process num: 112
+2023-11-29 17:49:34,743 retrieve document num: 4, length: [1658, 2211, 1482, 1465]
+2023-11-29 17:49:37,143 process num: 113
+2023-11-29 17:49:37,211 retrieve document num: 4, length: [1422, 1724, 1576, 1887]
+2023-11-29 17:49:39,892 process num: 114
+2023-11-29 17:49:39,962 retrieve document num: 4, length: [1576, 1655, 1422, 775]
+2023-11-29 17:49:42,438 process num: 115
+2023-11-29 17:49:42,521 retrieve document num: 4, length: [1369, 694, 2152, 1847]
+2023-11-29 17:49:44,387 process num: 116
+2023-11-29 17:49:44,487 retrieve document num: 6, length: [1805, 1600, 1665, 577, 630, 622]
+2023-11-29 17:49:46,731 process num: 117
+2023-11-29 17:49:46,797 retrieve document num: 4, length: [1684, 1576, 1655, 1422]
+2023-11-29 17:49:49,760 process num: 118
+2023-11-29 17:49:49,829 retrieve document num: 4, length: [1399, 2101, 1998, 2129]
+2023-11-29 17:49:52,418 process num: 119
+2023-11-29 17:49:52,497 retrieve document num: 6, length: [641, 683, 653, 627, 646, 432]
+2023-11-29 17:49:53,813 process num: 120
+2023-11-29 17:49:53,883 retrieve document num: 4, length: [1532, 1947, 1487, 638]
+2023-11-29 17:49:55,975 process num: 121
+2023-11-29 17:49:56,046 retrieve document num: 4, length: [613, 1616, 649, 616]
+2023-11-29 17:49:57,549 process num: 122
+2023-11-29 17:49:57,614 retrieve document num: 4, length: [1192, 1749, 1293, 1668]
+2023-11-29 17:50:00,173 process num: 123
+2023-11-29 17:50:00,235 retrieve document num: 4, length: [1813, 1479, 1438, 1482]
+2023-11-29 17:50:02,844 process num: 124
+2023-11-29 17:50:02,946 retrieve document num: 5, length: [675, 674, 2063, 2200, 642]
+2023-11-29 17:50:04,820 process num: 125
+2023-11-29 17:50:04,899 retrieve document num: 5, length: [2215, 1994, 2129, 300, 633]
+2023-11-29 17:50:07,440 process num: 126
+2023-11-29 17:50:07,512 retrieve document num: 4, length: [602, 1847, 1600, 1728]
+2023-11-29 17:50:09,514 process num: 127
+2023-11-29 17:50:09,584 retrieve document num: 4, length: [1667, 630, 2010, 1124]
+2023-11-29 17:50:11,462 process num: 128
+2023-11-29 17:50:11,526 retrieve document num: 4, length: [1747, 968, 1918, 1855]
+2023-11-29 17:50:14,117 process num: 129
+2023-11-29 17:50:14,183 retrieve document num: 4, length: [1728, 1422, 1953, 1705]
+2023-11-29 17:50:16,945 process num: 130
+2023-11-29 17:50:17,020 retrieve document num: 4, length: [1538, 1507, 1913, 2160]
+2023-11-29 17:50:19,703 process num: 131
+2023-11-29 17:50:19,766 retrieve document num: 4, length: [683, 672, 676, 677]
+2023-11-29 17:50:20,759 process num: 132
+2023-11-29 17:50:20,828 retrieve document num: 4, length: [1637, 791, 1249, 1082]
+2023-11-29 17:50:23,301 process num: 133
+2023-11-29 17:50:23,368 retrieve document num: 4, length: [1715, 2500, 2000, 1614]
+2023-11-29 17:50:25,842 process num: 134
+2023-11-29 17:50:25,911 retrieve document num: 4, length: [1967, 1516, 1277, 673]
+2023-11-29 17:50:27,772 process num: 135
+2023-11-29 17:50:27,872 retrieve document num: 7, length: [1594, 593, 1546, 677, 644, 630, 123]
+2023-11-29 17:50:29,639 process num: 136
+2023-11-29 17:50:29,729 retrieve document num: 5, length: [685, 1610, 630, 640, 583]
+2023-11-29 17:50:31,148 process num: 137
+2023-11-29 17:50:31,246 retrieve document num: 5, length: [1933, 2163, 652, 641, 640]
+2023-11-29 17:50:33,604 process num: 138
+2023-11-29 17:50:33,670 retrieve document num: 4, length: [2148, 1867, 1861, 1187]
+2023-11-29 17:50:36,044 process num: 139
+2023-11-29 17:50:36,135 retrieve document num: 4, length: [663, 1585, 630, 640]
+2023-11-29 17:50:37,378 process num: 140
+2023-11-29 17:50:37,445 retrieve document num: 4, length: [2261, 1620, 1887, 1983]
+2023-11-29 17:50:39,997 process num: 141
+2023-11-29 17:50:40,064 retrieve document num: 4, length: [1576, 1684, 775, 1655]
+2023-11-29 17:50:42,992 process num: 142
+2023-11-29 17:50:43,054 retrieve document num: 4, length: [1597, 1579, 1897, 1733]
+2023-11-29 17:50:45,429 process num: 143
+2023-11-29 17:50:45,506 retrieve document num: 4, length: [2157, 626, 603, 650]
+2023-11-29 17:50:46,829 process num: 144
+2023-11-29 17:50:46,894 retrieve document num: 4, length: [1947, 1344, 1948, 1827]
+2023-11-29 17:50:49,241 process num: 145
+2023-11-29 17:50:49,325 retrieve document num: 5, length: [1887, 1422, 1576, 488, 655]
+2023-11-29 17:50:52,081 process num: 146
+2023-11-29 17:50:52,156 retrieve document num: 4, length: [1720, 1776, 1805, 1952]
+2023-11-29 17:50:55,121 process num: 147
+2023-11-29 17:50:55,187 retrieve document num: 4, length: [2196, 1989, 2207, 1543]
+2023-11-29 17:50:57,634 process num: 148
+2023-11-29 17:50:57,764 retrieve document num: 5, length: [2284, 601, 1914, 651, 621]
+2023-11-29 17:50:59,816 process num: 149
+2023-11-29 17:50:59,926 retrieve document num: 7, length: [2025, 1937, 2058, 607, 574, 587, 140]
+2023-11-29 17:51:02,547 process num: 150
+2023-11-29 17:51:02,614 retrieve document num: 4, length: [1518, 1957, 1994, 2179]
+2023-11-29 17:51:05,579 process num: 151
+2023-11-29 17:51:05,652 retrieve document num: 4, length: [1904, 2055, 1686, 1660]
+2023-11-29 17:51:08,275 process num: 152
+2023-11-29 17:51:08,343 retrieve document num: 4, length: [589, 1534, 438, 1644]
+2023-11-29 17:51:09,881 process num: 153
+2023-11-29 17:51:09,959 retrieve document num: 5, length: [663, 611, 618, 607, 568]
+2023-11-29 17:51:11,059 process num: 154
+2023-11-29 17:51:11,144 retrieve document num: 5, length: [1826, 2204, 907, 654, 569]
+2023-11-29 17:51:13,353 process num: 155
+2023-11-29 17:51:13,421 retrieve document num: 4, length: [1901, 1834, 1943, 2002]
+2023-11-29 17:51:16,054 process num: 156
+2023-11-29 17:51:16,121 retrieve document num: 4, length: [1870, 1342, 2359, 1340]
+2023-11-29 17:51:18,684 process num: 157
+2023-11-29 17:51:18,744 retrieve document num: 4, length: [653, 641, 592, 574]
+2023-11-29 17:51:19,689 process num: 158
+2023-11-29 17:51:19,758 retrieve document num: 4, length: [1684, 1576, 1589, 1655]
+2023-11-29 17:51:23,216 process num: 159
+2023-11-29 17:51:23,285 retrieve document num: 4, length: [2148, 891, 1947, 1714]
+2023-11-29 17:51:25,776 process num: 160
+2023-11-29 17:51:25,843 retrieve document num: 4, length: [1811, 1752, 1752, 1762]
+2023-11-29 17:51:28,528 process num: 161
+2023-11-29 17:51:28,593 retrieve document num: 4, length: [1501, 1567, 1422, 1765]
+2023-11-29 17:51:30,966 process num: 162
+2023-11-29 17:51:31,038 retrieve document num: 4, length: [2129, 659, 1223, 620]
+2023-11-29 17:51:32,602 process num: 163
+2023-11-29 17:51:32,669 retrieve document num: 4, length: [2063, 1208, 1724, 1735]
+2023-11-29 17:51:35,233 process num: 164
+2023-11-29 17:51:35,301 retrieve document num: 4, length: [1922, 1557, 1868, 2062]
+2023-11-29 17:51:38,196 process num: 165
+2023-11-29 17:51:38,271 retrieve document num: 4, length: [717, 626, 1707, 630]
+2023-11-29 17:51:39,545 process num: 166
+2023-11-29 17:51:39,612 retrieve document num: 4, length: [1994, 1972, 2129, 2272]
+2023-11-29 17:51:42,495 process num: 167
+2023-11-29 17:51:42,556 retrieve document num: 4, length: [673, 643, 725, 598]
+2023-11-29 17:51:43,594 process num: 168
+2023-11-29 17:51:43,667 retrieve document num: 4, length: [643, 2080, 1992, 657]
+2023-11-29 17:51:45,493 process num: 169
+2023-11-29 17:51:45,584 retrieve document num: 5, length: [1871, 1762, 649, 569, 654]
+2023-11-29 17:51:47,687 process num: 170
+2023-11-29 17:51:47,747 retrieve document num: 4, length: [630, 615, 643, 664]
+2023-11-29 17:51:48,661 process num: 171
+2023-11-29 17:51:48,729 retrieve document num: 4, length: [581, 1732, 1781, 597]
+2023-11-29 17:51:50,495 process num: 172
+2023-11-29 17:51:50,557 retrieve document num: 4, length: [696, 620, 605, 641]
+2023-11-29 17:51:51,533 process num: 173
+2023-11-29 17:51:51,593 retrieve document num: 4, length: [575, 608, 649, 654]
+2023-11-29 17:51:52,524 process num: 174
+2023-11-29 17:51:52,594 retrieve document num: 4, length: [1521, 2261, 592, 2008]
+2023-11-29 17:51:54,441 process num: 175
+2023-11-29 17:51:54,518 retrieve document num: 4, length: [1839, 625, 665, 631]
+2023-11-29 17:51:56,023 process num: 176
+2023-11-29 17:51:56,119 retrieve document num: 8, length: [620, 612, 627, 582, 600, 642, 392, 246]
+2023-11-29 17:51:57,614 process num: 177
+2023-11-29 17:51:57,685 retrieve document num: 4, length: [1991, 1960, 2052, 616]
+2023-11-29 17:51:59,967 process num: 178
+2023-11-29 17:52:00,025 retrieve document num: 4, length: [598, 615, 572, 622]
+2023-11-29 17:52:01,009 process num: 179
+2023-11-29 17:52:01,077 retrieve document num: 4, length: [1910, 1670, 1696, 1995]
+2023-11-29 17:52:03,747 process num: 180
+2023-11-29 17:52:03,818 retrieve document num: 4, length: [1657, 1624, 1583, 1407]
+2023-11-29 17:52:06,352 process num: 181
+2023-11-29 17:52:06,422 retrieve document num: 4, length: [1502, 608, 2148, 1780]
+2023-11-29 17:52:08,273 process num: 182
+2023-11-29 17:52:08,341 retrieve document num: 4, length: [1893, 2002, 1827, 1947]
+2023-11-29 17:52:11,181 process num: 183
+2023-11-29 17:52:11,255 retrieve document num: 4, length: [2287, 1585, 1737, 2077]
+2023-11-29 17:52:13,794 process num: 184
+2023-11-29 17:52:13,864 retrieve document num: 4, length: [2252, 1810, 613, 1602]
+2023-11-29 17:52:16,131 process num: 185
+2023-11-29 17:52:16,194 retrieve document num: 4, length: [626, 1541, 608, 1430]
+2023-11-29 17:52:17,655 process num: 186
+2023-11-29 17:52:17,726 retrieve document num: 4, length: [1875, 1751, 1985, 635]
+2023-11-29 17:52:19,720 process num: 187
+2023-11-29 17:52:19,780 retrieve document num: 4, length: [619, 709, 681, 636]
+2023-11-29 17:52:20,720 process num: 188
+2023-11-29 17:52:20,818 retrieve document num: 6, length: [2052, 1960, 1918, 580, 621, 420]
+2023-11-29 17:52:23,543 process num: 189
+2023-11-29 17:52:23,618 retrieve document num: 4, length: [1319, 2042, 585, 1941]
+2023-11-29 17:52:25,742 process num: 190
+2023-11-29 17:52:25,803 retrieve document num: 4, length: [613, 1215, 653, 641]
+2023-11-29 17:52:27,036 process num: 191
+2023-11-29 17:52:27,101 retrieve document num: 4, length: [2013, 2303, 1020, 1002]
+2023-11-29 17:52:29,224 process num: 192
+2023-11-29 17:52:29,322 retrieve document num: 6, length: [1506, 2077, 2288, 567, 641, 76]
+2023-11-29 17:52:32,030 process num: 193
+2023-11-29 17:52:32,122 retrieve document num: 6, length: [1845, 627, 1802, 1756, 600, 352]
+2023-11-29 17:52:34,586 process num: 194
+2023-11-29 17:52:34,664 retrieve document num: 6, length: [641, 675, 660, 627, 646, 432]
+2023-11-29 17:52:35,939 process num: 195
+2023-11-29 17:52:36,024 retrieve document num: 5, length: [607, 648, 1603, 660, 1089]
+2023-11-29 17:52:37,674 process num: 196
+2023-11-29 17:52:37,745 retrieve document num: 4, length: [2230, 2601, 1899, 668]
+2023-11-29 17:52:39,724 process num: 197
+2023-11-29 17:52:39,789 retrieve document num: 4, length: [775, 1576, 633, 697]
+2023-11-29 17:52:41,790 process num: 198
+2023-11-29 17:52:41,856 retrieve document num: 4, length: [2209, 1901, 1569, 1941]
+2023-11-29 17:52:44,355 process num: 199
+2023-11-29 17:52:44,427 retrieve document num: 4, length: [608, 1671, 1821, 652]
+2023-11-29 17:52:46,242 process num: 200
+2023-11-29 17:52:46,307 retrieve document num: 4, length: [1732, 1422, 1684, 1576]
+2023-11-29 17:52:48,952 process num: 201
+2023-11-29 17:52:49,024 retrieve document num: 4, length: [1782, 1894, 1904, 1719]
+2023-11-29 17:52:51,581 process num: 202
+2023-11-29 17:52:51,642 retrieve document num: 4, length: [1544, 1516, 1729, 1781]
+2023-11-29 17:52:53,788 process num: 203
+2023-11-29 17:52:53,855 retrieve document num: 4, length: [1953, 1933, 2204, 1922]
+2023-11-29 17:52:56,470 process num: 204
+2023-11-29 17:52:56,542 retrieve document num: 4, length: [1915, 1961, 1729, 639]
+2023-11-29 17:52:58,543 process num: 205
+2023-11-29 17:52:58,618 retrieve document num: 4, length: [2271, 2046, 619, 582]
+2023-11-29 17:53:00,437 process num: 206
+2023-11-29 17:53:00,510 retrieve document num: 4, length: [623, 1538, 1936, 625]
+2023-11-29 17:53:02,066 process num: 207
+2023-11-29 17:53:02,126 retrieve document num: 4, length: [578, 1576, 1344, 335]
+2023-11-29 17:53:03,634 process num: 208
+2023-11-29 17:53:03,701 retrieve document num: 4, length: [1713, 686, 1911, 662]
+2023-11-29 17:53:05,259 process num: 209
+2023-11-29 17:53:05,329 retrieve document num: 4, length: [621, 1346, 2155, 1890]
+2023-11-29 17:53:07,483 process num: 210
+2023-11-29 17:53:07,549 retrieve document num: 4, length: [1932, 1666, 2086, 1668]
+2023-11-29 17:53:10,106 process num: 211
+2023-11-29 17:53:10,176 retrieve document num: 4, length: [1625, 1950, 1825, 1623]
+2023-11-29 17:53:13,136 process num: 212
+2023-11-29 17:53:13,213 retrieve document num: 4, length: [2498, 2533, 2124, 2539]
+2023-11-29 17:53:16,080 process num: 213
+2023-11-29 17:53:16,145 retrieve document num: 4, length: [1344, 1745, 1438, 600]
+2023-11-29 17:53:18,071 process num: 214
+2023-11-29 17:53:18,137 retrieve document num: 4, length: [611, 1628, 615, 1551]
+2023-11-29 17:53:19,650 process num: 215
+2023-11-29 17:53:19,711 retrieve document num: 4, length: [613, 641, 636, 644]
+2023-11-29 17:53:20,686 process num: 216
+2023-11-29 17:53:20,751 retrieve document num: 4, length: [2083, 1713, 1922, 1688]
+2023-11-29 17:53:23,296 process num: 217
+2023-11-29 17:53:23,366 retrieve document num: 4, length: [2261, 1270, 1983, 635]
+2023-11-29 17:53:25,511 process num: 218
+2023-11-29 17:53:25,584 retrieve document num: 4, length: [2088, 2063, 611, 644]
+2023-11-29 17:53:27,419 process num: 219
+2023-11-29 17:53:27,510 retrieve document num: 6, length: [632, 1653, 1511, 1994, 296, 592]
+2023-11-29 17:53:29,794 process num: 220
+2023-11-29 17:53:29,859 retrieve document num: 4, length: [2054, 1371, 1507, 1969]
+2023-11-29 17:53:32,398 process num: 221
+2023-11-29 17:53:32,458 retrieve document num: 4, length: [1002, 1682, 2006, 1590]
+2023-11-29 17:53:34,910 process num: 222
+2023-11-29 17:53:34,977 retrieve document num: 4, length: [1724, 1630, 1827, 1520]
+2023-11-29 17:53:37,816 process num: 223
+2023-11-29 17:53:37,923 retrieve document num: 6, length: [1599, 2042, 2132, 577, 398, 602]
+2023-11-29 17:53:40,611 process num: 224
+2023-11-29 17:53:40,684 retrieve document num: 4, length: [2055, 584, 647, 2129]
+2023-11-29 17:53:42,506 process num: 225
+2023-11-29 17:53:42,576 retrieve document num: 4, length: [1952, 641, 1776, 1369]
+2023-11-29 17:53:44,568 process num: 226
+2023-11-29 17:53:44,638 retrieve document num: 4, length: [1603, 1830, 1682, 2223]
+2023-11-29 17:53:47,729 process num: 227
+2023-11-29 17:53:47,825 retrieve document num: 6, length: [775, 1576, 509, 1684, 537, 612]
+2023-11-29 17:53:50,266 process num: 228
+2023-11-29 17:53:50,335 retrieve document num: 4, length: [1576, 1684, 1589, 1655]
+2023-11-29 17:53:53,322 process num: 229
+2023-11-29 17:53:53,400 retrieve document num: 4, length: [1684, 1576, 840, 1928]
+2023-11-29 17:53:56,472 process num: 230
+2023-11-29 17:53:56,548 retrieve document num: 4, length: [2053, 1756, 657, 1996]
+2023-11-29 17:53:58,450 process num: 231
+2023-11-29 17:53:58,519 retrieve document num: 4, length: [1991, 2052, 1852, 2029]
+2023-11-29 17:54:01,419 process num: 232
+2023-11-29 17:54:01,494 retrieve document num: 4, length: [1707, 2052, 1876, 1762]
+2023-11-29 17:54:04,393 process num: 233
+2023-11-29 17:54:04,499 retrieve document num: 4, length: [1955, 559, 585, 575]
+2023-11-29 17:54:05,668 process num: 234
+2023-11-29 17:54:05,733 retrieve document num: 4, length: [617, 1313, 1692, 1787]
+2023-11-29 17:54:07,692 process num: 235
+2023-11-29 17:54:07,753 retrieve document num: 4, length: [601, 620, 631, 616]
+2023-11-29 17:54:08,725 process num: 236
+2023-11-29 17:54:08,838 retrieve document num: 6, length: [606, 2030, 657, 643, 582, 598]
+2023-11-29 17:54:10,306 process num: 237
+2023-11-29 17:54:10,373 retrieve document num: 4, length: [1420, 613, 666, 638]
+2023-11-29 17:54:11,824 process num: 238
+2023-11-29 17:54:11,890 retrieve document num: 4, length: [1799, 1959, 2282, 1459]
+2023-11-29 17:54:14,409 process num: 239
+2023-11-29 17:54:14,476 retrieve document num: 4, length: [2054, 2272, 1994, 1972]
+2023-11-29 17:54:17,394 process num: 240
+2023-11-29 17:54:17,468 retrieve document num: 4, length: [641, 2035, 2272, 1994]
+2023-11-29 17:54:20,008 process num: 241
+2023-11-29 17:54:20,087 retrieve document num: 6, length: [613, 616, 616, 627, 646, 432]
+2023-11-29 17:54:21,614 process num: 242
+2023-11-29 17:54:21,679 retrieve document num: 4, length: [1426, 1344, 1893, 1931]
+2023-11-29 17:54:24,009 process num: 243
+2023-11-29 17:54:24,075 retrieve document num: 4, length: [1610, 2255, 1471, 2095]
+2023-11-29 17:54:26,343 process num: 244
+2023-11-29 17:54:26,406 retrieve document num: 4, length: [649, 1371, 1750, 1584]
+2023-11-29 17:54:27,993 process num: 245
+2023-11-29 17:54:28,090 retrieve document num: 6, length: [1771, 1540, 1924, 592, 532, 609]
+2023-11-29 17:54:30,955 process num: 246
+2023-11-29 17:54:31,022 retrieve document num: 4, length: [2058, 1371, 2236, 1762]
+2023-11-29 17:54:33,732 process num: 247
+2023-11-29 17:54:33,837 retrieve document num: 5, length: [1715, 1478, 1721, 641, 567]
+2023-11-29 17:54:36,737 process num: 248
+2023-11-29 17:54:36,808 retrieve document num: 4, length: [2265, 1608, 1576, 576]
+2023-11-29 17:54:38,778 process num: 249
+2023-11-29 17:54:38,887 retrieve document num: 6, length: [606, 614, 2169, 1720, 1403, 584]
+2023-11-29 17:54:41,225 process num: 250
+2023-11-29 17:54:41,284 retrieve document num: 4, length: [1344, 1465, 609, 335]
+2023-11-29 17:54:42,692 process num: 251
+2023-11-29 17:54:42,752 retrieve document num: 4, length: [613, 672, 646, 641]
+2023-11-29 17:54:43,712 process num: 252
+2023-11-29 17:54:43,807 retrieve document num: 6, length: [581, 1789, 2086, 2170, 579, 350]
+2023-11-29 17:54:46,349 process num: 253
+2023-11-29 17:54:46,423 retrieve document num: 4, length: [1910, 1670, 1995, 1765]
+2023-11-29 17:54:49,388 process num: 254
+2023-11-29 17:54:49,448 retrieve document num: 4, length: [694, 660, 625, 675]
+2023-11-29 17:54:50,380 process num: 255
+2023-11-29 17:54:50,445 retrieve document num: 4, length: [871, 1977, 1600, 1176]
+2023-11-29 17:54:52,427 process num: 256
+2023-11-29 17:54:52,520 retrieve document num: 5, length: [618, 604, 612, 563, 1565]
+2023-11-29 17:54:53,880 process num: 257
+2023-11-29 17:54:53,960 retrieve document num: 5, length: [1621, 1843, 1985, 628, 568]
+2023-11-29 17:54:56,186 process num: 258
+2023-11-29 17:54:56,255 retrieve document num: 4, length: [1839, 1805, 2270, 1613]
+2023-11-29 17:54:58,788 process num: 259
+2023-11-29 17:54:58,854 retrieve document num: 4, length: [1651, 2385, 1351, 1611]
+2023-11-29 17:55:01,282 process num: 260
+2023-11-29 17:55:01,396 retrieve document num: 6, length: [1684, 1576, 775, 469, 624, 605]
+2023-11-29 17:55:04,091 process num: 261
+2023-11-29 17:55:04,161 retrieve document num: 4, length: [1762, 599, 661, 1903]
+2023-11-29 17:55:05,744 process num: 262
+2023-11-29 17:55:05,867 retrieve document num: 6, length: [2031, 1781, 602, 601, 661, 628]
+2023-11-29 17:55:08,178 process num: 263
+2023-11-29 17:55:08,241 retrieve document num: 4, length: [1344, 636, 335, 654]
+2023-11-29 17:55:09,399 process num: 264
+2023-11-29 17:55:09,470 retrieve document num: 4, length: [610, 604, 1656, 618]
+2023-11-29 17:55:11,021 process num: 265
+2023-11-29 17:55:11,090 retrieve document num: 4, length: [996, 647, 1749, 2071]
+2023-11-29 17:55:13,028 process num: 266
+2023-11-29 17:55:13,096 retrieve document num: 4, length: [1804, 2177, 1994, 2071]
+2023-11-29 17:55:15,952 process num: 267
+2023-11-29 17:55:16,020 retrieve document num: 4, length: [2240, 2046, 1884, 2124]
+2023-11-29 17:55:18,763 process num: 268
+2023-11-29 17:55:18,831 retrieve document num: 4, length: [2197, 2235, 1879, 2190]
+2023-11-29 17:55:21,737 process num: 269
+2023-11-29 17:55:21,804 retrieve document num: 4, length: [1847, 1705, 2007, 1600]
+2023-11-29 17:55:24,413 process num: 270
+2023-11-29 17:55:24,481 retrieve document num: 4, length: [1264, 1578, 1759, 658]
+2023-11-29 17:55:26,263 process num: 271
+2023-11-29 17:55:26,357 retrieve document num: 6, length: [1538, 1713, 1590, 509, 537, 612]
+2023-11-29 17:55:29,449 process num: 272
+2023-11-29 17:55:29,520 retrieve document num: 4, length: [2367, 2151, 2030, 1366]
+2023-11-29 17:55:31,816 process num: 273
+2023-11-29 17:55:31,878 retrieve document num: 4, length: [1215, 613, 1498, 641]
+2023-11-29 17:55:33,411 process num: 274
+2023-11-29 17:55:33,485 retrieve document num: 4, length: [608, 1952, 1864, 649]
+2023-11-29 17:55:35,244 process num: 275
+2023-11-29 17:55:35,311 retrieve document num: 4, length: [2063, 1945, 1385, 1696]
+2023-11-29 17:55:37,895 process num: 276
+2023-11-29 17:55:37,991 retrieve document num: 5, length: [1742, 1825, 1420, 590, 648]
+2023-11-29 17:55:40,440 process num: 277
+2023-11-29 17:55:40,507 retrieve document num: 4, length: [1422, 2249, 2178, 1991]
+2023-11-29 17:55:43,063 process num: 278
+2023-11-29 17:55:43,128 retrieve document num: 4, length: [996, 1938, 2129, 1636]
+2023-11-29 17:55:45,602 process num: 279
+2023-11-29 17:55:45,670 retrieve document num: 4, length: [2136, 1714, 1749, 1448]
+2023-11-29 17:55:48,851 process num: 280
+2023-11-29 17:55:48,925 retrieve document num: 4, length: [1903, 2154, 2305, 1921]
+2023-11-29 17:55:51,521 process num: 281
+2023-11-29 17:55:51,617 retrieve document num: 6, length: [505, 1414, 457, 466, 634, 670]
+2023-11-29 17:55:53,103 process num: 282
+2023-11-29 17:55:53,171 retrieve document num: 4, length: [2489, 2196, 2388, 2042]
+2023-11-29 17:55:56,076 process num: 283
+2023-11-29 17:55:56,197 retrieve document num: 7, length: [2154, 2039, 1994, 645, 651, 639, 276]
+2023-11-29 17:55:59,103 process num: 284
+2023-11-29 17:55:59,211 retrieve document num: 5, length: [2003, 1884, 650, 571, 641]
+2023-11-29 17:56:01,363 process num: 285
+2023-11-29 17:56:01,429 retrieve document num: 4, length: [1215, 624, 613, 1616]
+2023-11-29 17:56:02,993 process num: 286
+2023-11-29 17:56:03,061 retrieve document num: 4, length: [1344, 1470, 635, 2083]
+2023-11-29 17:56:04,871 process num: 287
+2023-11-29 17:56:04,944 retrieve document num: 4, length: [1454, 613, 2136, 641]
+2023-11-29 17:56:06,813 process num: 288
+2023-11-29 17:56:06,879 retrieve document num: 4, length: [2055, 2307, 1208, 1713]
+2023-11-29 17:56:09,235 process num: 289
+2023-11-29 17:56:09,342 retrieve document num: 6, length: [1600, 1847, 2119, 601, 577, 573]
+2023-11-29 17:56:11,777 process num: 290
+2023-11-29 17:56:11,844 retrieve document num: 4, length: [1842, 2078, 1393, 1772]
+2023-11-29 17:56:14,432 process num: 291
+2023-11-29 17:56:14,497 retrieve document num: 4, length: [1344, 1853, 696, 654]
+2023-11-29 17:56:16,153 process num: 292
+2023-11-29 17:56:16,217 retrieve document num: 4, length: [1537, 622, 1413, 630]
+2023-11-29 17:56:17,671 process num: 293
+2023-11-29 17:56:17,751 retrieve document num: 4, length: [2215, 1963, 1689, 300]
+2023-11-29 17:56:19,915 process num: 294
+2023-11-29 17:56:19,982 retrieve document num: 4, length: [1729, 653, 1791, 647]
+2023-11-29 17:56:21,424 process num: 295
+2023-11-29 17:56:21,508 retrieve document num: 5, length: [1319, 2130, 1941, 567, 488]
+2023-11-29 17:56:23,495 process num: 296
+2023-11-29 17:56:23,562 retrieve document num: 4, length: [1731, 597, 612, 1404]
+2023-11-29 17:56:25,253 process num: 297
+2023-11-29 17:56:25,318 retrieve document num: 4, length: [1684, 1576, 775, 1902]
+2023-11-29 17:56:27,869 process num: 298
+2023-11-29 17:56:27,938 retrieve document num: 4, length: [2077, 1996, 2287, 1907]
+2023-11-29 17:56:30,640 process num: 299
+2023-11-29 17:56:30,710 retrieve document num: 4, length: [1737, 664, 648, 657]
+2023-11-29 17:56:31,940 process num: 300
+2023-11-29 17:56:32,047 retrieve document num: 6, length: [1912, 1819, 2020, 577, 573, 601]
+2023-11-29 17:56:34,587 process num: 301
+2023-11-29 17:56:34,646 retrieve document num: 4, length: [587, 637, 657, 616]
+2023-11-29 17:56:35,563 process num: 302
+2023-11-29 17:56:35,630 retrieve document num: 4, length: [2199, 2195, 2349, 2119]
+2023-11-29 17:56:38,480 process num: 303
+2023-11-29 17:56:38,552 retrieve document num: 4, length: [1684, 1576, 1837, 775]
+2023-11-29 17:56:41,749 process num: 304
+2023-11-29 17:56:41,837 retrieve document num: 5, length: [1556, 1697, 569, 1204, 555]
+2023-11-29 17:56:44,399 process num: 305
+2023-11-29 17:56:44,467 retrieve document num: 4, length: [1742, 1779, 616, 636]
+2023-11-29 17:56:46,102 process num: 306
+2023-11-29 17:56:46,168 retrieve document num: 4, length: [1903, 1762, 1864, 1716]
+2023-11-29 17:56:48,906 process num: 307
+2023-11-29 17:56:48,984 retrieve document num: 4, length: [2144, 2033, 1963, 2123]
+2023-11-29 17:56:51,709 process num: 308
+2023-11-29 17:56:51,769 retrieve document num: 4, length: [675, 630, 663, 652]
+2023-11-29 17:56:52,666 process num: 309
+2023-11-29 17:56:52,734 retrieve document num: 4, length: [587, 1934, 1606, 1992]
+2023-11-29 17:56:55,017 process num: 310
+2023-11-29 17:56:55,084 retrieve document num: 4, length: [1927, 1990, 2282, 1307]
+2023-11-29 17:56:57,420 process num: 311
+2023-11-29 17:56:57,498 retrieve document num: 5, length: [1422, 1829, 1576, 488, 655]
+2023-11-29 17:56:59,912 process num: 312
+2023-11-29 17:56:59,973 retrieve document num: 4, length: [1567, 574, 1422, 1306]
+2023-11-29 17:57:01,726 process num: 313
+2023-11-29 17:57:01,791 retrieve document num: 4, length: [1344, 335, 1993, 1931]
+2023-11-29 17:57:03,787 process num: 314
+2023-11-29 17:57:03,850 retrieve document num: 4, length: [1961, 1886, 2256, 1762]
+2023-11-29 17:57:06,138 process num: 315
+2023-11-29 17:57:06,204 retrieve document num: 4, length: [1696, 619, 1537, 625]
+2023-11-29 17:57:07,767 process num: 316
+2023-11-29 17:57:07,835 retrieve document num: 4, length: [2256, 2438, 2196, 2414]
+2023-11-29 17:57:10,754 process num: 317
+2023-11-29 17:57:10,822 retrieve document num: 4, length: [1951, 1953, 1650, 1705]
+2023-11-29 17:57:13,380 process num: 318
+2023-11-29 17:57:13,446 retrieve document num: 4, length: [2077, 1742, 2094, 1682]
+2023-11-29 17:57:16,027 process num: 319
+2023-11-29 17:57:16,128 retrieve document num: 5, length: [1851, 2154, 1903, 612, 606]
+2023-11-29 17:57:18,623 process num: 320
+2023-11-29 17:57:18,687 retrieve document num: 4, length: [1903, 1750, 1762, 1716]
+2023-11-29 17:57:21,120 process num: 321
+2023-11-29 17:57:21,190 retrieve document num: 4, length: [2054, 633, 1974, 2191]
+2023-11-29 17:57:23,515 process num: 322
+2023-11-29 17:57:23,612 retrieve document num: 6, length: [2213, 2065, 1922, 563, 604, 536]
+2023-11-29 17:57:26,311 process num: 323
+2023-11-29 17:57:26,371 retrieve document num: 4, length: [630, 585, 610, 611]
+2023-11-29 17:57:27,490 process num: 324
+2023-11-29 17:57:27,559 retrieve document num: 4, length: [1576, 1684, 775, 633]
+2023-11-29 17:57:29,950 process num: 325
+2023-11-29 17:57:30,021 retrieve document num: 4, length: [1671, 650, 619, 1344]
+2023-11-29 17:57:31,686 process num: 326
+2023-11-29 17:57:31,753 retrieve document num: 4, length: [1996, 1897, 2170, 1876]
+2023-11-29 17:57:34,278 process num: 327
+2023-11-29 17:57:34,338 retrieve document num: 3, length: [616, 583, 604]
+2023-11-29 17:57:35,186 process num: 328
+2023-11-29 17:57:35,255 retrieve document num: 4, length: [635, 2075, 1713, 1983]
+2023-11-29 17:57:37,510 process num: 329
+2023-11-29 17:57:37,606 retrieve document num: 6, length: [1344, 1277, 2129, 598, 629, 630]
+2023-11-29 17:57:39,869 process num: 330
+2023-11-29 17:57:39,944 retrieve document num: 4, length: [614, 2129, 582, 623]
+2023-11-29 17:57:41,289 process num: 331
+2023-11-29 17:57:41,358 retrieve document num: 4, length: [1492, 1711, 2150, 2070]
+2023-11-29 17:57:44,045 process num: 332
+2023-11-29 17:57:44,117 retrieve document num: 4, length: [1998, 1857, 1369, 1204]
+2023-11-29 17:57:46,513 process num: 333
+2023-11-29 17:57:46,580 retrieve document num: 4, length: [1620, 1737, 2127, 1974]
+2023-11-29 17:57:49,162 process num: 334
+2023-11-29 17:57:49,237 retrieve document num: 4, length: [1668, 621, 1346, 578]
+2023-11-29 17:57:50,801 process num: 335
+2023-11-29 17:57:50,871 retrieve document num: 4, length: [653, 1779, 675, 606]
+2023-11-29 17:57:52,090 process num: 336
+2023-11-29 17:57:52,158 retrieve document num: 4, length: [2537, 2055, 1815, 2307]
+2023-11-29 17:57:55,098 process num: 337
+2023-11-29 17:57:55,165 retrieve document num: 4, length: [2074, 2155, 2261, 1611]
+2023-11-29 17:57:58,306 process num: 338
+2023-11-29 17:57:58,381 retrieve document num: 4, length: [1974, 1908, 2148, 1903]
+2023-11-29 17:58:01,210 process num: 339
+2023-11-29 17:58:01,292 retrieve document num: 4, length: [2382, 602, 608, 605]
+2023-11-29 17:58:02,747 process num: 340
+2023-11-29 17:58:02,809 retrieve document num: 4, length: [613, 1215, 1496, 1851]
+2023-11-29 17:58:04,545 process num: 341
+2023-11-29 17:58:04,616 retrieve document num: 4, length: [1742, 2006, 581, 676]
+2023-11-29 17:58:06,321 process num: 342
+2023-11-29 17:58:06,388 retrieve document num: 4, length: [1839, 2040, 2177, 1722]
+2023-11-29 17:58:09,461 process num: 343
+2023-11-29 17:58:09,531 retrieve document num: 4, length: [1429, 1785, 2261, 657]
+2023-11-29 17:58:11,550 process num: 344
+2023-11-29 17:58:11,613 retrieve document num: 4, length: [1344, 635, 609, 1426]
+2023-11-29 17:58:13,156 process num: 345
+2023-11-29 17:58:13,224 retrieve document num: 4, length: [1933, 1947, 1720, 1762]
+2023-11-29 17:58:16,171 process num: 346
+2023-11-29 17:58:16,238 retrieve document num: 4, length: [1319, 1013, 1614, 2248]
+2023-11-29 17:58:18,212 process num: 347
+2023-11-29 17:58:18,276 retrieve document num: 4, length: [1546, 1123, 756, 1499]
+2023-11-29 17:58:20,045 process num: 348
+2023-11-29 17:58:20,107 retrieve document num: 4, length: [1344, 609, 335, 654]
+2023-11-29 17:58:21,262 process num: 349
+2023-11-29 17:58:21,326 retrieve document num: 4, length: [1344, 1426, 1557, 1854]
+2023-11-29 17:58:23,907 process num: 350
+2023-11-29 17:58:24,022 retrieve document num: 7, length: [1528, 1603, 2016, 645, 651, 639, 276]
+2023-11-29 17:58:26,930 process num: 351
+2023-11-29 17:58:27,009 retrieve document num: 4, length: [1731, 1684, 1576, 1945]
+2023-11-29 17:58:30,347 process num: 352
+2023-11-29 17:58:30,426 retrieve document num: 4, length: [1885, 1563, 1603, 1966]
+2023-11-29 17:58:33,602 process num: 353
+2023-11-29 17:58:33,669 retrieve document num: 4, length: [1557, 1344, 1752, 1745]
+2023-11-29 17:58:36,347 process num: 354
+2023-11-29 17:58:36,416 retrieve document num: 4, length: [1839, 599, 1422, 1765]
+2023-11-29 17:58:38,307 process num: 355
+2023-11-29 17:58:38,371 retrieve document num: 4, length: [1857, 1887, 1629, 1470]
+2023-11-29 17:58:40,814 process num: 356
+2023-11-29 17:58:40,874 retrieve document num: 4, length: [2115, 1453, 2065, 1882]
+2023-11-29 17:58:42,883 process num: 357
+2023-11-29 17:58:42,942 retrieve document num: 4, length: [640, 615, 652, 664]
+2023-11-29 17:58:43,878 process num: 358
+2023-11-29 17:58:43,945 retrieve document num: 4, length: [2088, 2152, 1466, 2053]
+2023-11-29 17:58:46,545 process num: 359
+2023-11-29 17:58:46,607 retrieve document num: 0, length: []
+2023-11-29 17:58:47,883 process num: 360
+2023-11-29 17:58:47,975 retrieve document num: 6, length: [1275, 1675, 1816, 644, 552, 617]
+2023-11-29 17:58:50,358 process num: 361
+2023-11-29 17:58:50,428 retrieve document num: 4, length: [891, 2267, 1762, 618]
+2023-11-29 17:58:52,371 process num: 362
+2023-11-29 17:58:52,467 retrieve document num: 5, length: [620, 605, 1897, 653, 610]
+2023-11-29 17:58:53,923 process num: 363
+2023-11-29 17:58:53,990 retrieve document num: 4, length: [608, 1344, 1465, 1557]
+2023-11-29 17:58:55,826 process num: 364
+2023-11-29 17:58:55,887 retrieve document num: 4, length: [641, 683, 561, 616]
+2023-11-29 17:58:56,845 process num: 365
+2023-11-29 17:58:56,930 retrieve document num: 5, length: [300, 1994, 635, 572, 633]
+2023-11-29 17:58:58,434 process num: 366
+2023-11-29 17:58:58,503 retrieve document num: 4, length: [2075, 2118, 1945, 1868]
+2023-11-29 17:59:01,109 process num: 367
+2023-11-29 17:59:01,183 retrieve document num: 4, length: [1852, 1712, 1929, 1806]
+2023-11-29 17:59:04,305 process num: 368
+2023-11-29 17:59:04,370 retrieve document num: 4, length: [1643, 1635, 1485, 646]
+2023-11-29 17:59:06,232 process num: 369
+2023-11-29 17:59:06,306 retrieve document num: 4, length: [2180, 603, 1777, 667]
+2023-11-29 17:59:07,985 process num: 370
+2023-11-29 17:59:08,054 retrieve document num: 4, length: [996, 2180, 2267, 647]
+2023-11-29 17:59:10,070 process num: 371
+2023-11-29 17:59:10,137 retrieve document num: 4, length: [1682, 1623, 1877, 2223]
+2023-11-29 17:59:13,248 process num: 372
+2023-11-29 17:59:13,323 retrieve document num: 4, length: [1576, 1684, 1655, 633]
+2023-11-29 17:59:16,173 process num: 373
+2023-11-29 17:59:16,246 retrieve document num: 4, length: [585, 1705, 1953, 1951]
+2023-11-29 17:59:18,669 process num: 374
+2023-11-29 17:59:18,740 retrieve document num: 4, length: [2052, 2035, 1994, 2177]
+2023-11-29 17:59:22,377 process num: 375
+2023-11-29 17:59:22,433 retrieve document num: 4, length: [651, 1050, 970, 705]
+2023-11-29 17:59:23,679 process num: 376
+2023-11-29 17:59:23,744 retrieve document num: 4, length: [1843, 2039, 1704, 2030]
+2023-11-29 17:59:26,212 process num: 377
+2023-11-29 17:59:26,305 retrieve document num: 6, length: [775, 1375, 1344, 509, 612, 537]
+2023-11-29 17:59:28,966 process num: 378
+2023-11-29 17:59:29,034 retrieve document num: 4, length: [1233, 1910, 1839, 1765]
+2023-11-29 17:59:31,860 process num: 379
+2023-11-29 17:59:31,936 retrieve document num: 4, length: [1904, 634, 615, 697]
+2023-11-29 17:59:33,485 process num: 380
+2023-11-29 17:59:33,549 retrieve document num: 4, length: [1576, 1684, 1655, 775]
+2023-11-29 17:59:36,304 process num: 381
+2023-11-29 17:59:36,365 retrieve document num: 4, length: [1705, 1675, 1868, 1955]
+2023-11-29 17:59:38,664 process num: 382
+2023-11-29 17:59:38,734 retrieve document num: 4, length: [2068, 2196, 415, 2382]
+2023-11-29 17:59:40,894 process num: 383
+2023-11-29 17:59:41,004 retrieve document num: 6, length: [1871, 1762, 2119, 651, 645, 639]
+2023-11-29 17:59:44,154 process num: 384
+2023-11-29 17:59:44,265 retrieve document num: 7, length: [1371, 1599, 1859, 620, 623, 643, 141]
+2023-11-29 17:59:47,140 process num: 385
+2023-11-29 17:59:47,214 retrieve document num: 4, length: [605, 642, 1848, 641]
+2023-11-29 17:59:48,609 process num: 386
+2023-11-29 17:59:48,676 retrieve document num: 4, length: [2223, 2070, 1696, 1781]
+2023-11-29 17:59:51,337 process num: 387
+2023-11-29 17:59:51,404 retrieve document num: 4, length: [2231, 1653, 2101, 2058]
+2023-11-29 17:59:53,947 process num: 388
+2023-11-29 17:59:54,022 retrieve document num: 4, length: [2160, 1896, 1731, 1722]
+2023-11-29 17:59:56,772 process num: 389
+2023-11-29 17:59:56,840 retrieve document num: 4, length: [2027, 1742, 1486, 616]
+2023-11-29 17:59:58,820 process num: 390
+2023-11-29 17:59:58,887 retrieve document num: 4, length: [1422, 1899, 1645, 1890]
+2023-11-29 18:00:01,488 process num: 391
+2023-11-29 18:00:01,554 retrieve document num: 4, length: [1653, 1977, 620, 1753]
+2023-11-29 18:00:03,503 process num: 392
+2023-11-29 18:00:03,602 retrieve document num: 6, length: [2101, 1771, 1804, 629, 630, 598]
+2023-11-29 18:00:06,270 process num: 393
+2023-11-29 18:00:06,341 retrieve document num: 4, length: [2137, 2006, 1603, 1779]
+2023-11-29 18:00:08,963 process num: 394
+2023-11-29 18:00:09,027 retrieve document num: 4, length: [1829, 1398, 1422, 1306]
+2023-11-29 18:00:11,363 process num: 395
+2023-11-29 18:00:11,453 retrieve document num: 5, length: [1771, 1653, 1804, 582, 685]
+2023-11-29 18:00:13,897 process num: 396
+2023-11-29 18:00:13,963 retrieve document num: 4, length: [1344, 2077, 1839, 1657]
+2023-11-29 18:00:16,423 process num: 397
+2023-11-29 18:00:16,488 retrieve document num: 4, length: [2009, 1422, 1696, 1711]
+2023-11-29 18:00:19,032 process num: 398
+2023-11-29 18:00:19,107 retrieve document num: 4, length: [2177, 594, 591, 666]
+2023-11-29 18:00:20,511 process num: 399
+2023-11-29 18:00:20,579 retrieve document num: 4, length: [1603, 1650, 1636, 2040]
+2023-11-29 18:00:23,718 process num: 400
+2023-11-29 18:00:23,816 retrieve document num: 6, length: [1991, 620, 1461, 610, 653, 314]
+2023-11-29 18:00:25,998 process num: 401
+2023-11-29 18:00:26,099 retrieve document num: 6, length: [1319, 583, 1941, 607, 568, 484]
+2023-11-29 18:00:27,957 process num: 402
+2023-11-29 18:00:28,027 retrieve document num: 4, length: [1975, 1762, 589, 943]
+2023-11-29 18:00:29,901 process num: 403
+2023-11-29 18:00:29,974 retrieve document num: 4, length: [587, 2084, 2225, 651]
+2023-11-29 18:00:31,808 process num: 404
+2023-11-29 18:00:31,879 retrieve document num: 4, length: [1953, 2101, 1649, 659]
+2023-11-29 18:00:34,319 process num: 405
+2023-11-29 18:00:34,412 retrieve document num: 6, length: [1501, 1585, 522, 1498, 390, 662]
+2023-11-29 18:00:36,929 process num: 406
+2023-11-29 18:00:37,028 retrieve document num: 6, length: [2221, 1698, 1903, 621, 651, 503]
+2023-11-29 18:00:39,742 process num: 407
+2023-11-29 18:00:39,802 retrieve document num: 4, length: [578, 660, 661, 515]
+2023-11-29 18:00:40,720 process num: 408
+2023-11-29 18:00:40,785 retrieve document num: 4, length: [1563, 1626, 1276, 1409]
+2023-11-29 18:00:43,561 process num: 409
+2023-11-29 18:00:43,636 retrieve document num: 4, length: [1576, 1856, 1733, 1780]
+2023-11-29 18:00:46,185 process num: 410
+2023-11-29 18:00:46,247 retrieve document num: 4, length: [1867, 1762, 1767, 1982]
+2023-11-29 18:00:48,471 process num: 411
+2023-11-29 18:00:48,540 retrieve document num: 4, length: [1765, 608, 1733, 1805]
+2023-11-29 18:00:50,463 process num: 412
+2023-11-29 18:00:50,531 retrieve document num: 4, length: [1576, 1684, 1655, 1422]
+2023-11-29 18:00:53,740 process num: 413
+2023-11-29 18:00:53,811 retrieve document num: 4, length: [1576, 1684, 775, 1655]
+2023-11-29 18:00:56,385 process num: 414
+2023-11-29 18:00:56,447 retrieve document num: 4, length: [1750, 1762, 1903, 1277]
+2023-11-29 18:00:58,692 process num: 415
+2023-11-29 18:00:58,766 retrieve document num: 4, length: [2020, 2690, 671, 650]
+2023-11-29 18:01:00,447 process num: 416
+2023-11-29 18:01:00,529 retrieve document num: 5, length: [1312, 1635, 1860, 663, 601]
+2023-11-29 18:01:02,546 process num: 417
+2023-11-29 18:01:02,611 retrieve document num: 4, length: [1684, 1576, 1462, 775]
+2023-11-29 18:01:05,156 process num: 418
+2023-11-29 18:01:05,222 retrieve document num: 4, length: [1886, 2104, 1781, 1623]
+2023-11-29 18:01:08,031 process num: 419
+2023-11-29 18:01:08,100 retrieve document num: 4, length: [636, 1422, 1941, 1839]
+2023-11-29 18:01:10,287 process num: 420
+2023-11-29 18:01:10,355 retrieve document num: 4, length: [2449, 2367, 1794, 1860]
+2023-11-29 18:01:12,789 process num: 421
+2023-11-29 18:01:12,900 retrieve document num: 6, length: [612, 2051, 1497, 1569, 589, 590]
+2023-11-29 18:01:15,163 process num: 422
+2023-11-29 18:01:15,231 retrieve document num: 4, length: [1771, 1840, 2054, 1540]
+2023-11-29 18:01:18,122 process num: 423
+2023-11-29 18:01:18,200 retrieve document num: 4, length: [1696, 2131, 1859, 1716]
+2023-11-29 18:01:21,331 process num: 424
+2023-11-29 18:01:21,402 retrieve document num: 4, length: [622, 1741, 617, 1511]
+2023-11-29 18:01:22,965 process num: 425
+2023-11-29 18:01:23,029 retrieve document num: 4, length: [1860, 1989, 1993, 1760]
+2023-11-29 18:01:25,305 process num: 426
+2023-11-29 18:01:25,372 retrieve document num: 4, length: [1208, 2106, 2204, 1518]
+2023-11-29 18:01:28,142 process num: 427
+2023-11-29 18:01:28,234 retrieve document num: 4, length: [1902, 1645, 929, 612]
+2023-11-29 18:01:30,066 process num: 428
+2023-11-29 18:01:30,137 retrieve document num: 4, length: [626, 2052, 2191, 1958]
+2023-11-29 18:01:32,593 process num: 429
+2023-11-29 18:01:32,669 retrieve document num: 4, length: [1724, 594, 596, 627]
+2023-11-29 18:01:34,094 process num: 430
+2023-11-29 18:01:34,161 retrieve document num: 4, length: [636, 1696, 2215, 1085]
+2023-11-29 18:01:36,040 process num: 431
+2023-11-29 18:01:36,108 retrieve document num: 4, length: [1996, 1839, 2178, 2148]
+2023-11-29 18:01:39,033 process num: 432
+2023-11-29 18:01:39,106 retrieve document num: 4, length: [1344, 1829, 1696, 1928]
+2023-11-29 18:01:41,679 process num: 433
+2023-11-29 18:01:41,748 retrieve document num: 4, length: [607, 1643, 1922, 1633]
+2023-11-29 18:01:44,165 process num: 434
+2023-11-29 18:01:44,233 retrieve document num: 4, length: [2213, 2075, 1698, 2288]
+2023-11-29 18:01:47,195 process num: 435
+2023-11-29 18:01:47,270 retrieve document num: 4, length: [634, 2129, 2177, 2071]
+2023-11-29 18:01:49,867 process num: 436
+2023-11-29 18:01:49,933 retrieve document num: 4, length: [2367, 1278, 610, 2030]
+2023-11-29 18:01:51,675 process num: 437
+2023-11-29 18:01:51,735 retrieve document num: 4, length: [649, 654, 638, 668]
+2023-11-29 18:01:52,691 process num: 438
+2023-11-29 18:01:52,763 retrieve document num: 4, length: [1889, 600, 607, 621]
+2023-11-29 18:01:54,122 process num: 439
+2023-11-29 18:01:54,188 retrieve document num: 4, length: [2054, 2003, 2066, 1411]
+2023-11-29 18:01:56,654 process num: 440
+2023-11-29 18:01:56,723 retrieve document num: 4, length: [1996, 602, 1823, 624]
+2023-11-29 18:01:58,291 process num: 441
+2023-11-29 18:01:58,359 retrieve document num: 4, length: [595, 635, 1696, 598]
+2023-11-29 18:01:59,607 process num: 442
+2023-11-29 18:01:59,699 retrieve document num: 5, length: [2084, 2041, 1903, 612, 606]
+2023-11-29 18:02:01,898 process num: 443
+2023-11-29 18:02:01,965 retrieve document num: 4, length: [2253, 1876, 1464, 1518]
+2023-11-29 18:02:04,801 process num: 444
+2023-11-29 18:02:04,871 retrieve document num: 4, length: [696, 672, 613, 1614]
+2023-11-29 18:02:06,295 process num: 445
+2023-11-29 18:02:06,363 retrieve document num: 4, length: [2077, 2148, 1839, 1705]
+2023-11-29 18:02:09,303 process num: 446
+2023-11-29 18:02:09,405 retrieve document num: 6, length: [1537, 1794, 1937, 667, 462, 642]
+2023-11-29 18:02:11,871 process num: 447
+2023-11-29 18:02:11,937 retrieve document num: 4, length: [1903, 1773, 1794, 2172]
+2023-11-29 18:02:14,302 process num: 448
+2023-11-29 18:02:14,371 retrieve document num: 4, length: [1945, 1422, 1696, 1413]
+2023-11-29 18:02:17,148 process num: 449
+2023-11-29 18:02:17,223 retrieve document num: 4, length: [622, 1777, 602, 639]
+2023-11-29 18:02:18,444 process num: 450
+2023-11-29 18:02:18,510 retrieve document num: 4, length: [1819, 1344, 1974, 2170]
+2023-11-29 18:02:21,069 process num: 451
+2023-11-29 18:02:21,141 retrieve document num: 4, length: [669, 618, 644, 1628]
+2023-11-29 18:02:22,302 process num: 452
+2023-11-29 18:02:22,385 retrieve document num: 5, length: [1994, 2177, 2094, 633, 300]
+2023-11-29 18:02:24,681 process num: 453
+2023-11-29 18:02:24,747 retrieve document num: 4, length: [2177, 1994, 2094, 1868]
+2023-11-29 18:02:27,725 process num: 454
+2023-11-29 18:02:27,796 retrieve document num: 4, length: [1713, 1946, 1922, 2307]
+2023-11-29 18:02:30,338 process num: 455
+2023-11-29 18:02:30,435 retrieve document num: 6, length: [1906, 1705, 1733, 597, 576, 161]
+2023-11-29 18:02:32,669 process num: 456
+2023-11-29 18:02:32,738 retrieve document num: 4, length: [1482, 643, 2160, 1329]
+2023-11-29 18:02:34,578 process num: 457
+2023-11-29 18:02:34,658 retrieve document num: 5, length: [1276, 1626, 613, 608, 325]
+2023-11-29 18:02:36,603 process num: 458
+2023-11-29 18:02:36,665 retrieve document num: 4, length: [572, 1398, 1819, 1656]
+2023-11-29 18:02:38,375 process num: 459
+2023-11-29 18:02:38,445 retrieve document num: 4, length: [1876, 2052, 1897, 1959]
+2023-11-29 18:02:41,611 process num: 460
+2023-11-29 18:02:41,682 retrieve document num: 4, length: [1344, 1910, 1532, 1772]
+2023-11-29 18:02:44,228 process num: 461
+2023-11-29 18:02:44,315 retrieve document num: 6, length: [1454, 666, 736, 615, 583, 180]
+2023-11-29 18:02:45,990 process num: 462
+2023-11-29 18:02:46,108 retrieve document num: 8, length: [1757, 1653, 598, 632, 296, 627, 592, 518]
+2023-11-29 18:02:48,673 process num: 463
+2023-11-29 18:02:48,744 retrieve document num: 4, length: [1871, 996, 2132, 2071]
+2023-11-29 18:02:51,323 process num: 464
+2023-11-29 18:02:51,393 retrieve document num: 4, length: [1996, 640, 2287, 1643]
+2023-11-29 18:02:53,879 process num: 465
+2023-11-29 18:02:53,944 retrieve document num: 4, length: [631, 1762, 661, 1795]
+2023-11-29 18:02:55,416 process num: 466
+2023-11-29 18:02:55,482 retrieve document num: 4, length: [2171, 1648, 1918, 1762]
+2023-11-29 18:02:58,084 process num: 467
+2023-11-29 18:02:58,181 retrieve document num: 6, length: [1733, 1951, 1705, 640, 597, 605]
+2023-11-29 18:03:00,906 process num: 468
+2023-11-29 18:03:00,973 retrieve document num: 4, length: [2041, 1794, 2248, 1827]
+2023-11-29 18:03:03,720 process num: 469
+2023-11-29 18:03:03,785 retrieve document num: 4, length: [1344, 1557, 1994, 1426]
+2023-11-29 18:03:06,409 process num: 470
+2023-11-29 18:03:06,477 retrieve document num: 4, length: [2020, 2065, 1975, 1933]
+2023-11-29 18:03:09,373 process num: 471
+2023-11-29 18:03:09,450 retrieve document num: 4, length: [596, 1842, 2103, 1420]
+2023-11-29 18:03:11,600 process num: 472
+2023-11-29 18:03:11,671 retrieve document num: 4, length: [2059, 608, 1883, 1326]
+2023-11-29 18:03:13,531 process num: 473
+2023-11-29 18:03:13,598 retrieve document num: 4, length: [2102, 1869, 1369, 1465]
+2023-11-29 18:03:15,986 process num: 474
+2023-11-29 18:03:16,060 retrieve document num: 4, length: [655, 1615, 2418, 642]
+2023-11-29 18:03:17,536 process num: 475
+2023-11-29 18:03:17,627 retrieve document num: 5, length: [1371, 1901, 1379, 608, 657]
+2023-11-29 18:03:19,639 process num: 476
+2023-11-29 18:03:19,700 retrieve document num: 4, length: [620, 666, 676, 625]
+2023-11-29 18:03:20,737 process num: 477
+2023-11-29 18:03:20,829 retrieve document num: 6, length: [598, 1742, 578, 1837, 1628, 418]
+2023-11-29 18:03:23,215 process num: 478
+2023-11-29 18:03:23,305 retrieve document num: 6, length: [587, 1146, 420, 1365, 610, 611]
+2023-11-29 18:03:24,862 process num: 479
+2023-11-29 18:03:24,929 retrieve document num: 4, length: [1882, 1794, 1852, 1897]
+2023-11-29 18:03:27,477 process num: 480
+2023-11-29 18:03:27,543 retrieve document num: 4, length: [1344, 1948, 1827, 1947]
+2023-11-29 18:03:29,850 process num: 481
+2023-11-29 18:03:29,963 retrieve document num: 5, length: [469, 1928, 929, 610, 605]
+2023-11-29 18:03:31,802 process num: 482
+2023-11-29 18:03:31,867 retrieve document num: 4, length: [1333, 565, 1761, 1555]
+2023-11-29 18:03:33,744 process num: 483
+2023-11-29 18:03:33,811 retrieve document num: 4, length: [1576, 1684, 775, 633]
+2023-11-29 18:03:36,071 process num: 484
+2023-11-29 18:03:36,131 retrieve document num: 4, length: [591, 643, 630, 613]
+2023-11-29 18:03:37,077 process num: 485
+2023-11-29 18:03:37,137 retrieve document num: 4, length: [1344, 1465, 1765, 1890]
+2023-11-29 18:03:39,397 process num: 486
+2023-11-29 18:03:39,490 retrieve document num: 6, length: [624, 1757, 1689, 2030, 626, 516]
+2023-11-29 18:03:41,837 process num: 487
+2023-11-29 18:03:41,954 retrieve document num: 6, length: [563, 612, 1344, 1869, 536, 604]
+2023-11-29 18:03:43,810 process num: 488
+2023-11-29 18:03:43,880 retrieve document num: 4, length: [608, 1933, 1422, 1705]
+2023-11-29 18:03:45,753 process num: 489
+2023-11-29 18:03:45,826 retrieve document num: 4, length: [996, 618, 2071, 624]
+2023-11-29 18:03:47,260 process num: 490
+2023-11-29 18:03:47,359 retrieve document num: 6, length: [2002, 2090, 2148, 602, 577, 398]
+2023-11-29 18:03:50,110 process num: 491
+2023-11-29 18:03:50,211 retrieve document num: 6, length: [613, 1856, 1649, 625, 545, 347]
+2023-11-29 18:03:52,201 process num: 492
+2023-11-29 18:03:52,267 retrieve document num: 4, length: [1681, 1636, 654, 639]
+2023-11-29 18:03:54,025 process num: 493
+2023-11-29 18:03:54,091 retrieve document num: 4, length: [2132, 996, 2072, 1636]
+2023-11-29 18:03:56,627 process num: 494
+2023-11-29 18:03:56,686 retrieve document num: 4, length: [1002, 1628, 1637, 1682]
+2023-11-29 18:03:58,848 process num: 495
+2023-11-29 18:03:58,919 retrieve document num: 4, length: [2093, 566, 2385, 1745]
+2023-11-29 18:04:01,452 process num: 496
+2023-11-29 18:04:01,517 retrieve document num: 4, length: [775, 1684, 1576, 1349]
+2023-11-29 18:04:04,314 process num: 497
+2023-11-29 18:04:04,423 retrieve document num: 6, length: [1705, 1953, 1977, 501, 575, 571]
+2023-11-29 18:04:06,986 process num: 498
+2023-11-29 18:04:07,051 retrieve document num: 4, length: [1344, 2196, 1762, 1811]
+2023-11-29 18:04:09,648 process num: 499
+2023-11-29 18:04:09,719 retrieve document num: 4, length: [1737, 1910, 1620, 2270]
+2023-11-29 18:04:12,289 process num: 500
+2023-11-29 18:04:12,368 retrieve document num: 4, length: [661, 1903, 599, 643]
+2023-11-29 18:04:13,724 process num: 501
+2023-11-29 18:04:13,791 retrieve document num: 4, length: [660, 1583, 699, 634]
+2023-11-29 18:04:14,968 process num: 502
+2023-11-29 18:04:15,032 retrieve document num: 4, length: [647, 1344, 1420, 654]
+2023-11-29 18:04:16,543 process num: 503
+2023-11-29 18:04:16,612 retrieve document num: 5, length: [636, 657, 646, 639, 554]
+2023-11-29 18:04:17,776 process num: 504
+2023-11-29 18:04:17,842 retrieve document num: 4, length: [2195, 2349, 2151, 2030]
+2023-11-29 18:04:20,626 process num: 505
+2023-11-29 18:04:20,702 retrieve document num: 4, length: [1901, 1342, 2215, 1773]
+2023-11-29 18:04:23,080 process num: 506
+2023-11-29 18:04:23,147 retrieve document num: 4, length: [653, 715, 647, 1523]
+2023-11-29 18:04:24,313 process num: 507
+2023-11-29 18:04:24,381 retrieve document num: 4, length: [996, 1994, 2071, 2129]
+2023-11-29 18:04:27,268 process num: 508
+2023-11-29 18:04:27,408 retrieve document num: 8, length: [1903, 1819, 277, 612, 589, 608, 595, 606]
+2023-11-29 18:04:29,573 process num: 509
+2023-11-29 18:04:29,643 retrieve document num: 4, length: [1965, 1714, 1942, 1059]
+2023-11-29 18:04:32,547 process num: 510
+2023-11-29 18:04:32,628 retrieve document num: 5, length: [696, 567, 666, 578, 566]
+2023-11-29 18:04:33,897 process num: 511
+2023-11-29 18:04:33,966 retrieve document num: 4, length: [673, 1805, 1448, 620]
+2023-11-29 18:04:35,734 process num: 512
+2023-11-29 18:04:35,803 retrieve document num: 4, length: [599, 1520, 1543, 2282]
+2023-11-29 18:04:37,914 process num: 513
+2023-11-29 18:04:37,985 retrieve document num: 4, length: [2170, 2211, 1897, 643]
+2023-11-29 18:04:40,246 process num: 514
+2023-11-29 18:04:40,312 retrieve document num: 4, length: [1750, 1765, 2084, 1903]
+2023-11-29 18:04:42,959 process num: 515
+2023-11-29 18:04:43,030 retrieve document num: 4, length: [650, 603, 2099, 673]
+2023-11-29 18:04:44,285 process num: 516
+2023-11-29 18:04:44,352 retrieve document num: 4, length: [1887, 1724, 1630, 1346]
+2023-11-29 18:04:47,027 process num: 517
+2023-11-29 18:04:47,100 retrieve document num: 4, length: [1509, 1590, 1676, 1983]
+2023-11-29 18:04:49,834 process num: 518
+2023-11-29 18:04:49,934 retrieve document num: 6, length: [775, 1887, 1576, 509, 537, 612]
+2023-11-29 18:04:52,806 process num: 519
+2023-11-29 18:04:52,876 retrieve document num: 4, length: [1839, 1842, 1992, 617]
+2023-11-29 18:04:55,500 process num: 520
+2023-11-29 18:04:55,573 retrieve document num: 4, length: [620, 636, 1637, 2150]
+2023-11-29 18:04:57,275 process num: 521
+2023-11-29 18:04:57,341 retrieve document num: 4, length: [1945, 1732, 1422, 1952]
+2023-11-29 18:05:00,158 process num: 522
+2023-11-29 18:05:00,241 retrieve document num: 4, length: [1602, 1840, 1525, 1933]
+2023-11-29 18:05:03,506 process num: 523
+2023-11-29 18:05:03,587 retrieve document num: 4, length: [2061, 606, 604, 583]
+2023-11-29 18:05:04,823 process num: 524
+2023-11-29 18:05:04,894 retrieve document num: 4, length: [1871, 2267, 2119, 657]
+2023-11-29 18:05:07,318 process num: 525
+2023-11-29 18:05:07,385 retrieve document num: 4, length: [1637, 1603, 1520, 1937]
+2023-11-29 18:05:10,300 process num: 526
+2023-11-29 18:05:10,408 retrieve document num: 4, length: [1931, 1886, 2289, 579]
+2023-11-29 18:05:12,608 process num: 527
+2023-11-29 18:05:12,676 retrieve document num: 4, length: [1749, 1306, 2070, 1716]
+2023-11-29 18:05:15,546 process num: 528
+2023-11-29 18:05:15,620 retrieve document num: 4, length: [2077, 1910, 2022, 1962]
+2023-11-29 18:05:18,567 process num: 529
+2023-11-29 18:05:18,639 retrieve document num: 4, length: [1705, 1021, 1953, 1998]
+2023-11-29 18:05:21,184 process num: 530
+2023-11-29 18:05:21,255 retrieve document num: 4, length: [2287, 1705, 2077, 608]
+2023-11-29 18:05:23,703 process num: 531
+2023-11-29 18:05:23,770 retrieve document num: 4, length: [775, 1684, 1576, 1655]
+2023-11-29 18:05:26,514 process num: 532
+2023-11-29 18:05:26,582 retrieve document num: 4, length: [1904, 2215, 1686, 1984]
+2023-11-29 18:05:29,541 process num: 533
+2023-11-29 18:05:29,622 retrieve document num: 5, length: [656, 1611, 1574, 661, 559]
+2023-11-29 18:05:31,376 process num: 534
+2023-11-29 18:05:31,441 retrieve document num: 4, length: [2177, 1262, 1537, 1794]
+2023-11-29 18:05:33,889 process num: 535
+2023-11-29 18:05:33,965 retrieve document num: 4, length: [1972, 2050, 2101, 2243]
+2023-11-29 18:05:38,273 process num: 536
+2023-11-29 18:05:38,342 retrieve document num: 4, length: [1576, 1626, 1887, 633]
+2023-11-29 18:05:40,888 process num: 537
+2023-11-29 18:05:40,953 retrieve document num: 4, length: [1737, 1620, 1913, 1974]
+2023-11-29 18:05:43,592 process num: 538
+2023-11-29 18:05:43,652 retrieve document num: 4, length: [1464, 1890, 1312, 1611]
+2023-11-29 18:05:45,912 process num: 539
+2023-11-29 18:05:45,975 retrieve document num: 4, length: [1569, 1863, 630, 1537]
+2023-11-29 18:05:47,915 process num: 540
+2023-11-29 18:05:47,981 retrieve document num: 4, length: [624, 650, 635, 1454]
+2023-11-29 18:05:49,242 process num: 541
+2023-11-29 18:05:49,355 retrieve document num: 6, length: [1562, 2275, 2472, 245, 652, 607]
+2023-11-29 18:05:51,856 process num: 542
+2023-11-29 18:05:51,928 retrieve document num: 4, length: [1344, 1983, 1654, 2272]
+2023-11-29 18:05:54,473 process num: 543
+2023-11-29 18:05:54,549 retrieve document num: 4, length: [613, 641, 616, 2136]
+2023-11-29 18:05:56,116 process num: 544
+2023-11-29 18:05:56,180 retrieve document num: 4, length: [623, 610, 1465, 1344]
+2023-11-29 18:05:57,612 process num: 545
+2023-11-29 18:05:57,677 retrieve document num: 4, length: [1922, 2083, 1688, 1713]
+2023-11-29 18:06:00,381 process num: 546
+2023-11-29 18:06:00,448 retrieve document num: 4, length: [1496, 2032, 1652, 1969]
+2023-11-29 18:06:03,199 process num: 547
+2023-11-29 18:06:03,266 retrieve document num: 4, length: [2054, 2108, 1448, 1794]
+2023-11-29 18:06:06,216 process num: 548
+2023-11-29 18:06:06,291 retrieve document num: 4, length: [2063, 2101, 1496, 1910]
+2023-11-29 18:06:09,313 process num: 549
+2023-11-29 18:06:09,428 retrieve document num: 7, length: [632, 657, 1704, 654, 569, 296, 592]
+2023-11-29 18:06:11,350 process num: 550
+2023-11-29 18:06:11,421 retrieve document num: 4, length: [1839, 2178, 641, 2121]
+2023-11-29 18:06:13,577 process num: 551
+2023-11-29 18:06:13,665 retrieve document num: 5, length: [2136, 1518, 641, 300, 633]
+2023-11-29 18:06:15,616 process num: 552
+2023-11-29 18:06:15,727 retrieve document num: 7, length: [1375, 1684, 1576, 643, 620, 623, 141]
+2023-11-29 18:06:18,778 process num: 553
+2023-11-29 18:06:18,854 retrieve document num: 4, length: [1724, 660, 1902, 1466]
+2023-11-29 18:06:20,853 process num: 554
+2023-11-29 18:06:20,923 retrieve document num: 4, length: [2385, 1344, 1465, 654]
+2023-11-29 18:06:22,880 process num: 555
+2023-11-29 18:06:22,941 retrieve document num: 4, length: [653, 696, 708, 641]
+2023-11-29 18:06:24,042 process num: 556
+2023-11-29 18:06:24,116 retrieve document num: 4, length: [2205, 2198, 620, 586]
+2023-11-29 18:06:26,056 process num: 557
+2023-11-29 18:06:26,123 retrieve document num: 4, length: [2054, 2191, 2003, 1932]
+2023-11-29 18:06:29,222 process num: 558
+2023-11-29 18:06:29,321 retrieve document num: 6, length: [2177, 2204, 1608, 588, 567, 427]
+2023-11-29 18:06:31,985 process num: 559
+2023-11-29 18:06:32,050 retrieve document num: 4, length: [1749, 1765, 1946, 1927]
+2023-11-29 18:06:34,306 process num: 560
+2023-11-29 18:06:34,374 retrieve document num: 4, length: [1576, 1684, 2066, 1533]
+2023-11-29 18:06:37,394 process num: 561
+2023-11-29 18:06:37,465 retrieve document num: 4, length: [2178, 1784, 1897, 608]
+2023-11-29 18:06:40,042 process num: 562
+2023-11-29 18:06:40,107 retrieve document num: 4, length: [1208, 572, 598, 1696]
+2023-11-29 18:06:41,653 process num: 563
+2023-11-29 18:06:41,719 retrieve document num: 4, length: [2056, 2071, 1977, 1518]
+2023-11-29 18:06:44,456 process num: 564
+2023-11-29 18:06:44,524 retrieve document num: 4, length: [2127, 1729, 1773, 1903]
+2023-11-29 18:06:46,823 process num: 565
+2023-11-29 18:06:46,890 retrieve document num: 4, length: [1603, 2042, 1623, 2223]
+2023-11-29 18:06:50,047 process num: 566
+2023-11-29 18:06:50,122 retrieve document num: 4, length: [1945, 1737, 1859, 1369]
+2023-11-29 18:06:52,902 process num: 567
+2023-11-29 18:06:52,967 retrieve document num: 4, length: [1897, 1819, 2020, 1918]
+2023-11-29 18:06:55,525 process num: 568
+2023-11-29 18:06:55,597 retrieve document num: 4, length: [1946, 1903, 1326, 1563]
+2023-11-29 18:06:58,121 process num: 569
+2023-11-29 18:06:58,206 retrieve document num: 5, length: [1732, 2020, 2106, 300, 633]
+2023-11-29 18:07:00,704 process num: 570
+2023-11-29 18:07:00,774 retrieve document num: 4, length: [604, 634, 1996, 2048]
+2023-11-29 18:07:02,590 process num: 571
+2023-11-29 18:07:02,657 retrieve document num: 4, length: [2054, 2015, 1823, 2177]
+2023-11-29 18:07:05,553 process num: 572
+2023-11-29 18:07:05,652 retrieve document num: 5, length: [563, 613, 1614, 626, 604]
+2023-11-29 18:07:07,041 process num: 573
+2023-11-29 18:07:07,136 retrieve document num: 5, length: [1865, 1460, 578, 570, 598]
+2023-11-29 18:07:08,829 process num: 574
+2023-11-29 18:07:08,900 retrieve document num: 4, length: [1619, 621, 1917, 673]
+2023-11-29 18:07:10,448 process num: 575
+2023-11-29 18:07:10,530 retrieve document num: 5, length: [1742, 1918, 619, 627, 462]
+2023-11-29 18:07:12,272 process num: 576
+2023-11-29 18:07:12,338 retrieve document num: 4, length: [2094, 1785, 1930, 1983]
+2023-11-29 18:07:15,438 process num: 577
+2023-11-29 18:07:15,508 retrieve document num: 4, length: [1737, 1922, 2068, 1697]
+2023-11-29 18:07:18,211 process num: 578
+2023-11-29 18:07:18,277 retrieve document num: 4, length: [1344, 2030, 1653, 1903]
+2023-11-29 18:07:20,646 process num: 579
+2023-11-29 18:07:20,713 retrieve document num: 4, length: [775, 1684, 1576, 1567]
+2023-11-29 18:07:23,369 process num: 580
+2023-11-29 18:07:23,435 retrieve document num: 4, length: [2054, 1344, 1823, 1426]
+2023-11-29 18:07:25,825 process num: 581
+2023-11-29 18:07:25,889 retrieve document num: 4, length: [1344, 1426, 636, 586]
+2023-11-29 18:07:27,415 process num: 582
+2023-11-29 18:07:27,511 retrieve document num: 5, length: [619, 1439, 2240, 589, 634]
+2023-11-29 18:07:29,443 process num: 583
+2023-11-29 18:07:29,508 retrieve document num: 4, length: [1794, 1688, 1590, 1742]
+2023-11-29 18:07:32,301 process num: 584
+2023-11-29 18:07:32,373 retrieve document num: 4, length: [653, 1725, 1164, 634]
+2023-11-29 18:07:33,843 process num: 585
+2023-11-29 18:07:33,909 retrieve document num: 4, length: [1794, 1314, 2054, 1773]
+2023-11-29 18:07:36,499 process num: 586
+2023-11-29 18:07:36,564 retrieve document num: 4, length: [1705, 1922, 1847, 1761]
+2023-11-29 18:07:38,910 process num: 587
+2023-11-29 18:07:38,975 retrieve document num: 4, length: [2085, 1344, 1681, 1731]
+2023-11-29 18:07:41,265 process num: 588
+2023-11-29 18:07:41,327 retrieve document num: 4, length: [660, 1580, 1426, 1532]
+2023-11-29 18:07:43,274 process num: 589
+2023-11-29 18:07:43,343 retrieve document num: 4, length: [2077, 657, 2055, 1440]
+2023-11-29 18:07:45,323 process num: 590
+2023-11-29 18:07:45,389 retrieve document num: 4, length: [608, 654, 1344, 640]
+2023-11-29 18:07:46,616 process num: 591
+2023-11-29 18:07:46,707 retrieve document num: 5, length: [2077, 1839, 567, 591, 566]
+2023-11-29 18:07:48,567 process num: 592
+2023-11-29 18:07:48,636 retrieve document num: 4, length: [1698, 1422, 1707, 624]
+2023-11-29 18:07:50,727 process num: 593
+2023-11-29 18:07:50,838 retrieve document num: 7, length: [652, 1819, 1684, 1755, 619, 611, 365]
+2023-11-29 18:07:53,927 process num: 594
+2023-11-29 18:07:53,993 retrieve document num: 4, length: [1344, 2094, 1886, 1983]
+2023-11-29 18:07:56,784 process num: 595
+2023-11-29 18:07:56,856 retrieve document num: 4, length: [629, 2048, 632, 620]
+2023-11-29 18:07:58,282 process num: 596
+2023-11-29 18:07:58,342 retrieve document num: 4, length: [1541, 1572, 657, 1460]
+2023-11-29 18:08:00,072 process num: 597
+2023-11-29 18:08:00,161 retrieve document num: 6, length: [1456, 653, 627, 652, 598, 479]
+2023-11-29 18:08:01,547 process num: 598
+2023-11-29 18:08:01,614 retrieve document num: 4, length: [1983, 1344, 2261, 1860]
+2023-11-29 18:08:04,328 process num: 599
+2023-11-29 18:08:04,400 retrieve document num: 4, length: [2213, 2100, 2065, 1215]
+2023-11-29 18:08:06,822 process num: 600
+2023-11-29 18:08:06,885 retrieve document num: 4, length: [1192, 1866, 1197, 1776]
+2023-11-29 18:08:09,017 process num: 601
+2023-11-29 18:08:09,115 retrieve document num: 6, length: [630, 1819, 2004, 1268, 621, 341]
+2023-11-29 18:08:11,392 process num: 602
+2023-11-29 18:08:11,456 retrieve document num: 4, length: [1596, 1680, 642, 578]
+2023-11-29 18:08:13,025 process num: 603
+2023-11-29 18:08:13,094 retrieve document num: 4, length: [2204, 608, 1426, 1321]
+2023-11-29 18:08:14,937 process num: 604
+2023-11-29 18:08:15,035 retrieve document num: 6, length: [632, 637, 1762, 1704, 592, 296]
+2023-11-29 18:08:17,127 process num: 605
+2023-11-29 18:08:17,193 retrieve document num: 4, length: [1773, 2038, 2286, 2054]
+2023-11-29 18:08:19,684 process num: 606
+2023-11-29 18:08:19,760 retrieve document num: 4, length: [630, 613, 659, 1945]
+2023-11-29 18:08:21,087 process num: 607
+2023-11-29 18:08:21,155 retrieve document num: 4, length: [1756, 2529, 2266, 2020]
+2023-11-29 18:08:23,819 process num: 608
+2023-11-29 18:08:23,897 retrieve document num: 4, length: [600, 2124, 2468, 1805]
+2023-11-29 18:08:26,385 process num: 609
+2023-11-29 18:08:26,446 retrieve document num: 4, length: [1344, 1637, 1088, 1776]
+2023-11-29 18:08:28,425 process num: 610
+2023-11-29 18:08:28,492 retrieve document num: 4, length: [1625, 1751, 1794, 1712]
+2023-11-29 18:08:31,744 process num: 611
+2023-11-29 18:08:31,814 retrieve document num: 4, length: [2089, 2007, 2003, 2054]
+2023-11-29 18:08:34,799 process num: 612
+2023-11-29 18:08:34,874 retrieve document num: 4, length: [635, 1344, 2020, 1922]
+2023-11-29 18:08:37,033 process num: 613
+2023-11-29 18:08:37,099 retrieve document num: 4, length: [2052, 1897, 2006, 1311]
+2023-11-29 18:08:39,836 process num: 614
+2023-11-29 18:08:39,912 retrieve document num: 4, length: [1684, 1576, 1887, 1349]
+2023-11-29 18:08:43,278 process num: 615
+2023-11-29 18:08:43,352 retrieve document num: 4, length: [1870, 2221, 1867, 1794]
+2023-11-29 18:08:46,332 process num: 616
+2023-11-29 18:08:46,392 retrieve document num: 4, length: [634, 638, 593, 612]
+2023-11-29 18:08:47,326 process num: 617
+2023-11-29 18:08:47,417 retrieve document num: 5, length: [654, 2476, 692, 664, 457]
+2023-11-29 18:08:48,943 process num: 618
+2023-11-29 18:08:49,007 retrieve document num: 4, length: [1903, 1794, 2040, 1773]
+2023-11-29 18:08:51,337 process num: 619
+2023-11-29 18:08:51,440 retrieve document num: 4, length: [608, 1959, 2382, 620]
+2023-11-29 18:08:53,294 process num: 620
+2023-11-29 18:08:53,370 retrieve document num: 5, length: [639, 1379, 640, 683, 503]
+2023-11-29 18:08:54,654 process num: 621
+2023-11-29 18:08:54,729 retrieve document num: 4, length: [1422, 590, 1829, 1696]
+2023-11-29 18:08:56,563 process num: 622
+2023-11-29 18:08:56,628 retrieve document num: 4, length: [2254, 1841, 1665, 1344]
+2023-11-29 18:08:59,009 process num: 623
+2023-11-29 18:08:59,075 retrieve document num: 4, length: [1921, 2071, 2356, 1856]
+2023-11-29 18:09:01,485 process num: 624
+2023-11-29 18:09:01,546 retrieve document num: 4, length: [611, 637, 657, 622]
+2023-11-29 18:09:02,659 process num: 625
+2023-11-29 18:09:02,726 retrieve document num: 4, length: [1344, 658, 679, 624]
+2023-11-29 18:09:03,920 process num: 626
+2023-11-29 18:09:04,018 retrieve document num: 6, length: [1621, 2102, 1479, 603, 465, 632]
+2023-11-29 18:09:06,734 process num: 627
+2023-11-29 18:09:06,795 retrieve document num: 4, length: [1780, 1683, 1749, 2006]
+2023-11-29 18:09:09,567 process num: 628
+2023-11-29 18:09:09,645 retrieve document num: 4, length: [1966, 1592, 1563, 1699]
+2023-11-29 18:09:12,896 process num: 629
+2023-11-29 18:09:12,974 retrieve document num: 4, length: [632, 639, 2048, 649]
+2023-11-29 18:09:14,191 process num: 630
+2023-11-29 18:09:14,259 retrieve document num: 4, length: [630, 1737, 1876, 2129]
+2023-11-29 18:09:16,390 process num: 631
+2023-11-29 18:09:16,457 retrieve document num: 4, length: [1699, 1937, 1603, 2223]
+2023-11-29 18:09:19,736 process num: 632
+2023-11-29 18:09:19,809 retrieve document num: 4, length: [622, 1569, 669, 647]
+2023-11-29 18:09:21,082 process num: 633
+2023-11-29 18:09:21,196 retrieve document num: 6, length: [1950, 1603, 2016, 593, 605, 611]
+2023-11-29 18:09:24,305 process num: 634
+2023-11-29 18:09:24,375 retrieve document num: 4, length: [1879, 608, 1955, 1590]
+2023-11-29 18:09:26,625 process num: 635
+2023-11-29 18:09:26,762 retrieve document num: 6, length: [643, 2170, 2071, 638, 579, 581]
+2023-11-29 18:09:28,743 process num: 636
+2023-11-29 18:09:28,808 retrieve document num: 4, length: [1889, 2137, 1451, 2003]
+2023-11-29 18:09:31,440 process num: 637
+2023-11-29 18:09:31,507 retrieve document num: 4, length: [2593, 2354, 1788, 2059]
+2023-11-29 18:09:34,128 process num: 638
+2023-11-29 18:09:34,215 retrieve document num: 5, length: [727, 1497, 634, 634, 589]
+2023-11-29 18:09:35,636 process num: 639
+2023-11-29 18:09:35,701 retrieve document num: 4, length: [1813, 1068, 1583, 1381]
+2023-11-29 18:09:37,887 process num: 640
+2023-11-29 18:09:37,986 retrieve document num: 6, length: [1928, 2066, 1696, 509, 537, 612]
+2023-11-29 18:09:41,195 process num: 641
+2023-11-29 18:09:41,263 retrieve document num: 4, length: [1344, 1557, 1860, 1897]
+2023-11-29 18:09:43,885 process num: 642
+2023-11-29 18:09:43,956 retrieve document num: 4, length: [1863, 608, 597, 562]
+2023-11-29 18:09:45,209 process num: 643
+2023-11-29 18:09:45,268 retrieve document num: 4, length: [591, 583, 441, 605]
+2023-11-29 18:09:46,236 process num: 644
+2023-11-29 18:09:46,310 retrieve document num: 4, length: [586, 647, 1878, 1746]
+2023-11-29 18:09:48,035 process num: 645
+2023-11-29 18:09:48,100 retrieve document num: 4, length: [1544, 2071, 1729, 1757]
+2023-11-29 18:09:50,670 process num: 646
+2023-11-29 18:09:50,734 retrieve document num: 4, length: [654, 599, 1389, 1465]
+2023-11-29 18:09:52,099 process num: 647
+2023-11-29 18:09:52,164 retrieve document num: 4, length: [1886, 891, 1964, 2103]
+2023-11-29 18:09:54,600 process num: 648
+2023-11-29 18:09:54,666 retrieve document num: 4, length: [2151, 1534, 2354, 2030]
+2023-11-29 18:09:57,127 process num: 649
+2023-11-29 18:09:57,193 retrieve document num: 4, length: [2077, 1872, 2055, 1807]
+2023-11-29 18:09:59,710 process num: 650
+2023-11-29 18:09:59,776 retrieve document num: 4, length: [1620, 1737, 2068, 1369]
+2023-11-29 18:10:02,130 process num: 651
+2023-11-29 18:10:02,194 retrieve document num: 4, length: [1344, 1426, 1438, 1983]
+2023-11-29 18:10:04,724 process num: 652
+2023-11-29 18:10:04,833 retrieve document num: 6, length: [1696, 1928, 1223, 509, 537, 612]
+2023-11-29 18:10:07,432 process num: 653
+2023-11-29 18:10:07,503 retrieve document num: 4, length: [1375, 1351, 775, 1576]
+2023-11-29 18:10:10,151 process num: 654
+2023-11-29 18:10:10,222 retrieve document num: 4, length: [2108, 1941, 1526, 2042]
+2023-11-29 18:10:13,153 process num: 655
+2023-11-29 18:10:13,234 retrieve document num: 4, length: [1996, 608, 651, 607]
+2023-11-29 18:10:14,461 process num: 656
+2023-11-29 18:10:14,529 retrieve document num: 4, length: [599, 1732, 1422, 1859]
+2023-11-29 18:10:16,650 process num: 657
+2023-11-29 18:10:16,718 retrieve document num: 4, length: [1620, 1385, 1737, 1574]
+2023-11-29 18:10:19,650 process num: 658
+2023-11-29 18:10:19,725 retrieve document num: 4, length: [1847, 2325, 653, 646]
+2023-11-29 18:10:21,604 process num: 659
+2023-11-29 18:10:21,677 retrieve document num: 4, length: [1420, 644, 2136, 606]
+2023-11-29 18:10:23,513 process num: 660
+2023-11-29 18:10:23,604 retrieve document num: 5, length: [1698, 1215, 1903, 579, 581]
+2023-11-29 18:10:25,527 process num: 661
+2023-11-29 18:10:25,595 retrieve document num: 4, length: [1298, 1637, 1785, 649]
+2023-11-29 18:10:27,454 process num: 662
+2023-11-29 18:10:27,526 retrieve document num: 4, length: [673, 1507, 669, 1994]
+2023-11-29 18:10:29,352 process num: 663
+2023-11-29 18:10:29,420 retrieve document num: 4, length: [595, 1924, 1794, 1773]
+2023-11-29 18:10:31,307 process num: 664
+2023-11-29 18:10:31,379 retrieve document num: 4, length: [1996, 611, 561, 565]
+2023-11-29 18:10:32,760 process num: 665
+2023-11-29 18:10:32,853 retrieve document num: 6, length: [1597, 1742, 614, 604, 600, 318]
+2023-11-29 18:10:34,697 process num: 666
+2023-11-29 18:10:34,757 retrieve document num: 4, length: [649, 606, 660, 623]
+2023-11-29 18:10:35,868 process num: 667
+2023-11-29 18:10:35,939 retrieve document num: 4, length: [2132, 1992, 621, 652]
+2023-11-29 18:10:37,645 process num: 668
+2023-11-29 18:10:37,719 retrieve document num: 4, length: [300, 1653, 1518, 1397]
+2023-11-29 18:10:39,375 process num: 669
+2023-11-29 18:10:39,442 retrieve document num: 4, length: [1671, 2003, 2249, 1746]
+2023-11-29 18:10:42,169 process num: 670
+2023-11-29 18:10:42,250 retrieve document num: 4, length: [699, 650, 1994, 638]
+2023-11-29 18:10:43,673 process num: 671
+2023-11-29 18:10:43,739 retrieve document num: 4, length: [1910, 1670, 1847, 1577]
+2023-11-29 18:10:46,187 process num: 672
+2023-11-29 18:10:46,249 retrieve document num: 4, length: [1747, 1654, 1470, 647]
+2023-11-29 18:10:47,993 process num: 673
+2023-11-29 18:10:48,060 retrieve document num: 4, length: [1886, 2066, 1994, 1943]
+2023-11-29 18:10:51,003 process num: 674
+2023-11-29 18:10:51,070 retrieve document num: 4, length: [1609, 1761, 644, 601]
+2023-11-29 18:10:52,885 process num: 675
+2023-11-29 18:10:52,950 retrieve document num: 4, length: [996, 1757, 1653, 2071]
+2023-11-29 18:10:55,178 process num: 676
+2023-11-29 18:10:55,245 retrieve document num: 4, length: [2129, 1994, 2177, 2272]
+2023-11-29 18:10:58,201 process num: 677
+2023-11-29 18:10:58,277 retrieve document num: 4, length: [635, 1990, 1718, 659]
+2023-11-29 18:10:59,884 process num: 678
+2023-11-29 18:10:59,976 retrieve document num: 5, length: [1768, 1708, 605, 1653, 634]
+2023-11-29 18:11:02,600 process num: 679
+2023-11-29 18:11:02,668 retrieve document num: 4, length: [1868, 1713, 2083, 652]
+2023-11-29 18:11:04,630 process num: 680
+2023-11-29 18:11:04,736 retrieve document num: 6, length: [1424, 1365, 1699, 587, 611, 610]
+2023-11-29 18:11:07,433 process num: 681
+2023-11-29 18:11:07,508 retrieve document num: 4, length: [1709, 2211, 1897, 1670]
+2023-11-29 18:11:10,492 process num: 682
+2023-11-29 18:11:10,570 retrieve document num: 4, length: [1994, 2177, 996, 2272]
+2023-11-29 18:11:13,262 process num: 683
+2023-11-29 18:11:13,412 retrieve document num: 8, length: [1603, 2040, 574, 601, 661, 621, 379, 630]
+2023-11-29 18:11:16,377 process num: 684
+2023-11-29 18:11:16,446 retrieve document num: 4, length: [1839, 661, 2084, 1733]
+2023-11-29 18:11:18,668 process num: 685
+2023-11-29 18:11:18,760 retrieve document num: 5, length: [2141, 1988, 1798, 644, 638]
+2023-11-29 18:11:21,170 process num: 686
+2023-11-29 18:11:21,229 retrieve document num: 4, length: [583, 643, 441, 613]
+2023-11-29 18:11:22,176 process num: 687
+2023-11-29 18:11:22,245 retrieve document num: 4, length: [1344, 590, 1772, 1983]
+2023-11-29 18:11:24,387 process num: 688
+2023-11-29 18:11:24,453 retrieve document num: 4, length: [1821, 1449, 1612, 1830]
+2023-11-29 18:11:27,351 process num: 689
+2023-11-29 18:11:27,409 retrieve document num: 4, length: [616, 616, 641, 636]
+2023-11-29 18:11:28,468 process num: 690
+2023-11-29 18:11:28,533 retrieve document num: 4, length: [2053, 2050, 1829, 1942]
+2023-11-29 18:11:31,366 process num: 691
+2023-11-29 18:11:31,431 retrieve document num: 4, length: [1344, 1887, 1330, 591]
+2023-11-29 18:11:33,182 process num: 692
+2023-11-29 18:11:33,241 retrieve document num: 4, length: [1705, 1422, 1648, 1762]
+2023-11-29 18:11:35,217 process num: 693
+2023-11-29 18:11:35,326 retrieve document num: 7, length: [1403, 522, 1867, 2056, 640, 205, 624]
+2023-11-29 18:11:37,872 process num: 694
+2023-11-29 18:11:37,982 retrieve document num: 7, length: [1704, 1967, 1950, 651, 645, 639, 276]
+2023-11-29 18:11:40,952 process num: 695
+2023-11-29 18:11:41,054 retrieve document num: 6, length: [1928, 663, 1696, 583, 615, 180]
+2023-11-29 18:11:43,460 process num: 696
+2023-11-29 18:11:43,554 retrieve document num: 6, length: [1909, 509, 1575, 630, 612, 537]
+2023-11-29 18:11:46,030 process num: 697
+2023-11-29 18:11:46,090 retrieve document num: 4, length: [691, 622, 657, 564]
+2023-11-29 18:11:47,060 process num: 698
+2023-11-29 18:11:47,128 retrieve document num: 4, length: [2213, 1215, 641, 1454]
+2023-11-29 18:11:48,984 process num: 699
+2023-11-29 18:11:49,051 retrieve document num: 4, length: [1953, 1922, 2241, 1705]
+2023-11-29 18:11:52,001 process num: 700
+2023-11-29 18:11:52,067 retrieve document num: 4, length: [1731, 1369, 1945, 1537]
+2023-11-29 18:11:54,589 process num: 701
+2023-11-29 18:11:54,696 retrieve document num: 6, length: [2034, 2002, 1947, 398, 602, 577]
+2023-11-29 18:11:57,218 process num: 702
+2023-11-29 18:11:57,289 retrieve document num: 4, length: [1692, 581, 1860, 2256]
+2023-11-29 18:11:59,420 process num: 703
+2023-11-29 18:11:59,487 retrieve document num: 4, length: [1887, 1589, 1576, 1859]
+2023-11-29 18:12:02,359 process num: 704
+2023-11-29 18:12:02,424 retrieve document num: 4, length: [1482, 643, 1329, 637]
+2023-11-29 18:12:03,741 process num: 705
+2023-11-29 18:12:03,809 retrieve document num: 4, length: [1993, 1890, 2178, 1611]
+2023-11-29 18:12:06,682 process num: 706
+2023-11-29 18:12:06,756 retrieve document num: 4, length: [2207, 1886, 2196, 2256]
+2023-11-29 18:12:09,420 process num: 707
+2023-11-29 18:12:09,554 retrieve document num: 8, length: [1794, 2041, 621, 574, 579, 581, 630, 289]
+2023-11-29 18:12:12,199 process num: 708
+2023-11-29 18:12:12,271 retrieve document num: 4, length: [1538, 608, 1439, 608]
+2023-11-29 18:12:14,014 process num: 709
+2023-11-29 18:12:14,076 retrieve document num: 4, length: [1836, 1656, 1520, 1397]
+2023-11-29 18:12:16,200 process num: 710
+2023-11-29 18:12:16,266 retrieve document num: 4, length: [1671, 2041, 1973, 1776]
+2023-11-29 18:12:19,057 process num: 711
+2023-11-29 18:12:19,130 retrieve document num: 4, length: [1902, 1805, 1958, 1978]
+2023-11-29 18:12:21,776 process num: 712
+2023-11-29 18:12:21,846 retrieve document num: 4, length: [1820, 2261, 1751, 1983]
+2023-11-29 18:12:25,162 process num: 713
+2023-11-29 18:12:25,234 retrieve document num: 4, length: [1576, 1684, 1655, 1422]
+2023-11-29 18:12:27,945 process num: 714
+2023-11-29 18:12:28,024 retrieve document num: 5, length: [1773, 1868, 1994, 300, 633]
+2023-11-29 18:12:30,564 process num: 715
+2023-11-29 18:12:30,631 retrieve document num: 4, length: [2354, 2053, 643, 1991]
+2023-11-29 18:12:32,619 process num: 716
+2023-11-29 18:12:32,688 retrieve document num: 4, length: [1708, 672, 335, 496]
+2023-11-29 18:12:33,943 process num: 717
+2023-11-29 18:12:34,010 retrieve document num: 4, length: [1684, 1576, 1655, 775]
+2023-11-29 18:12:36,664 process num: 718
+2023-11-29 18:12:36,755 retrieve document num: 5, length: [1422, 613, 606, 563, 604]
+2023-11-29 18:12:38,064 process num: 719
+2023-11-29 18:12:38,130 retrieve document num: 4, length: [2166, 1351, 1236, 1422]
+2023-11-29 18:12:40,135 process num: 720
+2023-11-29 18:12:40,198 retrieve document num: 4, length: [1779, 606, 1869, 1903]
+2023-11-29 18:12:41,969 process num: 721
+2023-11-29 18:12:42,035 retrieve document num: 4, length: [2075, 1794, 1729, 1705]
+2023-11-29 18:12:44,333 process num: 722
+2023-11-29 18:12:44,402 retrieve document num: 4, length: [1996, 643, 1907, 891]
+2023-11-29 18:12:46,281 process num: 723
+2023-11-29 18:12:46,365 retrieve document num: 5, length: [1873, 1528, 1704, 654, 569]
+2023-11-29 18:12:48,949 process num: 724
+2023-11-29 18:12:49,025 retrieve document num: 4, length: [2052, 1876, 2161, 1842]
+2023-11-29 18:12:52,322 process num: 725
+2023-11-29 18:12:52,444 retrieve document num: 5, length: [1871, 1762, 569, 654, 579]
+2023-11-29 18:12:54,379 process num: 726
+2023-11-29 18:12:54,453 retrieve document num: 4, length: [1745, 609, 624, 654]
+2023-11-29 18:12:55,793 process num: 727
+2023-11-29 18:12:55,860 retrieve document num: 4, length: [1653, 627, 891, 1786]
+2023-11-29 18:12:57,597 process num: 728
+2023-11-29 18:12:57,667 retrieve document num: 4, length: [1941, 1885, 585, 2042]
+2023-11-29 18:12:59,871 process num: 729
+2023-11-29 18:12:59,938 retrieve document num: 4, length: [1896, 1664, 1384, 2137]
+2023-11-29 18:13:02,863 process num: 730
+2023-11-29 18:13:02,936 retrieve document num: 4, length: [1953, 1705, 1762, 1983]
+2023-11-29 18:13:06,055 process num: 731
+2023-11-29 18:13:06,130 retrieve document num: 4, length: [2058, 727, 1994, 2231]
+2023-11-29 18:13:08,409 process num: 732
+2023-11-29 18:13:08,479 retrieve document num: 4, length: [1876, 2052, 2211, 1918]
+2023-11-29 18:13:11,721 process num: 733
+2023-11-29 18:13:11,784 retrieve document num: 4, length: [1780, 1959, 1687, 1384]
+2023-11-29 18:13:14,355 process num: 734
+2023-11-29 18:13:14,507 retrieve document num: 9, length: [1871, 1964, 604, 645, 600, 651, 505, 639, 276]
+2023-11-29 18:13:17,432 process num: 735
+2023-11-29 18:13:17,498 retrieve document num: 4, length: [1576, 775, 633, 840]
+2023-11-29 18:13:19,372 process num: 736
+2023-11-29 18:13:19,435 retrieve document num: 4, length: [643, 1952, 1344, 1637]
+2023-11-29 18:13:21,272 process num: 737
+2023-11-29 18:13:21,341 retrieve document num: 4, length: [658, 1537, 598, 1794]
+2023-11-29 18:13:22,890 process num: 738
+2023-11-29 18:13:22,955 retrieve document num: 4, length: [1589, 1870, 2087, 1848]
+2023-11-29 18:13:25,493 process num: 739
+2023-11-29 18:13:25,563 retrieve document num: 4, length: [1847, 2125, 585, 1705]
+2023-11-29 18:13:27,814 process num: 740
+2023-11-29 18:13:27,902 retrieve document num: 4, length: [1537, 635, 1637, 579]
+2023-11-29 18:13:29,351 process num: 741
+2023-11-29 18:13:29,414 retrieve document num: 4, length: [1933, 1710, 1969, 1694]
+2023-11-29 18:13:31,866 process num: 742
+2023-11-29 18:13:31,928 retrieve document num: 4, length: [1365, 1677, 1624, 625]
+2023-11-29 18:13:33,664 process num: 743
+2023-11-29 18:13:33,730 retrieve document num: 4, length: [1897, 1918, 643, 1762]
+2023-11-29 18:13:35,599 process num: 744
+2023-11-29 18:13:35,698 retrieve document num: 6, length: [581, 1972, 1637, 2289, 579, 350]
+2023-11-29 18:13:38,203 process num: 745
+2023-11-29 18:13:38,262 retrieve document num: 4, length: [1696, 1520, 1874, 1628]
+2023-11-29 18:13:40,842 process num: 746
+2023-11-29 18:13:40,944 retrieve document num: 6, length: [1976, 1900, 1501, 567, 566, 191]
+2023-11-29 18:13:43,995 process num: 747
+2023-11-29 18:13:44,059 retrieve document num: 4, length: [775, 1576, 1684, 1655]
+2023-11-29 18:13:46,857 process num: 748
+2023-11-29 18:13:46,920 retrieve document num: 4, length: [1344, 611, 1696, 1628]
+2023-11-29 18:13:48,648 process num: 749
+2023-11-29 18:13:48,741 retrieve document num: 5, length: [2079, 2075, 1729, 579, 581]
+2023-11-29 18:13:50,982 process num: 750
+2023-11-29 18:13:51,048 retrieve document num: 4, length: [1487, 688, 1712, 1897]
+2023-11-29 18:13:52,933 process num: 751
+2023-11-29 18:13:52,998 retrieve document num: 4, length: [441, 669, 622, 1541]
+2023-11-29 18:13:54,115 process num: 752
+2023-11-29 18:13:54,181 retrieve document num: 4, length: [1482, 1249, 1623, 2208]
+2023-11-29 18:13:56,718 process num: 753
+2023-11-29 18:13:56,787 retrieve document num: 4, length: [1572, 2054, 621, 1823]
+2023-11-29 18:13:58,659 process num: 754
+2023-11-29 18:13:58,728 retrieve document num: 4, length: [1750, 1986, 1716, 1903]
+2023-11-29 18:14:01,429 process num: 755
+2023-11-29 18:14:01,500 retrieve document num: 4, length: [2054, 563, 2137, 1823]
+2023-11-29 18:14:04,075 process num: 756
+2023-11-29 18:14:04,141 retrieve document num: 4, length: [1839, 2270, 1585, 1725]
+2023-11-29 18:14:06,732 process num: 757
+2023-11-29 18:14:06,805 retrieve document num: 4, length: [775, 1576, 1887, 1684]
+2023-11-29 18:14:09,761 process num: 758
+2023-11-29 18:14:09,836 retrieve document num: 4, length: [1696, 1622, 1614, 1922]
+2023-11-29 18:14:12,489 process num: 759
+2023-11-29 18:14:12,587 retrieve document num: 5, length: [1614, 2257, 2447, 641, 567]
+2023-11-29 18:14:15,221 process num: 760
+2023-11-29 18:14:15,300 retrieve document num: 4, length: [2215, 1984, 1928, 595]
+2023-11-29 18:14:18,095 process num: 761
+2023-11-29 18:14:18,214 retrieve document num: 5, length: [1887, 1603, 1637, 469, 624]
+2023-11-29 18:14:21,436 process num: 762
+2023-11-29 18:14:21,510 retrieve document num: 4, length: [1654, 2155, 1645, 1890]
+2023-11-29 18:14:24,108 process num: 763
+2023-11-29 18:14:24,169 retrieve document num: 4, length: [1876, 1779, 1692, 1872]
+2023-11-29 18:14:26,703 process num: 764
+2023-11-29 18:14:26,769 retrieve document num: 4, length: [2104, 2215, 1432, 2450]
+2023-11-29 18:14:29,360 process num: 765
+2023-11-29 18:14:29,419 retrieve document num: 4, length: [1483, 1653, 1457, 1511]
+2023-11-29 18:14:31,557 process num: 766
+2023-11-29 18:14:31,625 retrieve document num: 4, length: [1518, 2042, 1903, 2130]
+2023-11-29 18:14:34,417 process num: 767
+2023-11-29 18:14:34,492 retrieve document num: 4, length: [1765, 2008, 1895, 1983]
+2023-11-29 18:14:37,702 process num: 768
+2023-11-29 18:14:37,783 retrieve document num: 4, length: [1726, 2157, 603, 1774]
+2023-11-29 18:14:40,334 process num: 769
+2023-11-29 18:14:40,403 retrieve document num: 4, length: [1733, 653, 696, 1996]
+2023-11-29 18:14:42,166 process num: 770
+2023-11-29 18:14:42,229 retrieve document num: 4, length: [1805, 2110, 1562, 1669]
+2023-11-29 18:14:44,397 process num: 771
+2023-11-29 18:14:44,456 retrieve document num: 4, length: [631, 653, 659, 620]
+2023-11-29 18:14:45,394 process num: 772
+2023-11-29 18:14:45,463 retrieve document num: 4, length: [1766, 646, 1875, 676]
+2023-11-29 18:14:47,170 process num: 773
+2023-11-29 18:14:47,232 retrieve document num: 4, length: [1739, 1651, 1374, 615]
+2023-11-29 18:14:48,804 process num: 774
+2023-11-29 18:14:48,868 retrieve document num: 4, length: [1288, 1208, 1636, 2129]
+2023-11-29 18:14:51,038 process num: 775
+2023-11-29 18:14:51,099 retrieve document num: 4, length: [635, 683, 664, 625]
+2023-11-29 18:14:51,975 process num: 776
+2023-11-29 18:14:52,042 retrieve document num: 4, length: [2601, 2389, 2539, 1610]
+2023-11-29 18:14:54,797 process num: 777
+2023-11-29 18:14:54,892 retrieve document num: 5, length: [2382, 2006, 1261, 593, 600]
+2023-11-29 18:14:57,306 process num: 778
+2023-11-29 18:14:57,366 retrieve document num: 4, length: [627, 691, 671, 697]
+2023-11-29 18:14:58,223 process num: 779
+2023-11-29 18:14:58,294 retrieve document num: 4, length: [626, 664, 615, 2038]
+2023-11-29 18:14:59,501 process num: 780
+2023-11-29 18:14:59,569 retrieve document num: 4, length: [1576, 823, 697, 1928]
+2023-11-29 18:15:02,715 process num: 781
+2023-11-29 18:15:02,791 retrieve document num: 4, length: [655, 1742, 1806, 1441]
+2023-11-29 18:15:05,192 process num: 782
+2023-11-29 18:15:05,301 retrieve document num: 6, length: [1275, 588, 1867, 1578, 652, 570]
+2023-11-29 18:15:07,897 process num: 783
+2023-11-29 18:15:07,964 retrieve document num: 4, length: [1626, 1958, 1765, 891]
+2023-11-29 18:15:10,202 process num: 784
+2023-11-29 18:15:10,270 retrieve document num: 4, length: [1983, 1887, 2261, 2272]
+2023-11-29 18:15:13,152 process num: 785
+2023-11-29 18:15:13,226 retrieve document num: 4, length: [1856, 1781, 1704, 2205]
+2023-11-29 18:15:15,920 process num: 786
+2023-11-29 18:15:15,989 retrieve document num: 4, length: [1749, 1453, 336, 597]
+2023-11-29 18:15:17,548 process num: 787
+2023-11-29 18:15:17,621 retrieve document num: 4, length: [1312, 2178, 598, 606]
+2023-11-29 18:15:19,208 process num: 788
+2023-11-29 18:15:19,275 retrieve document num: 4, length: [1509, 1820, 1751, 1789]
+2023-11-29 18:15:22,158 process num: 789
+2023-11-29 18:15:22,227 retrieve document num: 4, length: [1794, 1886, 1939, 1773]
+2023-11-29 18:15:24,838 process num: 790
+2023-11-29 18:15:24,925 retrieve document num: 6, length: [1356, 727, 1593, 591, 623, 273]
+2023-11-29 18:15:26,769 process num: 791
+2023-11-29 18:15:26,832 retrieve document num: 4, length: [1502, 587, 608, 891]
+2023-11-29 18:15:28,212 process num: 792
+2023-11-29 18:15:28,301 retrieve document num: 5, length: [1523, 1477, 2086, 674, 641]
+2023-11-29 18:15:30,163 process num: 793
+2023-11-29 18:15:30,230 retrieve document num: 4, length: [2279, 2349, 2030, 2186]
+2023-11-29 18:15:32,701 process num: 794
+2023-11-29 18:15:32,768 retrieve document num: 4, length: [1901, 2173, 1859, 1651]
+2023-11-29 18:15:35,336 process num: 795
+2023-11-29 18:15:35,407 retrieve document num: 4, length: [694, 643, 2023, 644]
+2023-11-29 18:15:36,694 process num: 796
+2023-11-29 18:15:36,760 retrieve document num: 4, length: [1927, 2052, 2282, 1109]
+2023-11-29 18:15:39,116 process num: 797
+2023-11-29 18:15:39,182 retrieve document num: 4, length: [2094, 996, 1994, 2272]
+2023-11-29 18:15:41,728 process num: 798
+2023-11-29 18:15:41,796 retrieve document num: 4, length: [581, 1781, 1789, 1603]
+2023-11-29 18:15:43,908 process num: 799
+2023-11-29 18:15:43,977 retrieve document num: 4, length: [609, 1696, 1684, 1992]
+2023-11-29 18:15:46,262 process num: 800
+2023-11-29 18:15:46,337 retrieve document num: 4, length: [587, 626, 661, 1733]
+2023-11-29 18:15:47,520 process num: 801
+2023-11-29 18:15:47,604 retrieve document num: 6, length: [1543, 1523, 1731, 607, 568, 484]
+2023-11-29 18:15:49,499 process num: 802
+2023-11-29 18:15:49,559 retrieve document num: 4, length: [574, 641, 636, 636]
+2023-11-29 18:15:50,635 process num: 803
+2023-11-29 18:15:50,759 retrieve document num: 7, length: [1965, 1537, 600, 593, 638, 598, 328]
+2023-11-29 18:15:52,983 process num: 804
+2023-11-29 18:15:53,079 retrieve document num: 6, length: [1636, 1749, 2129, 598, 630, 629]
+2023-11-29 18:15:55,812 process num: 805
+2023-11-29 18:15:55,885 retrieve document num: 4, length: [1996, 1993, 2261, 1747]
+2023-11-29 18:15:58,287 process num: 806
+2023-11-29 18:15:58,398 retrieve document num: 7, length: [1720, 677, 1903, 623, 663, 582, 500]
+2023-11-29 18:16:00,830 process num: 807
+2023-11-29 18:16:00,902 retrieve document num: 4, length: [1656, 1839, 604, 609]
+2023-11-29 18:16:02,742 process num: 808
+2023-11-29 18:16:02,833 retrieve document num: 5, length: [1344, 1857, 1202, 594, 604]
+2023-11-29 18:16:04,930 process num: 809
+2023-11-29 18:16:04,998 retrieve document num: 4, length: [2052, 2171, 1876, 1991]
+2023-11-29 18:16:08,192 process num: 810
+2023-11-29 18:16:08,260 retrieve document num: 4, length: [1983, 2208, 2130, 1947]
+2023-11-29 18:16:11,478 process num: 811
+2023-11-29 18:16:11,625 retrieve document num: 7, length: [2288, 1903, 612, 630, 606, 622, 577]
+2023-11-29 18:16:13,851 process num: 812
+2023-11-29 18:16:13,919 retrieve document num: 4, length: [1344, 1557, 1623, 647]
+2023-11-29 18:16:15,813 process num: 813
+2023-11-29 18:16:15,875 retrieve document num: 4, length: [572, 1651, 1696, 1374]
+2023-11-29 18:16:17,606 process num: 814
+2023-11-29 18:16:17,667 retrieve document num: 4, length: [637, 609, 606, 632]
+2023-11-29 18:16:18,646 process num: 815
+2023-11-29 18:16:18,710 retrieve document num: 4, length: [1576, 2066, 775, 823]
+2023-11-29 18:16:21,328 process num: 816
+2023-11-29 18:16:21,407 retrieve document num: 6, length: [611, 568, 566, 578, 607, 484]
+2023-11-29 18:16:22,609 process num: 817
+2023-11-29 18:16:22,676 retrieve document num: 1, length: [1988]
+2023-11-29 18:16:23,425 process num: 818
+2023-11-29 18:16:23,497 retrieve document num: 4, length: [578, 1596, 1983, 649]
+2023-11-29 18:16:25,200 process num: 819
+2023-11-29 18:16:25,266 retrieve document num: 4, length: [1344, 2077, 2055, 1518]
+2023-11-29 18:16:27,831 process num: 820
+2023-11-29 18:16:27,902 retrieve document num: 4, length: [1422, 1829, 599, 693]
+2023-11-29 18:16:29,479 process num: 821
+2023-11-29 18:16:29,545 retrieve document num: 4, length: [2034, 1976, 2296, 1473]
+2023-11-29 18:16:31,882 process num: 822
+2023-11-29 18:16:31,949 retrieve document num: 4, length: [1576, 1684, 1655, 840]
+2023-11-29 18:16:34,882 process num: 823
+2023-11-29 18:16:34,955 retrieve document num: 4, length: [2062, 1670, 1735, 1148]
+2023-11-29 18:16:37,679 process num: 824
+2023-11-29 18:16:37,761 retrieve document num: 5, length: [1713, 1869, 1824, 631, 375]
+2023-11-29 18:16:40,351 process num: 825
+2023-11-29 18:16:40,465 retrieve document num: 7, length: [1557, 608, 597, 552, 642, 613, 294]
+2023-11-29 18:16:42,309 process num: 826
+2023-11-29 18:16:42,372 retrieve document num: 4, length: [1984, 1572, 1396, 1823]
+2023-11-29 18:16:44,693 process num: 827
+2023-11-29 18:16:44,755 retrieve document num: 4, length: [1599, 1811, 1747, 583]
+2023-11-29 18:16:46,597 process num: 828
+2023-11-29 18:16:46,676 retrieve document num: 5, length: [1276, 1626, 613, 608, 325]
+2023-11-29 18:16:48,554 process num: 829
+2023-11-29 18:16:48,618 retrieve document num: 4, length: [1992, 1537, 1805, 1448]
+2023-11-29 18:16:51,184 process num: 830
+2023-11-29 18:16:51,248 retrieve document num: 4, length: [1737, 585, 1835, 1537]
+2023-11-29 18:16:53,070 process num: 831
+2023-11-29 18:16:53,138 retrieve document num: 4, length: [1793, 2204, 1902, 1111]
+2023-11-29 18:16:55,639 process num: 832
+2023-11-29 18:16:55,713 retrieve document num: 4, length: [2054, 2015, 1706, 1509]
+2023-11-29 18:16:58,886 process num: 833
+2023-11-29 18:16:58,954 retrieve document num: 4, length: [1887, 2223, 1682, 1724]
+2023-11-29 18:17:01,866 process num: 834
+2023-11-29 18:17:01,929 retrieve document num: 4, length: [679, 673, 649, 646]
+2023-11-29 18:17:02,906 process num: 835
+2023-11-29 18:17:02,973 retrieve document num: 4, length: [652, 1762, 1688, 1590]
+2023-11-29 18:17:05,069 process num: 836
+2023-11-29 18:17:05,135 retrieve document num: 2, length: [1422, 599]
+2023-11-29 18:17:05,955 process num: 837
+2023-11-29 18:17:06,021 retrieve document num: 4, length: [1344, 1426, 2136, 2094]
+2023-11-29 18:17:08,795 process num: 838
+2023-11-29 18:17:08,865 retrieve document num: 4, length: [1742, 1426, 574, 1930]
+2023-11-29 18:17:10,839 process num: 839
+2023-11-29 18:17:10,904 retrieve document num: 4, length: [1922, 2083, 1688, 1588]
+2023-11-29 18:17:13,486 process num: 840
+2023-11-29 18:17:13,553 retrieve document num: 4, length: [1749, 592, 1856, 485]
+2023-11-29 18:17:15,262 process num: 841
+2023-11-29 18:17:15,327 retrieve document num: 4, length: [645, 624, 612, 1290]
+2023-11-29 18:17:16,482 process num: 842
+2023-11-29 18:17:16,550 retrieve document num: 4, length: [2136, 616, 1899, 1431]
+2023-11-29 18:17:18,670 process num: 843
+2023-11-29 18:17:18,737 retrieve document num: 4, length: [1994, 2177, 2054, 2039]
+2023-11-29 18:17:21,732 process num: 844
+2023-11-29 18:17:21,798 retrieve document num: 4, length: [1947, 1948, 2002, 1827]
+2023-11-29 18:17:24,296 process num: 845
+2023-11-29 18:17:24,361 retrieve document num: 4, length: [1431, 1741, 1971, 2048]
+2023-11-29 18:17:26,945 process num: 846
+2023-11-29 18:17:27,014 retrieve document num: 4, length: [1344, 2343, 1311, 592]
+2023-11-29 18:17:29,025 process num: 847
+2023-11-29 18:17:29,092 retrieve document num: 4, length: [1707, 1859, 1890, 1365]
+2023-11-29 18:17:31,639 process num: 848
+2023-11-29 18:17:31,706 retrieve document num: 4, length: [1111, 1957, 1793, 2204]
+2023-11-29 18:17:34,241 process num: 849
+2023-11-29 18:17:34,354 retrieve document num: 6, length: [561, 2255, 1267, 1610, 573, 633]
+2023-11-29 18:17:36,784 process num: 850
+2023-11-29 18:17:36,844 retrieve document num: 4, length: [613, 646, 617, 616]
+2023-11-29 18:17:37,842 process num: 851
+2023-11-29 18:17:37,910 retrieve document num: 4, length: [2054, 2003, 1696, 1945]
+2023-11-29 18:17:41,014 process num: 852
+2023-11-29 18:17:41,088 retrieve document num: 4, length: [1576, 633, 1533, 1612]
+2023-11-29 18:17:43,961 process num: 853
+2023-11-29 18:17:44,038 retrieve document num: 4, length: [1732, 2106, 630, 609]
+2023-11-29 18:17:45,885 process num: 854
+2023-11-29 18:17:45,952 retrieve document num: 4, length: [2261, 2094, 1344, 1983]
+2023-11-29 18:17:48,600 process num: 855
+2023-11-29 18:17:48,704 retrieve document num: 6, length: [1886, 1637, 2053, 644, 552, 617]
+2023-11-29 18:17:51,455 process num: 856
+2023-11-29 18:17:51,526 retrieve document num: 4, length: [589, 1990, 1927, 496]
+2023-11-29 18:17:53,232 process num: 857
+2023-11-29 18:17:53,300 retrieve document num: 4, length: [1344, 1558, 590, 1771]
+2023-11-29 18:17:55,295 process num: 858
+2023-11-29 18:17:55,362 retrieve document num: 4, length: [634, 1516, 1831, 616]
+2023-11-29 18:17:56,821 process num: 859
+2023-11-29 18:17:56,881 retrieve document num: 4, length: [1937, 1333, 1477, 1953]
+2023-11-29 18:17:58,885 process num: 860
+2023-11-29 18:17:58,954 retrieve document num: 4, length: [2261, 635, 1329, 1628]
+2023-11-29 18:18:00,839 process num: 861
+2023-11-29 18:18:00,908 retrieve document num: 4, length: [1829, 608, 1718, 1069]
+2023-11-29 18:18:02,771 process num: 862
+2023-11-29 18:18:02,844 retrieve document num: 4, length: [1344, 2385, 654, 649]
+2023-11-29 18:18:04,608 process num: 863
+2023-11-29 18:18:04,702 retrieve document num: 5, length: [2058, 1596, 1749, 609, 597]
+2023-11-29 18:18:07,477 process num: 864
+2023-11-29 18:18:07,538 retrieve document num: 4, length: [652, 604, 612, 635]
+2023-11-29 18:18:08,613 process num: 865
+2023-11-29 18:18:08,681 retrieve document num: 4, length: [1448, 1892, 1657, 1805]
+2023-11-29 18:18:11,356 process num: 866
+2023-11-29 18:18:11,427 retrieve document num: 4, length: [1728, 1626, 1275, 1912]
+2023-11-29 18:18:14,188 process num: 867
+2023-11-29 18:18:14,257 retrieve document num: 4, length: [1702, 1766, 1448, 1979]
+2023-11-29 18:18:16,949 process num: 868
+2023-11-29 18:18:17,016 retrieve document num: 4, length: [1371, 1945, 1731, 1369]
+2023-11-29 18:18:19,478 process num: 869
+2023-11-29 18:18:19,546 retrieve document num: 4, length: [1877, 2486, 1561, 2172]
+2023-11-29 18:18:22,308 process num: 870
+2023-11-29 18:18:22,405 retrieve document num: 6, length: [613, 646, 1616, 627, 655, 432]
+2023-11-29 18:18:23,987 process num: 871
+2023-11-29 18:18:24,056 retrieve document num: 4, length: [1895, 1986, 1609, 1921]
+2023-11-29 18:18:26,948 process num: 872
+2023-11-29 18:18:27,019 retrieve document num: 4, length: [1737, 619, 667, 633]
+2023-11-29 18:18:28,211 process num: 873
+2023-11-29 18:18:28,365 retrieve document num: 6, length: [1691, 1912, 549, 540, 485, 455]
+2023-11-29 18:18:30,899 process num: 874
+2023-11-29 18:18:30,982 retrieve document num: 5, length: [1994, 2177, 2129, 300, 633]
+2023-11-29 18:18:33,394 process num: 875
+2023-11-29 18:18:33,467 retrieve document num: 4, length: [1311, 2063, 683, 630]
+2023-11-29 18:18:35,018 process num: 876
+2023-11-29 18:18:35,110 retrieve document num: 5, length: [1729, 1688, 2143, 652, 678]
+2023-11-29 18:18:37,493 process num: 877
+2023-11-29 18:18:37,567 retrieve document num: 4, length: [1749, 2272, 667, 696]
+2023-11-29 18:18:39,429 process num: 878
+2023-11-29 18:18:39,490 retrieve document num: 4, length: [579, 573, 659, 569]
+2023-11-29 18:18:40,464 process num: 879
+2023-11-29 18:18:40,532 retrieve document num: 4, length: [1344, 1885, 2042, 2002]
+2023-11-29 18:18:43,515 process num: 880
+2023-11-29 18:18:43,587 retrieve document num: 4, length: [2215, 1537, 1904, 1344]
+2023-11-29 18:18:46,256 process num: 881
+2023-11-29 18:18:46,377 retrieve document num: 6, length: [590, 2132, 630, 1738, 583, 648]
+2023-11-29 18:18:48,566 process num: 882
+2023-11-29 18:18:48,634 retrieve document num: 4, length: [1684, 1576, 1589, 1422]
+2023-11-29 18:18:51,566 process num: 883
+2023-11-29 18:18:51,638 retrieve document num: 4, length: [1421, 1848, 2384, 1764]
+2023-11-29 18:18:54,029 process num: 884
+2023-11-29 18:18:54,097 retrieve document num: 4, length: [2229, 1709, 2350, 1835]
+2023-11-29 18:18:56,395 process num: 885
+2023-11-29 18:18:56,460 retrieve document num: 4, length: [1277, 1839, 1636, 2129]
+2023-11-29 18:18:58,803 process num: 886
+2023-11-29 18:18:58,872 retrieve document num: 4, length: [335, 609, 578, 1841]
+2023-11-29 18:19:00,217 process num: 887
+2023-11-29 18:19:00,288 retrieve document num: 4, length: [1839, 2215, 2156, 1992]
+2023-11-29 18:19:03,186 process num: 888
+2023-11-29 18:19:03,253 retrieve document num: 4, length: [1767, 1310, 1813, 1432]
+2023-11-29 18:19:05,798 process num: 889
+2023-11-29 18:19:05,866 retrieve document num: 4, length: [1979, 1826, 1407, 2086]
+2023-11-29 18:19:08,584 process num: 890
+2023-11-29 18:19:08,655 retrieve document num: 4, length: [2132, 1520, 1743, 649]
+2023-11-29 18:19:10,855 process num: 891
+2023-11-29 18:19:10,923 retrieve document num: 4, length: [2137, 1396, 1984, 1983]
+2023-11-29 18:19:13,766 process num: 892
+2023-11-29 18:19:13,838 retrieve document num: 4, length: [2177, 1863, 996, 1826]
+2023-11-29 18:19:16,399 process num: 893
+2023-11-29 18:19:16,478 retrieve document num: 6, length: [609, 592, 624, 621, 584, 460]
+2023-11-29 18:19:17,753 process num: 894
+2023-11-29 18:19:17,819 retrieve document num: 4, length: [1574, 1511, 587, 643]
+2023-11-29 18:19:19,269 process num: 895
+2023-11-29 18:19:19,332 retrieve document num: 4, length: [891, 1996, 1860, 2055]
+2023-11-29 18:19:21,500 process num: 896
+2023-11-29 18:19:21,566 retrieve document num: 4, length: [2154, 1903, 2065, 2085]
+2023-11-29 18:19:23,903 process num: 897
+2023-11-29 18:19:23,971 retrieve document num: 4, length: [2102, 2178, 1729, 1611]
+2023-11-29 18:19:26,631 process num: 898
+2023-11-29 18:19:26,697 retrieve document num: 4, length: [1344, 1611, 2261, 1438]
+2023-11-29 18:19:29,103 process num: 899
+2023-11-29 18:19:29,178 retrieve document num: 4, length: [2015, 1823, 1833, 1816]
+2023-11-29 18:19:32,309 process num: 900
+2023-11-29 18:19:32,418 retrieve document num: 6, length: [1082, 1696, 1637, 469, 605, 624]
+2023-11-29 18:19:35,589 process num: 901
+2023-11-29 18:19:35,668 retrieve document num: 4, length: [2261, 1629, 1983, 619]
+2023-11-29 18:19:38,085 process num: 902
+2023-11-29 18:19:38,152 retrieve document num: 4, length: [2052, 2236, 1208, 1596]
+2023-11-29 18:19:40,617 process num: 903
+2023-11-29 18:19:40,701 retrieve document num: 4, length: [659, 640, 2382, 622]
+2023-11-29 18:19:42,183 process num: 904
+2023-11-29 18:19:42,252 retrieve document num: 4, length: [646, 637, 1689, 666]
+2023-11-29 18:19:43,575 process num: 905
+2023-11-29 18:19:43,651 retrieve document num: 4, length: [2389, 2236, 2132, 2001]
+2023-11-29 18:19:47,290 process num: 906
+2023-11-29 18:19:47,365 retrieve document num: 4, length: [1548, 673, 1697, 622]
+2023-11-29 18:19:49,131 process num: 907
+2023-11-29 18:19:49,203 retrieve document num: 4, length: [1731, 1945, 1537, 1369]
+2023-11-29 18:19:51,981 process num: 908
+2023-11-29 18:19:52,053 retrieve document num: 4, length: [2137, 581, 1983, 1763]
+2023-11-29 18:19:54,833 process num: 909
+2023-11-29 18:19:54,898 retrieve document num: 4, length: [1628, 1874, 1682, 1002]
+2023-11-29 18:19:57,110 process num: 910
+2023-11-29 18:19:57,176 retrieve document num: 4, length: [2155, 1628, 1922, 2106]
+2023-11-29 18:19:59,921 process num: 911
+2023-11-29 18:19:59,995 retrieve document num: 4, length: [1523, 2068, 2379, 1788]
+2023-11-29 18:20:02,619 process num: 912
+2023-11-29 18:20:02,687 retrieve document num: 4, length: [1737, 2099, 1978, 1902]
+2023-11-29 18:20:05,238 process num: 913
+2023-11-29 18:20:05,313 retrieve document num: 4, length: [2113, 1994, 2040, 2272]
+2023-11-29 18:20:08,575 process num: 914
+2023-11-29 18:20:08,640 retrieve document num: 4, length: [585, 1643, 609, 1262]
+2023-11-29 18:20:10,042 process num: 915
+2023-11-29 18:20:10,109 retrieve document num: 4, length: [2015, 1988, 1534, 1293]
+2023-11-29 18:20:12,681 process num: 916
+2023-11-29 18:20:12,750 retrieve document num: 4, length: [1945, 1794, 2110, 1537]
+2023-11-29 18:20:15,600 process num: 917
+2023-11-29 18:20:15,675 retrieve document num: 5, length: [1548, 1713, 488, 1628, 655]
+2023-11-29 18:20:18,131 process num: 918
+2023-11-29 18:20:18,200 retrieve document num: 4, length: [1312, 1611, 1344, 2178]
+2023-11-29 18:20:20,811 process num: 919
+2023-11-29 18:20:20,878 retrieve document num: 4, length: [1852, 2138, 1975, 1897]
+2023-11-29 18:20:23,442 process num: 920
+2023-11-29 18:20:23,530 retrieve document num: 5, length: [611, 1603, 2223, 608, 402]
+2023-11-29 18:20:25,524 process num: 921
+2023-11-29 18:20:25,644 retrieve document num: 6, length: [1951, 1705, 617, 627, 643, 565]
+2023-11-29 18:20:27,779 process num: 922
+2023-11-29 18:20:27,846 retrieve document num: 4, length: [2204, 1960, 2066, 1369]
+2023-11-29 18:20:30,496 process num: 923
+2023-11-29 18:20:30,591 retrieve document num: 6, length: [580, 1852, 1897, 621, 1762, 420]
+2023-11-29 18:20:33,074 process num: 924
+2023-11-29 18:20:33,144 retrieve document num: 4, length: [1344, 590, 1749, 1772]
+2023-11-29 18:20:35,687 process num: 925
+2023-11-29 18:20:35,753 retrieve document num: 4, length: [1432, 2275, 2058, 2036]
+2023-11-29 18:20:38,089 process num: 926
+2023-11-29 18:20:38,156 retrieve document num: 4, length: [1732, 1904, 1689, 2106]
+2023-11-29 18:20:40,907 process num: 927
+2023-11-29 18:20:40,973 retrieve document num: 4, length: [1707, 1286, 2052, 1449]
+2023-11-29 18:20:43,346 process num: 928
+2023-11-29 18:20:43,439 retrieve document num: 5, length: [1839, 2215, 1689, 634, 695]
+2023-11-29 18:20:46,074 process num: 929
+2023-11-29 18:20:46,149 retrieve document num: 4, length: [630, 2248, 1672, 651]
+2023-11-29 18:20:47,746 process num: 930
+2023-11-29 18:20:47,804 retrieve document num: 4, length: [636, 659, 620, 630]
+2023-11-29 18:20:48,697 process num: 931
+2023-11-29 18:20:48,766 retrieve document num: 4, length: [1516, 1733, 1852, 641]
+2023-11-29 18:20:50,663 process num: 932
+2023-11-29 18:20:50,734 retrieve document num: 4, length: [1991, 2280, 1897, 629]
+2023-11-29 18:20:53,209 process num: 933
+2023-11-29 18:20:53,278 retrieve document num: 4, length: [1766, 2070, 2131, 1749]
+2023-11-29 18:20:56,333 process num: 934
+2023-11-29 18:20:56,395 retrieve document num: 4, length: [580, 618, 611, 360]
+2023-11-29 18:20:57,283 process num: 935
+2023-11-29 18:20:57,350 retrieve document num: 4, length: [1344, 654, 635, 578]
+2023-11-29 18:20:58,608 process num: 936
+2023-11-29 18:20:58,676 retrieve document num: 4, length: [1705, 2148, 1839, 1886]
+2023-11-29 18:21:01,443 process num: 937
+2023-11-29 18:21:01,520 retrieve document num: 4, length: [1538, 1684, 1576, 1626]
+2023-11-29 18:21:04,532 process num: 938
+2023-11-29 18:21:04,623 retrieve document num: 5, length: [595, 644, 1478, 1431, 659]
+2023-11-29 18:21:06,447 process num: 939
+2023-11-29 18:21:06,520 retrieve document num: 4, length: [1344, 1930, 586, 585]
+2023-11-29 18:21:07,997 process num: 940
+2023-11-29 18:21:08,067 retrieve document num: 4, length: [662, 1876, 627, 658]
+2023-11-29 18:21:09,318 process num: 941
+2023-11-29 18:21:09,376 retrieve document num: 4, length: [618, 624, 587, 599]
+2023-11-29 18:21:10,226 process num: 942
+2023-11-29 18:21:10,292 retrieve document num: 4, length: [1344, 1557, 1438, 1614]
+2023-11-29 18:21:12,774 process num: 943
+2023-11-29 18:21:12,837 retrieve document num: 4, length: [546, 1389, 2005, 1614]
+2023-11-29 18:21:14,403 process num: 944
+2023-11-29 18:21:14,471 retrieve document num: 4, length: [1576, 1684, 775, 633]
+2023-11-29 18:21:17,018 process num: 945
+2023-11-29 18:21:17,076 retrieve document num: 1, length: [1603]
+2023-11-29 18:21:17,696 process num: 946
+2023-11-29 18:21:17,754 retrieve document num: 4, length: [1837, 1202, 1819, 1359]
+2023-11-29 18:21:19,686 process num: 947
+2023-11-29 18:21:19,749 retrieve document num: 4, length: [2042, 335, 1827, 485]
+2023-11-29 18:21:21,307 process num: 948
+2023-11-29 18:21:21,373 retrieve document num: 4, length: [1620, 1737, 1862, 2280]
+2023-11-29 18:21:23,949 process num: 949
+2023-11-29 18:21:24,015 retrieve document num: 4, length: [2132, 2071, 996, 2129]
+2023-11-29 18:21:26,726 process num: 950
+2023-11-29 18:21:26,795 retrieve document num: 4, length: [571, 1552, 1965, 1908]
+2023-11-29 18:21:28,672 process num: 951
+2023-11-29 18:21:28,730 retrieve document num: 4, length: [636, 646, 636, 608]
+2023-11-29 18:21:29,665 process num: 952
+2023-11-29 18:21:29,759 retrieve document num: 6, length: [1762, 617, 622, 1720, 658, 583]
+2023-11-29 18:21:31,620 process num: 953
+2023-11-29 18:21:31,687 retrieve document num: 4, length: [1805, 2110, 1491, 1369]
+2023-11-29 18:21:34,207 process num: 954
+2023-11-29 18:21:34,273 retrieve document num: 4, length: [775, 1576, 1684, 823]
+2023-11-29 18:21:36,875 process num: 955
+2023-11-29 18:21:36,941 retrieve document num: 4, length: [1344, 702, 1438, 598]
+2023-11-29 18:21:38,405 process num: 956
+2023-11-29 18:21:38,488 retrieve document num: 5, length: [1742, 2229, 608, 619, 462]
+2023-11-29 18:21:40,347 process num: 957
+2023-11-29 18:21:40,412 retrieve document num: 4, length: [1794, 1751, 1887, 1832]
+2023-11-29 18:21:42,986 process num: 958
+2023-11-29 18:21:43,056 retrieve document num: 4, length: [1887, 1827, 1710, 1623]
+2023-11-29 18:21:46,417 process num: 959
+2023-11-29 18:21:46,489 retrieve document num: 4, length: [1215, 2213, 613, 616]
+2023-11-29 18:21:48,047 process num: 960
+2023-11-29 18:21:48,115 retrieve document num: 4, length: [1422, 1732, 1788, 1588]
+2023-11-29 18:21:50,890 process num: 961
+2023-11-29 18:21:50,982 retrieve document num: 5, length: [2058, 1725, 1344, 652, 678]
+2023-11-29 18:21:53,396 process num: 962
+2023-11-29 18:21:53,465 retrieve document num: 4, length: [2077, 1996, 2148, 1839]
+2023-11-29 18:21:56,358 process num: 963
+2023-11-29 18:21:56,416 retrieve document num: 4, length: [649, 712, 673, 625]
+2023-11-29 18:21:57,341 process num: 964
+2023-11-29 18:21:57,440 retrieve document num: 6, length: [2054, 2094, 1831, 614, 639, 373]
+2023-11-29 18:22:00,595 process num: 965
+2023-11-29 18:22:00,663 retrieve document num: 4, length: [640, 1839, 1765, 619]
+2023-11-29 18:22:02,382 process num: 966
+2023-11-29 18:22:02,461 retrieve document num: 5, length: [1659, 1753, 1413, 606, 337]
+2023-11-29 18:22:04,460 process num: 967
+2023-11-29 18:22:04,524 retrieve document num: 4, length: [1597, 1261, 1742, 574]
+2023-11-29 18:22:06,484 process num: 968
+2023-11-29 18:22:06,570 retrieve document num: 5, length: [1743, 1507, 1829, 595, 701]
+2023-11-29 18:22:08,904 process num: 969
+2023-11-29 18:22:08,968 retrieve document num: 4, length: [1839, 653, 1485, 1669]
+2023-11-29 18:22:10,840 process num: 970
+2023-11-29 18:22:10,901 retrieve document num: 4, length: [618, 708, 618, 619]
+2023-11-29 18:22:12,013 process num: 971
+2023-11-29 18:22:12,114 retrieve document num: 6, length: [1429, 1864, 670, 597, 640, 605]
+2023-11-29 18:22:14,014 process num: 972
+2023-11-29 18:22:14,082 retrieve document num: 4, length: [2261, 2519, 1603, 1983]
+2023-11-29 18:22:16,728 process num: 973
+2023-11-29 18:22:16,805 retrieve document num: 4, length: [652, 619, 635, 1933]
+2023-11-29 18:22:18,137 process num: 974
+2023-11-29 18:22:18,204 retrieve document num: 4, length: [2040, 2054, 2118, 2039]
+2023-11-29 18:22:20,980 process num: 975
+2023-11-29 18:22:21,051 retrieve document num: 4, length: [2402, 1523, 1319, 1715]
+2023-11-29 18:22:23,180 process num: 976
+2023-11-29 18:22:23,248 retrieve document num: 4, length: [2215, 1603, 2450, 1941]
+2023-11-29 18:22:26,145 process num: 977
+2023-11-29 18:22:26,216 retrieve document num: 0, length: []
+2023-11-29 18:22:26,538 process num: 978
+2023-11-29 18:22:26,614 retrieve document num: 5, length: [646, 618, 587, 590, 648]
+2023-11-29 18:22:27,781 process num: 979
+2023-11-29 18:22:27,877 retrieve document num: 5, length: [2230, 1569, 1548, 552, 587]
+2023-11-29 18:22:30,436 process num: 980
+2023-11-29 18:22:30,538 retrieve document num: 6, length: [775, 1576, 1684, 509, 537, 612]
+2023-11-29 18:22:33,176 process num: 981
+2023-11-29 18:22:33,273 retrieve document num: 5, length: [1759, 1947, 666, 654, 552]
+2023-11-29 18:22:35,441 process num: 982
+2023-11-29 18:22:35,508 retrieve document num: 4, length: [1994, 1972, 2272, 2177]
+2023-11-29 18:22:38,090 process num: 983
+2023-11-29 18:22:38,153 retrieve document num: 4, length: [696, 653, 736, 658]
+2023-11-29 18:22:39,227 process num: 984
+2023-11-29 18:22:39,327 retrieve document num: 5, length: [2232, 2403, 2256, 621, 503]
+2023-11-29 18:22:41,671 process num: 985
+2023-11-29 18:22:41,738 retrieve document num: 4, length: [2223, 1603, 2070, 1623]
+2023-11-29 18:22:44,609 process num: 986
+2023-11-29 18:22:44,674 retrieve document num: 4, length: [1994, 996, 2272, 1496]
+2023-11-29 18:22:47,139 process num: 987
+2023-11-29 18:22:47,204 retrieve document num: 4, length: [1843, 1600, 441, 2030]
+2023-11-29 18:22:49,189 process num: 988
+2023-11-29 18:22:49,255 retrieve document num: 4, length: [1800, 1802, 1654, 2472]
+2023-11-29 18:22:51,793 process num: 989
+2023-11-29 18:22:51,858 retrieve document num: 4, length: [1684, 775, 1576, 1655]
+2023-11-29 18:22:54,495 process num: 990
+2023-11-29 18:22:54,562 retrieve document num: 4, length: [1899, 2160, 1384, 1896]
+2023-11-29 18:22:57,267 process num: 991
+2023-11-29 18:22:57,337 retrieve document num: 4, length: [1996, 1876, 2052, 638]
+2023-11-29 18:22:59,687 process num: 992
+2023-11-29 18:22:59,763 retrieve document num: 4, length: [709, 648, 1684, 602]
+2023-11-29 18:23:01,184 process num: 993
+2023-11-29 18:23:01,252 retrieve document num: 4, length: [2003, 1945, 1980, 2089]
+2023-11-29 18:23:04,410 process num: 994
+2023-11-29 18:23:04,505 retrieve document num: 6, length: [2176, 2177, 2056, 700, 629, 376]
+2023-11-29 18:23:07,404 process num: 995
+2023-11-29 18:23:07,476 retrieve document num: 4, length: [1432, 1002, 2013, 2155]
+2023-11-29 18:23:09,899 process num: 996
+2023-11-29 18:23:09,961 retrieve document num: 4, length: [615, 1421, 815, 1245]
+2023-11-29 18:23:11,463 process num: 997
+2023-11-29 18:23:11,541 retrieve document num: 6, length: [615, 572, 664, 592, 532, 609]
+2023-11-29 18:23:12,756 process num: 998
+2023-11-29 18:23:12,814 retrieve document num: 4, length: [618, 624, 599, 611]
+2023-11-29 18:23:13,669 process num: 999
+2023-11-29 18:23:13,735 retrieve document num: 4, length: [1422, 1951, 1432, 1705]
+2023-11-29 18:23:15,939 process num: 1000
+2023-11-29 18:23:16,006 retrieve document num: 4, length: [1692, 1975, 1535, 1733]
+2023-11-29 18:23:18,534 process num: 1001
+2023-11-29 18:23:18,611 retrieve document num: 4, length: [708, 736, 1868, 641]
+2023-11-29 18:23:20,153 process num: 1002
+2023-11-29 18:23:20,223 retrieve document num: 4, length: [630, 622, 1614, 613]
+2023-11-29 18:23:21,384 process num: 1003
+2023-11-29 18:23:21,452 retrieve document num: 4, length: [1422, 1684, 599, 1762]
+2023-11-29 18:23:23,554 process num: 1004
+2023-11-29 18:23:23,623 retrieve document num: 4, length: [1938, 2071, 996, 2129]
+2023-11-29 18:23:26,199 process num: 1005
+2023-11-29 18:23:26,267 retrieve document num: 4, length: [2223, 1637, 1603, 1623]
+2023-11-29 18:23:29,589 process num: 1006
+2023-11-29 18:23:29,668 retrieve document num: 4, length: [1640, 1718, 564, 629]
+2023-11-29 18:23:31,290 process num: 1007
+2023-11-29 18:23:31,354 retrieve document num: 4, length: [1590, 1912, 581, 1482]
+2023-11-29 18:23:33,712 process num: 1008
+2023-11-29 18:23:33,811 retrieve document num: 5, length: [1900, 1731, 1501, 567, 566]
+2023-11-29 18:23:36,688 process num: 1009
+2023-11-29 18:23:36,754 retrieve document num: 4, length: [1567, 1922, 1344, 1585]
+2023-11-29 18:23:39,222 process num: 1010
+2023-11-29 18:23:39,287 retrieve document num: 4, length: [1344, 2058, 1438, 1596]
+2023-11-29 18:23:41,883 process num: 1011
+2023-11-29 18:23:41,954 retrieve document num: 4, length: [1913, 2385, 626, 1923]
+2023-11-29 18:23:44,583 process num: 1012
+2023-11-29 18:23:44,645 retrieve document num: 4, length: [645, 584, 620, 611]
+2023-11-29 18:23:45,594 process num: 1013
+2023-11-29 18:23:45,659 retrieve document num: 4, length: [1314, 1852, 1882, 1870]
+2023-11-29 18:23:48,252 process num: 1014
+2023-11-29 18:23:48,316 retrieve document num: 4, length: [1887, 1987, 1344, 1747]
+2023-11-29 18:23:50,764 process num: 1015
+2023-11-29 18:23:50,824 retrieve document num: 4, length: [643, 607, 591, 575]
+2023-11-29 18:23:51,824 process num: 1016
+2023-11-29 18:23:51,967 retrieve document num: 8, length: [1999, 614, 537, 574, 630, 554, 575, 621]
+2023-11-29 18:23:54,127 process num: 1017
+2023-11-29 18:23:54,195 retrieve document num: 4, length: [2094, 2089, 2146, 1994]
+2023-11-29 18:23:57,274 process num: 1018
+2023-11-29 18:23:57,344 retrieve document num: 4, length: [1903, 2036, 2359, 1975]
+2023-11-29 18:23:59,927 process num: 1019
+2023-11-29 18:24:00,049 retrieve document num: 7, length: [1601, 1826, 641, 674, 626, 624, 516]
+2023-11-29 18:24:02,430 process num: 1020
+2023-11-29 18:24:02,499 retrieve document num: 4, length: [2177, 996, 634, 1804]
+2023-11-29 18:24:04,397 process num: 1021
+2023-11-29 18:24:04,464 retrieve document num: 4, length: [1994, 1786, 1998, 1208]
+2023-11-29 18:24:07,079 process num: 1022
+2023-11-29 18:24:07,149 retrieve document num: 4, length: [1548, 2107, 1590, 1714]
+2023-11-29 18:24:10,103 process num: 1023
+2023-11-29 18:24:10,180 retrieve document num: 4, length: [1684, 1655, 775, 1576]
+2023-11-29 18:24:12,797 process num: 1024
+2023-11-29 18:24:12,866 retrieve document num: 4, length: [712, 2129, 1208, 1994]
+2023-11-29 18:24:14,994 process num: 1025
+2023-11-29 18:24:15,051 retrieve document num: 4, length: [630, 615, 582, 603]
+2023-11-29 18:24:15,987 process num: 1026
+2023-11-29 18:24:16,069 retrieve document num: 5, length: [1215, 1454, 613, 615, 583]
+2023-11-29 18:24:17,900 process num: 1027
+2023-11-29 18:24:17,975 retrieve document num: 6, length: [583, 634, 615, 657, 595, 180]
+2023-11-29 18:24:19,228 process num: 1028
+2023-11-29 18:24:19,288 retrieve document num: 4, length: [634, 608, 619, 648]
+2023-11-29 18:24:20,290 process num: 1029
+2023-11-29 18:24:20,357 retrieve document num: 4, length: [1344, 1557, 1590, 1983]
+2023-11-29 18:24:23,013 process num: 1030
+2023-11-29 18:24:23,087 retrieve document num: 4, length: [2137, 1880, 2003, 2007]
+2023-11-29 18:24:26,264 process num: 1031
+2023-11-29 18:24:26,335 retrieve document num: 4, length: [1530, 1522, 1704, 621]
+2023-11-29 18:24:28,300 process num: 1032
+2023-11-29 18:24:28,416 retrieve document num: 7, length: [1968, 1966, 2008, 619, 602, 610, 106]
+2023-11-29 18:24:31,847 process num: 1033
+2023-11-29 18:24:31,916 retrieve document num: 4, length: [1344, 635, 1465, 608]
+2023-11-29 18:24:33,376 process num: 1034
+2023-11-29 18:24:33,436 retrieve document num: 4, length: [613, 588, 627, 594]
+2023-11-29 18:24:34,376 process num: 1035
+2023-11-29 18:24:34,472 retrieve document num: 5, length: [1933, 588, 907, 567, 588]
+2023-11-29 18:24:36,061 process num: 1036
+2023-11-29 18:24:36,134 retrieve document num: 4, length: [621, 1974, 590, 610]
+2023-11-29 18:24:37,321 process num: 1037
+2023-11-29 18:24:37,381 retrieve document num: 4, length: [610, 595, 608, 615]
+2023-11-29 18:24:38,360 process num: 1038
+2023-11-29 18:24:38,420 retrieve document num: 4, length: [613, 696, 635, 631]
+2023-11-29 18:24:39,551 process num: 1039
+2023-11-29 18:24:39,608 retrieve document num: 4, length: [1344, 1543, 1860, 335]
+2023-11-29 18:24:41,311 process num: 1040
+2023-11-29 18:24:41,380 retrieve document num: 4, length: [1684, 1576, 633, 1750]
+2023-11-29 18:24:43,702 process num: 1041
+2023-11-29 18:24:43,770 retrieve document num: 4, length: [2367, 2349, 2007, 2369]
+2023-11-29 18:24:46,568 process num: 1042
+2023-11-29 18:24:46,659 retrieve document num: 5, length: [2177, 1346, 1420, 590, 648]
+2023-11-29 18:24:48,668 process num: 1043
+2023-11-29 18:24:48,728 retrieve document num: 4, length: [652, 644, 619, 599]
+2023-11-29 18:24:49,681 process num: 1044
+2023-11-29 18:24:49,754 retrieve document num: 4, length: [591, 637, 643, 2367]
+2023-11-29 18:24:51,029 process num: 1045
+2023-11-29 18:24:51,124 retrieve document num: 5, length: [604, 1757, 1749, 626, 636]
+2023-11-29 18:24:52,994 process num: 1046
+2023-11-29 18:24:53,103 retrieve document num: 6, length: [1249, 1626, 1928, 469, 605, 624]
+2023-11-29 18:24:55,691 process num: 1047
+2023-11-29 18:24:55,759 retrieve document num: 4, length: [1887, 1563, 1626, 1270]
+2023-11-29 18:24:58,689 process num: 1048
+2023-11-29 18:24:58,778 retrieve document num: 6, length: [1856, 1470, 1293, 637, 593, 276]
+2023-11-29 18:25:00,887 process num: 1049
+2023-11-29 18:25:00,985 retrieve document num: 6, length: [694, 716, 1949, 714, 644, 490]
+2023-11-29 18:25:02,511 process num: 1050
+2023-11-29 18:25:02,599 retrieve document num: 6, length: [567, 1501, 566, 1937, 1583, 191]
+2023-11-29 18:25:04,814 process num: 1051
+2023-11-29 18:25:04,879 retrieve document num: 4, length: [1942, 1227, 1393, 1746]
+2023-11-29 18:25:07,018 process num: 1052
+2023-11-29 18:25:07,084 retrieve document num: 4, length: [1356, 1589, 2266, 1482]
+2023-11-29 18:25:09,427 process num: 1053
+2023-11-29 18:25:09,493 retrieve document num: 4, length: [1520, 2085, 1827, 1346]
+2023-11-29 18:25:12,126 process num: 1054
+2023-11-29 18:25:12,230 retrieve document num: 6, length: [2047, 1876, 1974, 580, 621, 420]
+2023-11-29 18:25:14,845 process num: 1055
+2023-11-29 18:25:14,918 retrieve document num: 4, length: [1466, 1852, 1430, 643]
+2023-11-29 18:25:16,529 process num: 1056
+2023-11-29 18:25:16,617 retrieve document num: 6, length: [1318, 1842, 1160, 657, 622, 376]
+2023-11-29 18:25:18,373 process num: 1057
+2023-11-29 18:25:18,438 retrieve document num: 4, length: [1806, 1773, 1556, 1994]
+2023-11-29 18:25:20,818 process num: 1058
+2023-11-29 18:25:20,887 retrieve document num: 4, length: [1816, 615, 2018, 598]
+2023-11-29 18:25:22,735 process num: 1059
+2023-11-29 18:25:22,834 retrieve document num: 6, length: [666, 612, 2159, 624, 589, 559]
+2023-11-29 18:25:24,397 process num: 1060
+2023-11-29 18:25:24,464 retrieve document num: 4, length: [2039, 1713, 2199, 1590]
+2023-11-29 18:25:27,102 process num: 1061
+2023-11-29 18:25:27,175 retrieve document num: 4, length: [2215, 1657, 1984, 1518]
+2023-11-29 18:25:29,723 process num: 1062
+2023-11-29 18:25:29,846 retrieve document num: 7, length: [624, 516, 626, 1825, 2030, 577, 602]
+2023-11-29 18:25:31,835 process num: 1063
+2023-11-29 18:25:31,914 retrieve document num: 5, length: [1635, 601, 1765, 609, 402]
+2023-11-29 18:25:33,733 process num: 1064
+2023-11-29 18:25:33,796 retrieve document num: 4, length: [1344, 1426, 610, 649]
+2023-11-29 18:25:35,255 process num: 1065
+2023-11-29 18:25:35,320 retrieve document num: 4, length: [1270, 1887, 1603, 1983]
+2023-11-29 18:25:37,572 process num: 1066
+2023-11-29 18:25:37,639 retrieve document num: 4, length: [1994, 1806, 1770, 1681]
+2023-11-29 18:25:40,380 process num: 1067
+2023-11-29 18:25:40,451 retrieve document num: 4, length: [2024, 2006, 1445, 1654]
+2023-11-29 18:25:42,991 process num: 1068
+2023-11-29 18:25:43,072 retrieve document num: 5, length: [1943, 644, 1344, 2075, 645]
+2023-11-29 18:25:45,502 process num: 1069
+2023-11-29 18:25:45,573 retrieve document num: 4, length: [1465, 2093, 2163, 608]
+2023-11-29 18:25:47,755 process num: 1070
+2023-11-29 18:25:47,842 retrieve document num: 5, length: [622, 594, 637, 604, 608]
+2023-11-29 18:25:48,941 process num: 1071
+2023-11-29 18:25:49,010 retrieve document num: 4, length: [1603, 2223, 1636, 1616]
+2023-11-29 18:25:52,226 process num: 1072
+2023-11-29 18:25:52,293 retrieve document num: 4, length: [1698, 2489, 1277, 1589]
+2023-11-29 18:25:54,650 process num: 1073
+2023-11-29 18:25:54,714 retrieve document num: 4, length: [1943, 1654, 1869, 1346]
+2023-11-29 18:25:57,261 process num: 1074
+2023-11-29 18:25:57,326 retrieve document num: 4, length: [1749, 1422, 1829, 1696]
+2023-11-29 18:25:59,947 process num: 1075
+2023-11-29 18:26:00,011 retrieve document num: 4, length: [1855, 1897, 1819, 1202]
+2023-11-29 18:26:02,174 process num: 1076
+2023-11-29 18:26:02,245 retrieve document num: 4, length: [1344, 2304, 654, 2071]
+2023-11-29 18:26:04,599 process num: 1077
+2023-11-29 18:26:04,694 retrieve document num: 6, length: [1696, 2223, 1398, 579, 574, 56]
+2023-11-29 18:26:07,139 process num: 1078
+2023-11-29 18:26:07,205 retrieve document num: 4, length: [638, 572, 1275, 1696]
+2023-11-29 18:26:08,758 process num: 1079
+2023-11-29 18:26:08,850 retrieve document num: 5, length: [1951, 1933, 1685, 627, 643]
+2023-11-29 18:26:11,605 process num: 1080
+2023-11-29 18:26:11,665 retrieve document num: 4, length: [615, 643, 661, 587]
+2023-11-29 18:26:12,598 process num: 1081
+2023-11-29 18:26:12,666 retrieve document num: 4, length: [1960, 1918, 1785, 1742]
+2023-11-29 18:26:15,591 process num: 1082
+2023-11-29 18:26:15,696 retrieve document num: 4, length: [1902, 1933, 607, 567]
+2023-11-29 18:26:17,597 process num: 1083
+2023-11-29 18:26:17,660 retrieve document num: 4, length: [1795, 1516, 1749, 604]
+2023-11-29 18:26:19,640 process num: 1084
+2023-11-29 18:26:19,704 retrieve document num: 4, length: [1590, 1538, 1714, 1548]
+2023-11-29 18:26:22,193 process num: 1085
+2023-11-29 18:26:22,260 retrieve document num: 4, length: [2015, 1984, 2167, 1823]
+2023-11-29 18:26:25,384 process num: 1086
+2023-11-29 18:26:25,456 retrieve document num: 4, length: [441, 2270, 1460, 598]
+2023-11-29 18:26:27,128 process num: 1087
+2023-11-29 18:26:27,222 retrieve document num: 5, length: [2003, 1620, 1737, 641, 571]
+2023-11-29 18:26:29,459 process num: 1088
+2023-11-29 18:26:29,554 retrieve document num: 5, length: [1608, 2240, 2048, 619, 572]
+2023-11-29 18:26:32,375 process num: 1089
+2023-11-29 18:26:32,460 retrieve document num: 5, length: [1713, 1922, 1208, 300, 633]
+2023-11-29 18:26:34,626 process num: 1090
+2023-11-29 18:26:34,693 retrieve document num: 4, length: [2134, 2422, 2088, 1476]
+2023-11-29 18:26:36,989 process num: 1091
+2023-11-29 18:26:37,056 retrieve document num: 4, length: [1422, 1887, 1589, 2110]
+2023-11-29 18:26:39,766 process num: 1092
+2023-11-29 18:26:39,881 retrieve document num: 7, length: [2086, 1477, 674, 641, 581, 579, 350]
+2023-11-29 18:26:41,896 process num: 1093
+2023-11-29 18:26:41,963 retrieve document num: 4, length: [1344, 590, 1557, 1465]
+2023-11-29 18:26:44,063 process num: 1094
+2023-11-29 18:26:44,125 retrieve document num: 4, length: [775, 608, 823, 1611]
+2023-11-29 18:26:45,861 process num: 1095
+2023-11-29 18:26:45,928 retrieve document num: 4, length: [590, 1344, 620, 567]
+2023-11-29 18:26:47,162 process num: 1096
+2023-11-29 18:26:47,219 retrieve document num: 4, length: [562, 570, 608, 603]
+2023-11-29 18:26:48,191 process num: 1097
+2023-11-29 18:26:48,283 retrieve document num: 5, length: [2061, 1762, 1903, 634, 589]
+2023-11-29 18:26:50,511 process num: 1098
+2023-11-29 18:26:50,580 retrieve document num: 4, length: [585, 1811, 1729, 1983]
+2023-11-29 18:26:52,700 process num: 1099
+2023-11-29 18:26:52,767 retrieve document num: 4, length: [599, 584, 1344, 616]
+2023-11-29 18:26:53,912 process num: 1100
+2023-11-29 18:26:54,003 retrieve document num: 5, length: [1835, 1644, 1962, 589, 634]
+2023-11-29 18:26:56,368 process num: 1101
+2023-11-29 18:26:56,434 retrieve document num: 4, length: [1344, 622, 1772, 1943]
+2023-11-29 18:26:58,423 process num: 1102
+2023-11-29 18:26:58,490 retrieve document num: 4, length: [1684, 1576, 775, 1655]
+2023-11-29 18:27:01,055 process num: 1103
+2023-11-29 18:27:01,121 retrieve document num: 4, length: [1897, 1852, 1742, 1311]
+2023-11-29 18:27:03,667 process num: 1104
+2023-11-29 18:27:03,731 retrieve document num: 4, length: [1422, 1829, 599, 1716]
+2023-11-29 18:27:05,825 process num: 1105
+2023-11-29 18:27:05,892 retrieve document num: 4, length: [1567, 1890, 1731, 1859]
+2023-11-29 18:27:08,676 process num: 1106
+2023-11-29 18:27:08,744 retrieve document num: 4, length: [2207, 2068, 1923, 2196]
+2023-11-29 18:27:11,622 process num: 1107
+2023-11-29 18:27:11,700 retrieve document num: 5, length: [635, 485, 1651, 1520, 668]
+2023-11-29 18:27:13,306 process num: 1108
+2023-11-29 18:27:13,378 retrieve document num: 4, length: [673, 1737, 584, 610]
+2023-11-29 18:27:14,614 process num: 1109
+2023-11-29 18:27:14,690 retrieve document num: 4, length: [1576, 1533, 1887, 1655]
+2023-11-29 18:27:18,324 process num: 1110
+2023-11-29 18:27:18,403 retrieve document num: 4, length: [662, 1753, 1659, 684]
+2023-11-29 18:27:19,989 process num: 1111
+2023-11-29 18:27:20,062 retrieve document num: 4, length: [1628, 1695, 587, 1762]
+2023-11-29 18:27:22,590 process num: 1112
+2023-11-29 18:27:22,657 retrieve document num: 4, length: [1263, 2593, 1991, 2270]
+2023-11-29 18:27:25,242 process num: 1113
+2023-11-29 18:27:25,314 retrieve document num: 4, length: [625, 1860, 1922, 612]
+2023-11-29 18:27:27,017 process num: 1114
+2023-11-29 18:27:27,084 retrieve document num: 4, length: [1676, 1563, 1517, 1758]
+2023-11-29 18:27:30,262 process num: 1115
+2023-11-29 18:27:30,368 retrieve document num: 6, length: [2015, 2054, 1369, 588, 622, 168]
+2023-11-29 18:27:32,983 process num: 1116
+2023-11-29 18:27:33,049 retrieve document num: 4, length: [1887, 1758, 1684, 775]
+2023-11-29 18:27:35,943 process num: 1117
+2023-11-29 18:27:36,028 retrieve document num: 5, length: [613, 1994, 2177, 300, 633]
+2023-11-29 18:27:38,199 process num: 1118
+2023-11-29 18:27:38,266 retrieve document num: 4, length: [1461, 1991, 1742, 1852]
+2023-11-29 18:27:40,754 process num: 1119
+2023-11-29 18:27:40,822 retrieve document num: 4, length: [1991, 2280, 2052, 1785]
+2023-11-29 18:27:43,972 process num: 1120
+2023-11-29 18:27:44,035 retrieve document num: 4, length: [1344, 335, 1860, 1993]
+2023-11-29 18:27:45,906 process num: 1121
+2023-11-29 18:27:45,973 retrieve document num: 4, length: [1622, 1705, 2007, 1951]
+2023-11-29 18:27:48,832 process num: 1122
+2023-11-29 18:27:48,898 retrieve document num: 4, length: [1901, 2173, 2093, 1610]
+2023-11-29 18:27:51,692 process num: 1123
+2023-11-29 18:27:51,764 retrieve document num: 4, length: [1922, 1422, 1951, 1705]
+2023-11-29 18:27:54,389 process num: 1124
+2023-11-29 18:27:54,458 retrieve document num: 4, length: [1643, 646, 1635, 1485]
+2023-11-29 18:27:56,588 process num: 1125
+2023-11-29 18:27:56,687 retrieve document num: 6, length: [1344, 2042, 1947, 602, 398, 577]
+2023-11-29 18:27:59,223 process num: 1126
+2023-11-29 18:27:59,291 retrieve document num: 4, length: [2132, 1983, 1806, 647]
+2023-11-29 18:28:01,730 process num: 1127
+2023-11-29 18:28:01,811 retrieve document num: 5, length: [1994, 717, 1644, 300, 633]
+2023-11-29 18:28:03,643 process num: 1128
+2023-11-29 18:28:03,736 retrieve document num: 5, length: [2003, 2194, 1411, 603, 643]
+2023-11-29 18:28:06,350 process num: 1129
+2023-11-29 18:28:06,427 retrieve document num: 4, length: [2222, 2208, 1607, 2101]
+2023-11-29 18:28:10,802 process num: 1130
+2023-11-29 18:28:10,867 retrieve document num: 4, length: [1620, 1365, 1945, 1369]
+2023-11-29 18:28:13,125 process num: 1131
+2023-11-29 18:28:13,191 retrieve document num: 4, length: [1359, 2341, 2030, 1628]
+2023-11-29 18:28:15,317 process num: 1132
+2023-11-29 18:28:15,382 retrieve document num: 4, length: [1671, 1688, 1922, 1066]
+2023-11-29 18:28:18,146 process num: 1133
+2023-11-29 18:28:18,219 retrieve document num: 4, length: [554, 613, 1792, 655]
+2023-11-29 18:28:19,492 process num: 1134
+2023-11-29 18:28:19,549 retrieve document num: 4, length: [650, 575, 654, 609]
+2023-11-29 18:28:20,512 process num: 1135
+2023-11-29 18:28:20,586 retrieve document num: 5, length: [641, 588, 616, 577, 607]
+2023-11-29 18:28:21,843 process num: 1136
+2023-11-29 18:28:21,908 retrieve document num: 4, length: [2177, 1944, 1994, 1704]
+2023-11-29 18:28:24,797 process num: 1137
+2023-11-29 18:28:24,874 retrieve document num: 4, length: [640, 661, 1762, 2084]
+2023-11-29 18:28:26,575 process num: 1138
+2023-11-29 18:28:26,643 retrieve document num: 4, length: [1557, 654, 2070, 1707]
+2023-11-29 18:28:28,799 process num: 1139
+2023-11-29 18:28:28,888 retrieve document num: 5, length: [1496, 1602, 1698, 635, 585]
+2023-11-29 18:28:31,280 process num: 1140
+2023-11-29 18:28:31,414 retrieve document num: 8, length: [2035, 1585, 651, 654, 645, 569, 639, 276]
+2023-11-29 18:28:33,968 process num: 1141
+2023-11-29 18:28:34,033 retrieve document num: 4, length: [1941, 1344, 1543, 1731]
+2023-11-29 18:28:36,328 process num: 1142
+2023-11-29 18:28:36,396 retrieve document num: 4, length: [1945, 2167, 1984, 1826]
+2023-11-29 18:28:39,313 process num: 1143
+2023-11-29 18:28:39,418 retrieve document num: 6, length: [643, 2122, 2100, 2124, 659, 645]
+2023-11-29 18:28:41,772 process num: 1144
+2023-11-29 18:28:41,836 retrieve document num: 4, length: [1344, 590, 1465, 608]
+2023-11-29 18:28:43,259 process num: 1145
+2023-11-29 18:28:43,326 retrieve document num: 4, length: [647, 586, 1344, 654]
+2023-11-29 18:28:44,577 process num: 1146
+2023-11-29 18:28:44,634 retrieve document num: 4, length: [628, 636, 631, 610]
+2023-11-29 18:28:45,565 process num: 1147
+2023-11-29 18:28:45,643 retrieve document num: 5, length: [1653, 609, 659, 300, 633]
+2023-11-29 18:28:46,943 process num: 1148
+2023-11-29 18:28:47,015 retrieve document num: 4, length: [1469, 2163, 654, 621]
+2023-11-29 18:28:48,481 process num: 1149
+2023-11-29 18:28:48,540 retrieve document num: 4, length: [653, 641, 574, 575]
+2023-11-29 18:28:49,633 process num: 1150
+2023-11-29 18:28:49,701 retrieve document num: 4, length: [1922, 666, 1532, 2192]
+2023-11-29 18:28:51,814 process num: 1151
+2023-11-29 18:28:51,880 retrieve document num: 4, length: [1801, 1631, 1896, 2137]
+2023-11-29 18:28:54,552 process num: 1152
+2023-11-29 18:28:54,626 retrieve document num: 4, length: [1454, 1869, 616, 2136]
+2023-11-29 18:28:57,198 process num: 1153
+2023-11-29 18:28:57,267 retrieve document num: 4, length: [1576, 1603, 2223, 1637]
+2023-11-29 18:29:00,702 process num: 1154
+2023-11-29 18:29:00,773 retrieve document num: 4, length: [1688, 1749, 1743, 2029]
+2023-11-29 18:29:03,227 process num: 1155
+2023-11-29 18:29:03,292 retrieve document num: 4, length: [1670, 1932, 1180, 1871]
+2023-11-29 18:29:05,566 process num: 1156
+2023-11-29 18:29:05,632 retrieve document num: 4, length: [1953, 2053, 2068, 891]
+2023-11-29 18:29:08,381 process num: 1157
+2023-11-29 18:29:08,451 retrieve document num: 4, length: [1533, 1179, 1231, 1623]
+2023-11-29 18:29:10,633 process num: 1158
+2023-11-29 18:29:10,700 retrieve document num: 4, length: [1684, 1576, 775, 1655]
+2023-11-29 18:29:13,638 process num: 1159
+2023-11-29 18:29:13,712 retrieve document num: 4, length: [2356, 621, 1651, 692]
+2023-11-29 18:29:15,444 process num: 1160
+2023-11-29 18:29:15,510 retrieve document num: 4, length: [1991, 1742, 1466, 1597]
+2023-11-29 18:29:17,702 process num: 1161
+2023-11-29 18:29:17,764 retrieve document num: 4, length: [1567, 640, 1585, 1762]
+2023-11-29 18:29:19,714 process num: 1162
+2023-11-29 18:29:19,804 retrieve document num: 5, length: [640, 597, 1977, 640, 355]
+2023-11-29 18:29:21,443 process num: 1163
+2023-11-29 18:29:21,511 retrieve document num: 4, length: [1762, 1903, 2061, 617]
+2023-11-29 18:29:23,619 process num: 1164
+2023-11-29 18:29:23,682 retrieve document num: 4, length: [1422, 1576, 1829, 1754]
+2023-11-29 18:29:26,174 process num: 1165
+2023-11-29 18:29:26,245 retrieve document num: 4, length: [1896, 1886, 2160, 2040]
+2023-11-29 18:29:29,702 process num: 1166
+2023-11-29 18:29:29,776 retrieve document num: 4, length: [2482, 2256, 2657, 2489]
+2023-11-29 18:29:32,654 process num: 1167
+2023-11-29 18:29:32,727 retrieve document num: 4, length: [2003, 2191, 2054, 1823]
+2023-11-29 18:29:35,453 process num: 1168
+2023-11-29 18:29:35,526 retrieve document num: 4, length: [1059, 2177, 608, 1208]
+2023-11-29 18:29:37,360 process num: 1169
+2023-11-29 18:29:37,456 retrieve document num: 5, length: [604, 1757, 632, 579, 581]
+2023-11-29 18:29:38,905 process num: 1170
+2023-11-29 18:29:39,027 retrieve document num: 6, length: [1524, 2000, 678, 654, 588, 622]
+2023-11-29 18:29:41,014 process num: 1171
+2023-11-29 18:29:41,092 retrieve document num: 4, length: [2223, 1616, 791, 1623]
+2023-11-29 18:29:44,205 process num: 1172
+2023-11-29 18:29:44,279 retrieve document num: 4, length: [2261, 1329, 1482, 1944]
+2023-11-29 18:29:46,882 process num: 1173
+2023-11-29 18:29:46,951 retrieve document num: 4, length: [1365, 1896, 1848, 1758]
+2023-11-29 18:29:49,679 process num: 1174
+2023-11-29 18:29:49,782 retrieve document num: 6, length: [578, 1623, 2204, 588, 567, 427]
+2023-11-29 18:29:52,074 process num: 1175
+2023-11-29 18:29:52,134 retrieve document num: 4, length: [1537, 1344, 1653, 1868]
+2023-11-29 18:29:54,532 process num: 1176
+2023-11-29 18:29:54,600 retrieve document num: 4, length: [1276, 1563, 1507, 2179]
+2023-11-29 18:29:57,563 process num: 1177
+2023-11-29 18:29:57,628 retrieve document num: 4, length: [2136, 1551, 1683, 1637]
+2023-11-29 18:29:59,925 process num: 1178
+2023-11-29 18:30:00,016 retrieve document num: 5, length: [620, 579, 2119, 654, 569]
+2023-11-29 18:30:01,559 process num: 1179
+2023-11-29 18:30:01,626 retrieve document num: 4, length: [2215, 2132, 1839, 1996]
+2023-11-29 18:30:04,582 process num: 1180
+2023-11-29 18:30:04,651 retrieve document num: 4, length: [1724, 621, 1346, 1630]
+2023-11-29 18:30:06,749 process num: 1181
+2023-11-29 18:30:06,810 retrieve document num: 4, length: [1344, 1438, 1398, 627]
+2023-11-29 18:30:08,705 process num: 1182
+2023-11-29 18:30:08,765 retrieve document num: 4, length: [710, 663, 664, 712]
+2023-11-29 18:30:09,910 process num: 1183
+2023-11-29 18:30:10,006 retrieve document num: 5, length: [567, 1732, 566, 1945, 1900]
+2023-11-29 18:30:12,594 process num: 1184
+2023-11-29 18:30:12,665 retrieve document num: 4, length: [1737, 627, 631, 662]
+2023-11-29 18:30:13,836 process num: 1185
+2023-11-29 18:30:13,930 retrieve document num: 6, length: [1720, 1896, 654, 627, 675, 431]
+2023-11-29 18:30:15,903 process num: 1186
+2023-11-29 18:30:15,975 retrieve document num: 4, length: [1991, 629, 620, 1897]
+2023-11-29 18:30:17,842 process num: 1187
+2023-11-29 18:30:17,909 retrieve document num: 4, length: [1875, 1766, 1705, 2148]
+2023-11-29 18:30:20,772 process num: 1188
+2023-11-29 18:30:20,835 retrieve document num: 4, length: [1549, 2173, 1284, 1200]
+2023-11-29 18:30:22,702 process num: 1189
+2023-11-29 18:30:22,766 retrieve document num: 4, length: [1903, 2145, 933, 1921]
+2023-11-29 18:30:24,895 process num: 1190
+2023-11-29 18:30:24,958 retrieve document num: 4, length: [1648, 1938, 1863, 612]
+2023-11-29 18:30:26,798 process num: 1191
+2023-11-29 18:30:26,865 retrieve document num: 4, length: [1887, 1654, 1314, 1724]
+2023-11-29 18:30:29,589 process num: 1192
+2023-11-29 18:30:29,649 retrieve document num: 4, length: [1219, 652, 607, 635]
+2023-11-29 18:30:30,777 process num: 1193
+2023-11-29 18:30:30,887 retrieve document num: 5, length: [638, 641, 2257, 658, 567]
+2023-11-29 18:30:32,574 process num: 1194
+2023-11-29 18:30:32,641 retrieve document num: 4, length: [2193, 2129, 1636, 2177]
+2023-11-29 18:30:35,742 process num: 1195
+2023-11-29 18:30:35,812 retrieve document num: 4, length: [2088, 1466, 2152, 574]
+2023-11-29 18:30:37,934 process num: 1196
+2023-11-29 18:30:37,999 retrieve document num: 4, length: [1344, 1948, 1772, 1827]
+2023-11-29 18:30:40,720 process num: 1197
+2023-11-29 18:30:40,788 retrieve document num: 4, length: [1773, 1448, 1223, 1794]
+2023-11-29 18:30:42,972 process num: 1198
+2023-11-29 18:30:43,038 retrieve document num: 4, length: [2041, 1958, 2320, 1157]
+2023-11-29 18:30:45,668 process num: 1199
+2023-11-29 18:30:45,746 retrieve document num: 4, length: [602, 1933, 2111, 1951]
+2023-11-29 18:30:48,311 process num: 1200
+2023-11-29 18:30:48,383 retrieve document num: 4, length: [1589, 1422, 1576, 1749]
+2023-11-29 18:30:51,502 process num: 1201
+2023-11-29 18:30:51,585 retrieve document num: 4, length: [300, 2058, 1208, 1537]
+2023-11-29 18:30:53,465 process num: 1202
+2023-11-29 18:30:53,526 retrieve document num: 4, length: [599, 1215, 1661, 1344]
+2023-11-29 18:30:55,375 process num: 1203
+2023-11-29 18:30:55,442 retrieve document num: 4, length: [2020, 2072, 2304, 2284]
+2023-11-29 18:30:58,046 process num: 1204
+2023-11-29 18:30:58,112 retrieve document num: 4, length: [1820, 1780, 1795, 1983]
+2023-11-29 18:31:01,051 process num: 1205
+2023-11-29 18:31:01,121 retrieve document num: 4, length: [1422, 1922, 1576, 1731]
+2023-11-29 18:31:03,897 process num: 1206
+2023-11-29 18:31:03,973 retrieve document num: 4, length: [1344, 2268, 696, 1853]
+2023-11-29 18:31:06,078 process num: 1207
+2023-11-29 18:31:06,149 retrieve document num: 4, length: [1769, 634, 617, 564]
+2023-11-29 18:31:07,401 process num: 1208
+2023-11-29 18:31:07,496 retrieve document num: 6, length: [2000, 581, 587, 34, 587, 626]
+2023-11-29 18:31:09,078 process num: 1209
+2023-11-29 18:31:09,175 retrieve document num: 5, length: [2036, 2442, 1903, 606, 612]
+2023-11-29 18:31:11,422 process num: 1210
+2023-11-29 18:31:11,489 retrieve document num: 4, length: [2219, 1910, 1737, 1951]
+2023-11-29 18:31:14,229 process num: 1211
+2023-11-29 18:31:14,326 retrieve document num: 6, length: [1733, 1628, 1975, 361, 620, 602]
+2023-11-29 18:31:16,744 process num: 1212
+2023-11-29 18:31:16,814 retrieve document num: 4, length: [2148, 1996, 1890, 632]
+2023-11-29 18:31:18,977 process num: 1213
+2023-11-29 18:31:19,041 retrieve document num: 4, length: [2263, 1967, 1819, 1158]
+2023-11-29 18:31:21,215 process num: 1214
+2023-11-29 18:31:21,283 retrieve document num: 4, length: [697, 1448, 1696, 1992]
+2023-11-29 18:31:23,429 process num: 1215
+2023-11-29 18:31:23,501 retrieve document num: 4, length: [2226, 1992, 2005, 666]
+2023-11-29 18:31:26,089 process num: 1216
+2023-11-29 18:31:26,156 retrieve document num: 4, length: [1992, 2110, 2099, 2054]
+2023-11-29 18:31:29,099 process num: 1217
+2023-11-29 18:31:29,173 retrieve document num: 4, length: [682, 684, 1994, 647]
+2023-11-29 18:31:30,490 process num: 1218
+2023-11-29 18:31:30,550 retrieve document num: 4, length: [1422, 1248, 1902, 1829]
+2023-11-29 18:31:32,898 process num: 1219
+2023-11-29 18:31:32,965 retrieve document num: 4, length: [1994, 2054, 2094, 2177]
+2023-11-29 18:31:35,873 process num: 1220
+2023-11-29 18:31:35,966 retrieve document num: 5, length: [1344, 612, 1922, 583, 606]
+2023-11-29 18:31:37,644 process num: 1221
+2023-11-29 18:31:37,709 retrieve document num: 4, length: [599, 633, 1760, 1531]
+2023-11-29 18:31:39,254 process num: 1222
+2023-11-29 18:31:39,338 retrieve document num: 5, length: [1343, 632, 597, 1770, 636]
+2023-11-29 18:31:41,011 process num: 1223
+2023-11-29 18:31:41,076 retrieve document num: 4, length: [616, 641, 438, 1344]
+2023-11-29 18:31:42,301 process num: 1224
+2023-11-29 18:31:42,405 retrieve document num: 6, length: [1918, 1882, 1987, 601, 577, 573]
+2023-11-29 18:31:45,035 process num: 1225
+2023-11-29 18:31:45,099 retrieve document num: 4, length: [1728, 1912, 1947, 1594]
+2023-11-29 18:31:47,744 process num: 1226
+2023-11-29 18:31:47,809 retrieve document num: 4, length: [654, 1733, 666, 540]
+2023-11-29 18:31:48,927 process num: 1227
+2023-11-29 18:31:49,010 retrieve document num: 5, length: [640, 1842, 1848, 503, 1997]
+2023-11-29 18:31:51,460 process num: 1228
+2023-11-29 18:31:51,532 retrieve document num: 4, length: [2002, 1947, 1765, 1344]
+2023-11-29 18:31:54,248 process num: 1229
+2023-11-29 18:31:54,326 retrieve document num: 4, length: [1953, 2261, 1590, 635]
+2023-11-29 18:31:56,848 process num: 1230
+2023-11-29 18:31:56,914 retrieve document num: 4, length: [1839, 1765, 1903, 661]
+2023-11-29 18:31:58,936 process num: 1231
+2023-11-29 18:31:59,022 retrieve document num: 5, length: [668, 2506, 1729, 1724, 529]
+2023-11-29 18:32:01,356 process num: 1232
+2023-11-29 18:32:01,431 retrieve document num: 4, length: [1538, 1889, 1575, 2075]
+2023-11-29 18:32:04,855 process num: 1233
+2023-11-29 18:32:04,928 retrieve document num: 4, length: [1637, 1249, 2223, 1082]
+2023-11-29 18:32:07,809 process num: 1234
+2023-11-29 18:32:07,881 retrieve document num: 4, length: [2077, 1860, 1993, 1828]
+2023-11-29 18:32:10,642 process num: 1235
+2023-11-29 18:32:10,744 retrieve document num: 6, length: [640, 1887, 1853, 607, 568, 484]
+2023-11-29 18:32:12,615 process num: 1236
+2023-11-29 18:32:12,713 retrieve document num: 5, length: [1344, 1984, 1582, 678, 654]
+2023-11-29 18:32:15,044 process num: 1237
+2023-11-29 18:32:15,112 retrieve document num: 4, length: [2039, 2035, 2071, 1972]
+2023-11-29 18:32:18,004 process num: 1238
+2023-11-29 18:32:18,080 retrieve document num: 4, length: [1903, 2287, 1867, 1992]
+2023-11-29 18:32:20,815 process num: 1239
+2023-11-29 18:32:20,888 retrieve document num: 4, length: [1886, 1994, 1882, 1757]
+2023-11-29 18:32:23,735 process num: 1240
+2023-11-29 18:32:23,795 retrieve document num: 3, length: [1910, 1910, 1600]
+2023-11-29 18:32:25,388 process num: 1241
+2023-11-29 18:32:25,454 retrieve document num: 4, length: [1230, 1994, 1841, 2282]
+2023-11-29 18:32:27,962 process num: 1242
+2023-11-29 18:32:28,023 retrieve document num: 4, length: [1780, 1499, 1887, 1344]
+2023-11-29 18:32:30,476 process num: 1243
+2023-11-29 18:32:30,552 retrieve document num: 4, length: [661, 689, 655, 1762]
+2023-11-29 18:32:32,107 process num: 1244
+2023-11-29 18:32:32,202 retrieve document num: 5, length: [1860, 684, 2093, 586, 628]
+2023-11-29 18:32:34,068 process num: 1245
+2023-11-29 18:32:34,139 retrieve document num: 4, length: [2054, 1655, 1945, 1749]
+2023-11-29 18:32:37,449 process num: 1246
+2023-11-29 18:32:37,524 retrieve document num: 4, length: [1344, 2167, 2042, 1885]
+2023-11-29 18:32:40,285 process num: 1247
+2023-11-29 18:32:40,354 retrieve document num: 4, length: [1771, 1657, 1840, 2081]
+2023-11-29 18:32:43,679 process num: 1248
+2023-11-29 18:32:43,775 retrieve document num: 5, length: [590, 649, 1994, 614, 648]
+2023-11-29 18:32:45,257 process num: 1249
+2023-11-29 18:32:45,322 retrieve document num: 4, length: [2056, 1708, 1559, 2008]
+2023-11-29 18:32:47,810 process num: 1250
+2023-11-29 18:32:47,887 retrieve document num: 5, length: [638, 686, 615, 1614, 182]
+2023-11-29 18:32:49,270 process num: 1251
+2023-11-29 18:32:49,333 retrieve document num: 4, length: [1600, 591, 585, 1088]
+2023-11-29 18:32:50,667 process num: 1252
+2023-11-29 18:32:50,727 retrieve document num: 4, length: [639, 627, 572, 596]
+2023-11-29 18:32:51,713 process num: 1253
+2023-11-29 18:32:51,812 retrieve document num: 5, length: [1762, 632, 1208, 614, 296]
+2023-11-29 18:32:53,550 process num: 1254
+2023-11-29 18:32:53,615 retrieve document num: 4, length: [1635, 2084, 995, 2004]
+2023-11-29 18:32:55,832 process num: 1255
+2023-11-29 18:32:55,902 retrieve document num: 4, length: [602, 585, 1705, 597]
+2023-11-29 18:32:57,313 process num: 1256
+2023-11-29 18:32:57,380 retrieve document num: 4, length: [2077, 2094, 1765, 1895]
+2023-11-29 18:33:00,253 process num: 1257
+2023-11-29 18:33:00,324 retrieve document num: 4, length: [1696, 1249, 1614, 2208]
+2023-11-29 18:33:02,897 process num: 1258
+2023-11-29 18:33:02,967 retrieve document num: 4, length: [2054, 1344, 609, 1994]
+2023-11-29 18:33:04,979 process num: 1259
+2023-11-29 18:33:05,049 retrieve document num: 4, length: [1974, 2096, 621, 626]
+2023-11-29 18:33:06,769 process num: 1260
+2023-11-29 18:33:06,833 retrieve document num: 4, length: [1422, 1614, 612, 1523]
+2023-11-29 18:33:08,646 process num: 1261
+2023-11-29 18:33:08,715 retrieve document num: 4, length: [1637, 2070, 1623, 1616]
+2023-11-29 18:33:12,157 process num: 1262
+2023-11-29 18:33:12,226 retrieve document num: 4, length: [631, 1859, 595, 1454]
+2023-11-29 18:33:13,968 process num: 1263
+2023-11-29 18:33:14,032 retrieve document num: 4, length: [2052, 1485, 1359, 1819]
+2023-11-29 18:33:16,385 process num: 1264
+2023-11-29 18:33:16,455 retrieve document num: 4, length: [608, 1933, 2201, 1733]
+2023-11-29 18:33:18,681 process num: 1265
+2023-11-29 18:33:18,751 retrieve document num: 4, length: [1344, 2056, 2172, 2379]
+2023-11-29 18:33:21,936 process num: 1266
+2023-11-29 18:33:22,003 retrieve document num: 4, length: [1651, 1645, 572, 635]
+2023-11-29 18:33:23,466 process num: 1267
+2023-11-29 18:33:23,526 retrieve document num: 4, length: [1344, 1696, 1500, 1628]
+2023-11-29 18:33:25,924 process num: 1268
+2023-11-29 18:33:25,989 retrieve document num: 4, length: [1344, 590, 1398, 1772]
+2023-11-29 18:33:27,920 process num: 1269
+2023-11-29 18:33:27,990 retrieve document num: 4, length: [1684, 775, 1576, 1749]
+2023-11-29 18:33:30,937 process num: 1270
+2023-11-29 18:33:30,996 retrieve document num: 4, length: [1215, 1454, 1469, 641]
+2023-11-29 18:33:32,853 process num: 1271
+2023-11-29 18:33:32,944 retrieve document num: 5, length: [2286, 1903, 1819, 612, 606]
+2023-11-29 18:33:35,316 process num: 1272
+2023-11-29 18:33:35,386 retrieve document num: 4, length: [1399, 2101, 1381, 592]
+2023-11-29 18:33:37,470 acc 45.56
+2023-11-29 18:33:37,470 precision 45.65
+2023-11-29 18:33:37,470 recall 47.74
+2023-11-29 18:33:37,470 f1 44.8

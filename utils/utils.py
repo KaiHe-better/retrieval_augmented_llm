@@ -239,7 +239,7 @@ def load_LLM(args, dtype=torch.float16, int8=False, reserve_memory=10):
 
 def load_retriever(args, print_logger):
     if not args.if_RA:
-        return "", "", ""
+        return "", ""
     else:
         print_logger.info("loading retriever ...")
         if args.triever == "dragon+":

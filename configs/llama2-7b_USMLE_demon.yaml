@@ -4,6 +4,6 @@ dataset: USMLE
 prompt_file: "prompts/USMLE.json"
 max_new_tokens: 2
 demonstration: true
-
+demons_cnt: 2
 
 
