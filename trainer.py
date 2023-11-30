@@ -18,7 +18,7 @@ import os
 import time
 import torch
 from tqdm import tqdm
-from transformers import AutoTokenizer
+from transformers import AutoTokenizer, AutoModel
 from utils.metrics import My_Metrics
 from torch.utils.tensorboard import SummaryWriter
 from utils.utils import extracted_label, LineListOutputParser
@@ -56,10 +56,14 @@ class My_Trainer:
             self.retriever_embedding = []
             self.retriever_txt = []
             self.retrieved_document, self.text_splitter = self.process_document()
-     
-            self.embeddings_fn = HuggingFaceEmbeddings(model_name=retri_encoder_path, 
-                                                    model_kwargs = {'device': self.device, }, 
-                                                    encode_kwargs = {'normalize_embeddings': False, "batch_size":self.args.retri_batch_size } )
+            if args.triever in ["dragon+"]:
+                self.query_encoder =  AutoModel.from_pretrained('facebook/dragon-plus-query-encoder').to(self.device)
+                self.context_encoder = AutoModel.from_pretrained('facebook/dragon-plus-context-encoder').to(self.device)
+
+            else:
+                self.embeddings_fn = HuggingFaceEmbeddings(model_name=retri_encoder_path, 
+                                                        model_kwargs = {'device': self.device, }, 
+                                                        encode_kwargs = {'normalize_embeddings': False, "batch_size":self.args.retri_batch_size } )
 
             if self.args.demonstration:
                 prompt_format = "retrieve-demonstration-prompt"
@@ -79,8 +83,6 @@ class My_Trainer:
         self.prompt = PromptTemplate.from_template(prompt_text)
         self.llm_chain = LLMChain(prompt=self.prompt, llm=self.my_model_pipeline)
             
-            
-
     def pasrse_record_res(self, label, generation):
         self.result_logger.info(generation)
         pred = extracted_label(generation)
@@ -90,11 +92,44 @@ class My_Trainer:
         
         return pred
 
+    def process_document(self):
+        start_time = time.time()
+        if not os.path.exists(self.args.retrieval_processed_file_dir):
+            os.makedirs(self.args.retrieval_processed_file_dir)
+        
+        text_splitter = RecursiveCharacterTextSplitter.from_huggingface_tokenizer(self.triever_tokenizer, chunk_size=self.args.chunk_size, chunk_overlap=self.args.chunk_overlap)
+
+        all_doc = []
+        self.print_logger.info("chunk retrieval files ... \n")
+        for root, dirs, files in os.walk(self.args.retrieval_raw_data_dir):
+            for file in files:
+                loader = TextLoader(os.path.join(root, file))
+                documents = loader.load()
+                chunks = text_splitter.split_documents(documents)
+                all_doc += chunks
+                
+        #         break
+        #     break
+        # self.print_logger.info("===============================breaking ===============================")
+        # self.print_logger.info("===============================breaking ===============================")
+        # self.print_logger.info("===============================breaking ===============================")
+
+        self.print_logger.info("process retrieval files finish in %.2f sec. \n"% (time.time() - start_time))
+        return all_doc, text_splitter
+
+    def random_select_demonstration(self, train_data_loader):
+        demon_prompt = ""
+        for index, item in enumerate(train_data_loader):
+            demon_prompt += "Demonstration " + str(index)+"\n Question: {} \n Options: {} \n Answer: <{}> \n\n".format(item["question"][0], item["options"][0], item["answer"][0])
+        self.result_logger.info(f" \n {demon_prompt} \n")
+        return demon_prompt
+    
     def get_retriever(self):
+        # self.vectordb._embedding_function = self.embeddings_query_fn
         retriever=self.vectordb.as_retriever(search_kwargs={"k": self.args.max_retri_num})
 
-        redundant_filter = EmbeddingsRedundantFilter(embeddings=self.embeddings_fn)
-        relevant_filter = EmbeddingsFilter(embeddings=self.embeddings_fn, similarity_threshold=self.args.similarity_threshold)
+        redundant_filter = EmbeddingsRedundantFilter(embeddings=self.embeddings_context_fn)
+        relevant_filter = EmbeddingsFilter(embeddings=self.embeddings_context_fn, similarity_threshold=self.args.similarity_threshold)
         pipeline_compressor = DocumentCompressorPipeline(transformers=[self.text_splitter,  redundant_filter, relevant_filter])
 
         if self.args.multi_query:
@@ -115,41 +150,15 @@ class My_Trainer:
         retriever = ContextualCompressionRetriever(base_compressor=pipeline_compressor, base_retriever=retriever)
         
         return retriever
-
-    def process_document(self):
-        start_time = time.time()
-        if not os.path.exists(self.args.retrieval_processed_file_dir):
-            os.makedirs(self.args.retrieval_processed_file_dir)
-        
-        text_splitter = RecursiveCharacterTextSplitter.from_huggingface_tokenizer(self.triever_tokenizer, chunk_size=self.args.chunk_size, chunk_overlap=self.args.chunk_overlap)
-
-        all_doc = []
-        self.print_logger.info("chunk retrieval files ... \n")
-        for root, dirs, files in os.walk(self.args.retrieval_raw_data_dir):
-            for file in files:
-                loader = TextLoader(os.path.join(root, file))
-                documents = loader.load()
-                chunks = text_splitter.split_documents(documents)
-                all_doc += chunks
-                
-                break
-            break
-        self.print_logger.info("===============================breaking ===============================")
-        self.print_logger.info("===============================breaking ===============================")
-        self.print_logger.info("===============================breaking ===============================")
-
-        self.print_logger.info("process retrieval files finish in %.2f sec. \n"% (time.time() - start_time))
-        return all_doc, text_splitter
-
-    def updata_retri_embedding(self):
+    
+    def updata_retri_embedding_111(self):
         self.print_logger.info("updata_retri_embedding ...")
         start_time = time.time()
         with torch.no_grad():
-            self.vectordb = Chroma.from_documents(self.retrieved_document, self.embeddings_fn)  
+            self.vectordb = Chroma.from_documents(self.retrieved_document, self.embeddings_context_fn)  
         self.print_logger.info("updata_retri_embedding in %.2f sec. \n"% (time.time() - start_time))
-        
 
-    def retrieve(self, query):
+    def retrieve_111(self, query):
         retrieve_doc = self.retriever.get_relevant_documents(query=query)
         tmp_str = ""
         tmp_len_list = []
@@ -163,17 +172,58 @@ class My_Trainer:
         self.result_logger.info(f"retrieve document: \n{tmp_str} \n")
         return tmp_str
 
-    def random_select_demonstration(self, train_data_loader):
-        demon_prompt = ""
-        for index, item in enumerate(train_data_loader):
-            demon_prompt += "Demonstration " + str(index)+"\n Question: {} \n Options: {} \n Answer: <{}> \n\n".format(item["question"][0], item["options"][0], item["answer"][0])
-        self.result_logger.info(f" \n {demon_prompt} \n")
-        return demon_prompt
+
+
+    def updata_retri_embedding(self):
+        self.print_logger.info("updata_retri_embedding ...")
+        start_time = time.time()
+        with torch.no_grad():
+            self.contexts = [i.page_content for i in self.retrieved_document]
+
+            context_batches = [self.contexts[i:i + self.args.retri_batch_size] for i in range(0, len(self.contexts), self.args.retri_batch_size)]
+
+            vectordb = []
+            for context in context_batches:
+                ctx_input = self.triever_tokenizer(context, padding=True, truncation=True, return_tensors='pt', max_length=self.args.chunk_size).to(self.device)
+                tmp_res = self.context_encoder(**ctx_input).last_hidden_state[:, 0, :]
+                vectordb.append(tmp_res )
+
+        self.vectordb  = torch.cat((vectordb), dim=0).transpose(0, 1)
+        self.print_logger.info(f"vectordb size: {self.vectordb.size()}")
+        self.print_logger.info("updata_retri_embedding in %.2f sec. \n"% (time.time() - start_time))
+
+    def retrieve(self, query):
+
+        query_input = self.triever_tokenizer(query, return_tensors='pt').to(self.device)
+        query_emb = self.query_encoder(**query_input).last_hidden_state[:, 0, :]
+        
+        query_emb = query_emb.unsqueeze(0)
+
+        scores = (query_emb @ self.vectordb).squeeze()
+        select_index = torch.argsort(scores, descending=True)[:self.args.max_retri_num].tolist()
+        retrieve_doc = [self.contexts[i] for i in select_index]
+
+
+        tmp_str = ""
+        tmp_len_list = []
+        if len(retrieve_doc)>0:
+            for index, i in enumerate(retrieve_doc):
+                tmp_str += "document ("+ str(index) + ") \n\n"
+                tmp_str = tmp_str + i + "\n\n"
+                tmp_len_list.append(len(i))
+
+        self.print_logger.info(f"retrieve document num: {len(retrieve_doc)}, length: {str(tmp_len_list)}")
+        self.result_logger.info(f"retrieve document: \n{tmp_str} \n")
+        return tmp_str
+
+
+
+
     
     def train_proc(self, train_data_loader, dev_data_loader, test_data_loader):
         if self.args.if_RA:
             self.updata_retri_embedding()
-            self.retriever = self.get_retriever()
+            # self.retriever = self.get_retriever()
 
         self.print_logger.info("Start training... \n ")
 

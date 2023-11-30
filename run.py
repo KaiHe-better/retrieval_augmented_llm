@@ -24,16 +24,16 @@ parser.add_argument('--dataset', type=str, default="USMLE", choices=["USMLE", "X
 parser.add_argument('--prompt_file', type=str, default="prompts/USMLE.json",  help='prompt_file')
 parser.add_argument('--retrieval_raw_data_dir', type=str, default="datasets/USMLE/textbooks/en", help='retrieval_raw_data_dir')
 parser.add_argument('--retrieval_processed_file_dir', type=str, default="datasets/USMLE/process_retrieval_corpus/", help='retrieval_processed_file_dir')
-parser.add_argument('--chunk_size', type=int, default=512, help='chunk_sizen, not token length')
-parser.add_argument('--chunk_overlap', type=int, default=20, help='chunk_size')
 
 # retrieval
+parser.add_argument('--retri_batch_size', type=int, default=512, help='batch_size')
+parser.add_argument('--chunk_size', type=int, default=512, help='chunk_sizen, not token length')
+parser.add_argument('--chunk_overlap', type=int, default=20, help='chunk_size')
 parser.add_argument('--max_retri_num', type=int, default=9, help='max_document_num')
 parser.add_argument('--similarity_threshold', type=float, default=0.75, help='similarity_threshold')
 parser.add_argument('--multi_query', type=bool, default=False, help='multi_query, using open AI')
 
 # train
-parser.add_argument('--retri_batch_size', type=int, default=512, help='batch_size')
 parser.add_argument('--batch_size', type=int, default=1, help='batch_size')
 parser.add_argument('--demonstration', type=bool, default=False, help='in_context learning')
 parser.add_argument('--demons_cnt', type=int, default=1, help='demonstration number')
