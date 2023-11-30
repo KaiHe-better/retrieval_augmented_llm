@@ -9,8 +9,8 @@ parser = argparse.ArgumentParser()
 
 # system settings
 parser.add_argument('--ID', type=str, default='0', help='run ID')
-parser.add_argument("--config", type=str, default="llama2-7b_USMLE_RA_NIL.yaml", help="Path to the config file")
-parser.add_argument('--gpu', default="7", type=str, help='gpu device numbers')
+parser.add_argument("--config", type=str, default="llama2-7b_USMLE_RA.yaml", help="Path to the config file")
+parser.add_argument('--gpu', default="5,6,7", type=str, help='gpu device numbers')
 parser.add_argument('--seed', default=42, help='trandom seed')
 parser.add_argument('--num_workers', default=16, type=int, help='data_loader_work')
 
@@ -28,9 +28,9 @@ parser.add_argument('--chunk_size', type=int, default=512, help='chunk_sizen, no
 parser.add_argument('--chunk_overlap', type=int, default=20, help='chunk_size')
 
 # retrieval
-parser.add_argument('--similarity_threshold', type=float, default=0.7, help='similarity_threshold')
+parser.add_argument('--max_retri_num', type=int, default=9, help='max_document_num')
+parser.add_argument('--similarity_threshold', type=float, default=0.75, help='similarity_threshold')
 parser.add_argument('--multi_query', type=bool, default=False, help='multi_query, using open AI')
-parser.add_argument('--max_document_num', type=int, default=9, help='max_document_num')
 
 # train
 parser.add_argument('--retri_batch_size', type=int, default=512, help='batch_size')

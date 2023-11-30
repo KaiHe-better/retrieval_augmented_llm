@@ -56,10 +56,11 @@ class My_Trainer:
             self.retriever_embedding = []
             self.retriever_txt = []
             self.retrieved_document, self.text_splitter = self.process_document()
+     
             self.embeddings_fn = HuggingFaceEmbeddings(model_name=retri_encoder_path, 
-                                                       model_kwargs = {'device': self.device, }, 
-                                                       encode_kwargs = {'normalize_embeddings': False, "batch_size":self.args.retri_batch_size }, 
-                                                       )
+                                                    model_kwargs = {'device': self.device, }, 
+                                                    encode_kwargs = {'normalize_embeddings': False, "batch_size":self.args.retri_batch_size } )
+
             if self.args.demonstration:
                 prompt_format = "retrieve-demonstration-prompt"
             else:
@@ -90,7 +91,7 @@ class My_Trainer:
         return pred
 
     def get_retriever(self):
-        retriever=self.vectordb.as_retriever()
+        retriever=self.vectordb.as_retriever(search_kwargs={"k": self.args.max_retri_num})
 
         redundant_filter = EmbeddingsRedundantFilter(embeddings=self.embeddings_fn)
         relevant_filter = EmbeddingsFilter(embeddings=self.embeddings_fn, similarity_threshold=self.args.similarity_threshold)
@@ -112,7 +113,7 @@ class My_Trainer:
             retriever = MultiQueryRetriever(retriever=retriever, llm_chain=llm_chain, parser_key="lines")
 
         retriever = ContextualCompressionRetriever(base_compressor=pipeline_compressor, base_retriever=retriever)
-
+        
         return retriever
 
     def process_document(self):
@@ -146,13 +147,14 @@ class My_Trainer:
         with torch.no_grad():
             self.vectordb = Chroma.from_documents(self.retrieved_document, self.embeddings_fn)  
         self.print_logger.info("updata_retri_embedding in %.2f sec. \n"% (time.time() - start_time))
+        
 
     def retrieve(self, query):
         retrieve_doc = self.retriever.get_relevant_documents(query=query)
         tmp_str = ""
         tmp_len_list = []
         if len(retrieve_doc)>0:
-            for index, i in enumerate(retrieve_doc[:self.args.max_document_num]):
+            for index, i in enumerate(retrieve_doc):
                 tmp_str += "document ("+ str(index) + ") \n\n"
                 tmp_str = tmp_str + i.page_content + "\n\n"
                 tmp_len_list.append(len(i.page_content))
