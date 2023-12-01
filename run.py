@@ -15,6 +15,8 @@ parser.add_argument('--seed', default=42, help='trandom seed')
 parser.add_argument('--num_workers', default=16, type=int, help='data_loader_work')
 
 # model and name 
+parser.add_argument("--if_train", type=bool, default=True, help="if retrieval augmented")
+parser.add_argument("--int8", type=bool, default=False, help="if int8")
 parser.add_argument("--if_RA", type=bool, default=False, help="if retrieval augmented")
 parser.add_argument("--LLM", type=str,  default="llama2-7b", choices=["llama2-7b", "X", ], help="LLM to use")
 parser.add_argument("--triever", type=str,  default="dragon+", choices=["dragon+", "NIL", ], help="triever to use")
@@ -26,11 +28,11 @@ parser.add_argument('--retrieval_raw_data_dir', type=str, default="datasets/USML
 parser.add_argument('--retrieval_processed_file_dir', type=str, default="datasets/USMLE/process_retrieval_corpus/", help='retrieval_processed_file_dir')
 
 # retrieval
-parser.add_argument('--retri_batch_size', type=int, default=512, help='batch_size')
+parser.add_argument('--retri_batch_size', type=int, default=1024, help='batch_size')
 parser.add_argument('--chunk_size', type=int, default=512, help='chunk_sizen, not token length')
 parser.add_argument('--chunk_overlap', type=int, default=20, help='chunk_size')
 parser.add_argument('--max_retri_num', type=int, default=9, help='max_document_num')
-parser.add_argument('--similarity_threshold', type=float, default=0.75, help='similarity_threshold')
+parser.add_argument('--similarity_threshold', type=float, default=0.7, help='similarity_threshold')
 parser.add_argument('--multi_query', type=bool, default=False, help='multi_query, using open AI')
 
 # train
@@ -41,7 +43,7 @@ parser.add_argument('--demons_cnt', type=int, default=1, help='demonstration num
 # Decoding
 parser.add_argument("--temperature", type=float, default=0, help="Temperature for decoding")
 parser.add_argument("--top_p", type=float, default=0, help="Nucleus sampling top-p")
-parser.add_argument("--max_new_tokens", type=int, default=100, help="Max number of new tokens to generate in one step")
+parser.add_argument("--max_new_tokens", type=int, default=2, help="Max number of new tokens to generate in one step")
 parser.add_argument("--max_length", type=int, default=2048, help="Max length the model can take. Should set properly wrt the model to avoid position overflow.")
 
 args = parser.parse_args()
@@ -59,7 +61,7 @@ from dataloader.data_loader import get_loader
 from trainer import My_Trainer 
 import torch
 from utils.utils import load_LLM, load_retriever, get_logger, make_log_dir, seed_everything
-
+from models.my_model import My_Model
 
 if torch.cuda.is_available():
     device = "cuda"
@@ -87,13 +89,17 @@ args.print_logger.info("**************** Configuration **************** \n\n")
 
 
 def main(args):
-    retri_encoder_path, triever_tokenizer_path = load_retriever(args, args.print_logger)
-    my_LLM, LLM_tokenizer, _ = load_LLM(args)
-    
+    LLM, LLM_tokenizer, stop_token_ids = load_LLM(args)
+    retri_encoder, triever_tokenizer = load_retriever(args, args.print_logger)
+    my_model = My_Model(LLM, LLM_tokenizer,  args,  stop_token_ids)
+
     train_data_loader, dev_data_loader, test_data_loader = get_loader(args)
     
-    trainer = My_Trainer(args, my_LLM, LLM_tokenizer, retri_encoder_path, triever_tokenizer_path, device)
-    trainer.train_proc(train_data_loader, dev_data_loader, test_data_loader)
+    trainer = My_Trainer(args, my_model, LLM, LLM_tokenizer, retri_encoder, triever_tokenizer, device)
+    
+    if args.if_train:
+        trainer.train_proc(train_data_loader, dev_data_loader, test_data_loader)
+    trainer.test_proc(dev_data_loader, test_data_loader)
      
     
 
@@ -101,4 +107,3 @@ def main(args):
 
 if __name__ == "__main__":
     main(args)
-    

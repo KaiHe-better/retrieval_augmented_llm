@@ -17,6 +17,8 @@ import json
 import os
 import time
 import torch
+import torch.nn.functional as F
+import torch.nn as nn
 from tqdm import tqdm
 from transformers import AutoTokenizer, AutoModel
 from utils.metrics import My_Metrics
@@ -26,12 +28,13 @@ from utils.utils import extracted_label, LineListOutputParser
 
 class My_Trainer:
 
-    def __init__(self, args, LLM, LLM_tokenizer, retri_encoder_path, triever_tokenizer_path, device):
+    def __init__(self, args, my_model, LLM, LLM_tokenizer, retri_encoder, triever_tokenizer, device):
         self.args = args
         self.print_logger = args.print_logger
         self.result_logger = args.result_logger
 
         self.device = device
+        self.my_model = my_model
 
         self.LLM = LLM
         self.LLM_tokenizer = LLM_tokenizer
@@ -50,20 +53,23 @@ class My_Trainer:
         else:
             self.my_model_pipeline = LLM
 
+        if self.args.if_train:
+            self.kl_loss = nn.KLDivLoss(reduction="batchmean", log_target=True)
+            # self.kl_loss = nn.KLDivLoss(reduction="batchmean")
+
         if self.args.if_RA:
             self.chunk_file_path =  os.path.join(args.retrieval_processed_file_dir, str(args.triever)+"_"+str(args.chunk_size)+"_"+str(args.chunk_overlap)+"_str.txt"  )
-            self.triever_tokenizer =  AutoTokenizer.from_pretrained(triever_tokenizer_path)
+            self.triever_tokenizer =  triever_tokenizer
             self.retriever_embedding = []
             self.retriever_txt = []
             self.retrieved_document, self.text_splitter = self.process_document()
+
             if args.triever in ["dragon+"]:
-                self.query_encoder =  AutoModel.from_pretrained('facebook/dragon-plus-query-encoder').to(self.device)
-                self.context_encoder = AutoModel.from_pretrained('facebook/dragon-plus-context-encoder').to(self.device)
+                self.query_encoder =  retri_encoder[0].to(self.device)
+                self.context_encoder = retri_encoder[1].to(self.device)
 
             else:
-                self.embeddings_fn = HuggingFaceEmbeddings(model_name=retri_encoder_path, 
-                                                        model_kwargs = {'device': self.device, }, 
-                                                        encode_kwargs = {'normalize_embeddings': False, "batch_size":self.args.retri_batch_size } )
+                raise Exception("wrong !")
 
             if self.args.demonstration:
                 prompt_format = "retrieve-demonstration-prompt"
@@ -79,7 +85,6 @@ class My_Trainer:
         with open(self.args.prompt_file, "r") as f:
             prompt_text = json.load(f)[prompt_format]
 
-        self.demon_prompt = PromptTemplate.from_template("demon_prompt")
         self.prompt = PromptTemplate.from_template(prompt_text)
         self.llm_chain = LLMChain(prompt=self.prompt, llm=self.my_model_pipeline)
             
@@ -108,11 +113,11 @@ class My_Trainer:
                 chunks = text_splitter.split_documents(documents)
                 all_doc += chunks
                 
-        #         break
-        #     break
-        # self.print_logger.info("===============================breaking ===============================")
-        # self.print_logger.info("===============================breaking ===============================")
-        # self.print_logger.info("===============================breaking ===============================")
+                break
+            break
+        self.print_logger.info("===============================breaking ===============================")
+        self.print_logger.info("===============================breaking ===============================")
+        self.print_logger.info("===============================breaking ===============================")
 
         self.print_logger.info("process retrieval files finish in %.2f sec. \n"% (time.time() - start_time))
         return all_doc, text_splitter
@@ -128,8 +133,8 @@ class My_Trainer:
         # self.vectordb._embedding_function = self.embeddings_query_fn
         retriever=self.vectordb.as_retriever(search_kwargs={"k": self.args.max_retri_num})
 
-        redundant_filter = EmbeddingsRedundantFilter(embeddings=self.embeddings_context_fn)
-        relevant_filter = EmbeddingsFilter(embeddings=self.embeddings_context_fn, similarity_threshold=self.args.similarity_threshold)
+        redundant_filter = EmbeddingsRedundantFilter(embeddings=self.embeddings_fn)
+        relevant_filter = EmbeddingsFilter(embeddings=self.embeddings_fn, similarity_threshold=self.args.similarity_threshold)
         pipeline_compressor = DocumentCompressorPipeline(transformers=[self.text_splitter,  redundant_filter, relevant_filter])
 
         if self.args.multi_query:
@@ -148,32 +153,8 @@ class My_Trainer:
             retriever = MultiQueryRetriever(retriever=retriever, llm_chain=llm_chain, parser_key="lines")
 
         retriever = ContextualCompressionRetriever(base_compressor=pipeline_compressor, base_retriever=retriever)
-        
         return retriever
     
-    def updata_retri_embedding_111(self):
-        self.print_logger.info("updata_retri_embedding ...")
-        start_time = time.time()
-        with torch.no_grad():
-            self.vectordb = Chroma.from_documents(self.retrieved_document, self.embeddings_context_fn)  
-        self.print_logger.info("updata_retri_embedding in %.2f sec. \n"% (time.time() - start_time))
-
-    def retrieve_111(self, query):
-        retrieve_doc = self.retriever.get_relevant_documents(query=query)
-        tmp_str = ""
-        tmp_len_list = []
-        if len(retrieve_doc)>0:
-            for index, i in enumerate(retrieve_doc):
-                tmp_str += "document ("+ str(index) + ") \n\n"
-                tmp_str = tmp_str + i.page_content + "\n\n"
-                tmp_len_list.append(len(i.page_content))
-
-        self.print_logger.info(f"retrieve document num: {len(retrieve_doc)}, length: {str(tmp_len_list)}")
-        self.result_logger.info(f"retrieve document: \n{tmp_str} \n")
-        return tmp_str
-
-
-
     def updata_retri_embedding(self):
         self.print_logger.info("updata_retri_embedding ...")
         start_time = time.time()
@@ -183,18 +164,19 @@ class My_Trainer:
             context_batches = [self.contexts[i:i + self.args.retri_batch_size] for i in range(0, len(self.contexts), self.args.retri_batch_size)]
 
             vectordb = []
-            for context in context_batches:
+            for context in tqdm(context_batches):
                 ctx_input = self.triever_tokenizer(context, padding=True, truncation=True, return_tensors='pt', max_length=self.args.chunk_size).to(self.device)
                 tmp_res = self.context_encoder(**ctx_input).last_hidden_state[:, 0, :]
-                vectordb.append(tmp_res )
+                vectordb.append(tmp_res.detach().cpu().to(self.device))
+                torch.cuda.empty_cache()
 
-        self.vectordb  = torch.cat((vectordb), dim=0).transpose(0, 1)
-        self.print_logger.info(f"vectordb size: {self.vectordb.size()}")
-        self.print_logger.info("updata_retri_embedding in %.2f sec. \n"% (time.time() - start_time))
+            self.vectordb  = torch.cat((vectordb), dim=0).transpose(0, 1)
+            self.print_logger.info(f"vectordb size: {self.vectordb.size()}")
+            self.print_logger.info("updata_retri_embedding in %.2f sec. \n"% (time.time() - start_time))
 
     def retrieve(self, query):
 
-        query_input = self.triever_tokenizer(query, return_tensors='pt').to(self.device)
+        query_input = self.triever_tokenizer(query, truncation=True, return_tensors='pt', max_length=self.args.chunk_size).to(self.device)
         query_emb = self.query_encoder(**query_input).last_hidden_state[:, 0, :]
         
         query_emb = query_emb.unsqueeze(0)
@@ -202,7 +184,6 @@ class My_Trainer:
         scores = (query_emb @ self.vectordb).squeeze()
         select_index = torch.argsort(scores, descending=True)[:self.args.max_retri_num].tolist()
         retrieve_doc = [self.contexts[i] for i in select_index]
-
 
         tmp_str = ""
         tmp_len_list = []
@@ -214,18 +195,42 @@ class My_Trainer:
 
         self.print_logger.info(f"retrieve document num: {len(retrieve_doc)}, length: {str(tmp_len_list)}")
         self.result_logger.info(f"retrieve document: \n{tmp_str} \n")
-        return tmp_str
+        return tmp_str, scores
 
-
-
-
-    
     def train_proc(self, train_data_loader, dev_data_loader, test_data_loader):
         if self.args.if_RA:
             self.updata_retri_embedding()
-            # self.retriever = self.get_retriever()
+            
+        self.print_logger.info("Start training ... \n ")
 
-        self.print_logger.info("Start training... \n ")
+        all_test_labels = []
+        all_test_predictions = []
+        
+        cnt = 0
+        for index, data_item in enumerate(train_data_loader):
+            query = data_item['question'][0]
+            options = data_item['options'][0]
+            label = data_item["label"][0]
+
+            self.print_logger.info(f"process num: {index}")
+            self.result_logger.info(f"process num: {index}")
+            self.result_logger.info(f"query: {query} \n")
+            self.result_logger.info(f"options: {options} \n")
+
+            retrieve_doc, scores = self.retrieve(query)
+            my_input = self.prompt.format(question=query, options=options, context=retrieve_doc)
+            generation = self.my_model(my_input)
+            
+            # input = F.log_softmax(scores/tau1, dim=0)
+            # target = tau2
+            # kl_loss = self.kl_loss(input, target)
+
+
+    def test_proc(self, dev_data_loader, test_data_loader):
+        if self.args.if_RA:
+            self.updata_retri_embedding()
+            
+        self.print_logger.info("Start test ... \n ")
 
         all_test_labels = []
         all_test_predictions = []
@@ -242,15 +247,16 @@ class My_Trainer:
             self.result_logger.info(f"options: {options} \n")
 
             if self.args.if_RA:
-                retrieve_doc = self.retrieve(query)
+                with torch.no_grad():
+                    retrieve_doc = self.retrieve(query)
                 if self.args.demonstration:
-                    demonstration = self.random_select_demonstration(train_data_loader)
+                    demonstration = self.random_select_demonstration(dev_data_loader)
                     generation = self.llm_chain.run(question=query, options=options, context=retrieve_doc, demonstration=demonstration)
                 else:
                     generation = self.llm_chain.run(question=query, options=options, context=retrieve_doc)
             else:
                 if self.args.demonstration:
-                    demonstration = self.random_select_demonstration(train_data_loader)
+                    demonstration = self.random_select_demonstration(dev_data_loader)
                     generation = self.llm_chain.run(question=query, options=options, demonstration=demonstration)
                 else:
                     generation = self.llm_chain.run(question=query, options=options)
@@ -265,8 +271,8 @@ class My_Trainer:
 
         acc, precision, recall, f1 = self.my_metrics.metrics_task_res(all_test_labels, all_test_predictions)
 
-        self.args.print_logger.info(f"acc {round(acc*100, 2)}")
-        self.args.print_logger.info(f"precision {round(precision*100, 2)}")
-        self.args.print_logger.info(f"recall {round(recall*100, 2)}")
-        self.args.print_logger.info(f"f1 {round(f1*100, 2)}")
+        self.args.print_logger.info(f"test acc {round(acc*100, 2)}")
+        self.args.print_logger.info(f"test precision {round(precision*100, 2)}")
+        self.args.print_logger.info(f"test recall {round(recall*100, 2)}")
+        self.args.print_logger.info(f"test f1 {round(f1*100, 2)}")
 

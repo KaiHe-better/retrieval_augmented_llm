@@ -163,7 +163,7 @@ def get_max_memory():
     max_memory = {i: max_memory for i in range(n_gpus)}
     return max_memory
 
-def load_LLM(args, dtype=torch.float16, int8=False, reserve_memory=10):
+def load_LLM(args, dtype=torch.float16):
     # Load a huggingface model and tokenizer
     # dtype: torch.float16 or torch.bfloat16
     # int8: whether to use int8 quantization
@@ -197,7 +197,7 @@ def load_LLM(args, dtype=torch.float16, int8=False, reserve_memory=10):
 
         # Load the FP16 model
         args.print_logger.info(f"Loading {model_name_or_path} in {dtype}...")
-        if int8:
+        if args.int8:
             args.print_logger.warn("Use LLM.int8")
         start_time = time.time()
         model = AutoModelForCausalLM.from_pretrained(
@@ -205,7 +205,7 @@ def load_LLM(args, dtype=torch.float16, int8=False, reserve_memory=10):
             device_map='auto',
             torch_dtype=dtype,
             max_memory=get_max_memory(),
-            load_in_8bit=int8,
+            load_in_8bit=args.int8,
             offload_folder=model_name_or_path,
             # pretraining_tp=8
         )
@@ -252,6 +252,11 @@ def load_retriever(args, print_logger):
             tokenizer_path = "../LLM_models/google/t5_xxl_true_nli_mixture"
             retri_encoder_path = "../LLM_models/google/t5_xxl_true_nli_mixture"
 
-        return retri_encoder_path, tokenizer_path
+
+        triever_tokenizer =  AutoTokenizer.from_pretrained(tokenizer_path)
+        query_encoder =  AutoModel.from_pretrained('facebook/dragon-plus-query-encoder')
+        context_encoder = AutoModel.from_pretrained('facebook/dragon-plus-context-encoder')
+
+        return (query_encoder, context_encoder), triever_tokenizer
     
 
