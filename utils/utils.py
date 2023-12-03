@@ -252,7 +252,7 @@ def load_retriever(args, print_logger):
             tokenizer_path = "../LLM_models/google/t5_xxl_true_nli_mixture"
             retri_encoder_path = "../LLM_models/google/t5_xxl_true_nli_mixture"
 
-
+    # device_map='auto',
         triever_tokenizer =  AutoTokenizer.from_pretrained(tokenizer_path)
         query_encoder =  AutoModel.from_pretrained('facebook/dragon-plus-query-encoder')
         context_encoder = AutoModel.from_pretrained('facebook/dragon-plus-context-encoder')

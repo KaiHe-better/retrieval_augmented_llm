@@ -6,7 +6,15 @@ import torch.nn
 from torch.utils.data import Dataset, DataLoader, SubsetRandomSampler
 import os
 
+class Prompt_Dataset(Dataset):
+    def __init__(self, data_list):
+        self.data = data_list
 
+    def __len__(self):
+        return len(self.data)
+
+    def __getitem__(self, idx):
+        return self.data[idx]
 
 class USMLE(Dataset):
 
@@ -55,21 +63,19 @@ def collate_fn_USMLE(data):
 def get_loader_USMLE(args, train_file_path, dev_file_path, test_file_path) :
     
     train_dataset = USMLE(args, train_file_path)
-    demons_cnt = args.demons_cnt
-    indices = torch.randperm(len(train_dataset)).tolist()
-    sampler = SubsetRandomSampler(indices[:demons_cnt])
     train_data_loader = DataLoader(dataset=train_dataset,
-                                   batch_size=args.batch_size,
-                                #    shuffle=True,
+                                   batch_size=args.train_batch_size,
+                                   shuffle=True,
                                    pin_memory=True,
                                    num_workers=args.num_workers,
                                    collate_fn=collate_fn_USMLE,
-                                   sampler=sampler,
+                                   
                                   )       
 
+    # for demonstration
     dev_dataset = USMLE(args, dev_file_path)
     dev_data_loader = DataLoader(dataset=dev_dataset,
-                                 batch_size=args.batch_size,
+                                 batch_size=args.demons_cnt,
                                  shuffle=True,
                                  pin_memory=True,
                                  num_workers=args.num_workers,
@@ -79,7 +85,7 @@ def get_loader_USMLE(args, train_file_path, dev_file_path, test_file_path) :
 
     test_dataset = USMLE(args, test_file_path)
     test_data_loader = DataLoader(dataset=test_dataset,
-                                  batch_size=args.batch_size,
+                                  batch_size=args.test_batch_size,
                                   shuffle=False,
                                   pin_memory=True,
                                   num_workers=args.num_workers,
