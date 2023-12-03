@@ -1,20 +1,11 @@
-import torch.nn.functional as F
-import torch.nn as nn
-import torch
+from huggingface_hub import snapshot_download
 
-
-kl_loss = nn.KLDivLoss(reduction="batchmean")
-# input should be a distribution in the log space
-input = F.log_softmax(torch.randn(3, 5, requires_grad=True), dim=1)
-
-
-target = torch.rand(3, 5)
-# Sample a batch of distributions. Usually this would come from the dataset
-target = F.softmax(target, dim=1)
-output = kl_loss(input, target)
-print(output)
-
-kl_loss = nn.KLDivLoss(reduction="batchmean", log_target=True)
-log_target = F.log_softmax(target, dim=1)
-output = kl_loss(input, log_target)
-print(output)
+repo_id = "meta-llama/Llama-2-70b-chat-hf"                                 # 模型在huggingface上的名称
+local_dir = "/raid/hpc/hekai/WorkShop/My_project/LLM_models/llama2/Llama-2-70b-chat-hf"                              # 本地模型存储的地址
+local_dir_use_symlinks = False               # 本地模型使用文件保存，而非blob形式保存
+revision = ""                                # 模型的版本号
+snapshot_download(repo_id=repo_id, 
+                  local_dir=local_dir,
+                  local_dir_use_symlinks=local_dir_use_symlinks,
+                #   revision=revision
+                  )

@@ -15,7 +15,7 @@ parser.add_argument('--seed', default=42, help='trandom seed')
 parser.add_argument('--num_workers', default=16, type=int, help='data_loader_work')
 
 # model and name 
-parser.add_argument("--if_train", type=bool, default=True, help="if retrieval augmented")
+parser.add_argument("--if_train", type=bool, default=False, help="if retrieval augmented")
 parser.add_argument("--int8", type=bool, default=False, help="if int8")
 parser.add_argument("--if_RA", type=bool, default=False, help="if retrieval augmented")
 parser.add_argument("--LLM", type=str,  default="llama2-7b", choices=["llama2-7b", "X", ], help="LLM to use")
@@ -28,10 +28,10 @@ parser.add_argument('--retrieval_raw_data_dir', type=str, default="datasets/USML
 parser.add_argument('--retrieval_processed_file_dir', type=str, default="datasets/USMLE/process_retrieval_corpus/", help='retrieval_processed_file_dir')
 
 # retrieval
-parser.add_argument('--retri_batch_size', type=int, default=1024, help='batch_size')
+parser.add_argument('--max_retri_num', type=int, default=1, help='max_document_num')
+parser.add_argument('--retri_batch_size', type=int, default=512, help='batch_size')
 parser.add_argument('--chunk_size', type=int, default=512, help='chunk_sizen, not token length')
 parser.add_argument('--chunk_overlap', type=int, default=20, help='chunk_size')
-parser.add_argument('--max_retri_num', type=int, default=9, help='max_document_num')
 parser.add_argument('--similarity_threshold', type=float, default=0.7, help='similarity_threshold')
 parser.add_argument('--multi_query', type=bool, default=False, help='multi_query, using open AI')
 
@@ -43,7 +43,7 @@ parser.add_argument('--demons_cnt', type=int, default=1, help='demonstration num
 # Decoding
 parser.add_argument("--temperature", type=float, default=0, help="Temperature for decoding")
 parser.add_argument("--top_p", type=float, default=0, help="Nucleus sampling top-p")
-parser.add_argument("--max_new_tokens", type=int, default=2, help="Max number of new tokens to generate in one step")
+parser.add_argument("--max_new_tokens", type=int, default=1, help="Max number of new tokens to generate in one step")
 parser.add_argument("--max_length", type=int, default=2048, help="Max length the model can take. Should set properly wrt the model to avoid position overflow.")
 
 args = parser.parse_args()

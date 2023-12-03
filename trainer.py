@@ -113,11 +113,11 @@ class My_Trainer:
                 chunks = text_splitter.split_documents(documents)
                 all_doc += chunks
                 
-                break
-            break
-        self.print_logger.info("===============================breaking ===============================")
-        self.print_logger.info("===============================breaking ===============================")
-        self.print_logger.info("===============================breaking ===============================")
+        #         break
+        #     break
+        # self.print_logger.info("===============================breaking ===============================")
+        # self.print_logger.info("===============================breaking ===============================")
+        # self.print_logger.info("===============================breaking ===============================")
 
         self.print_logger.info("process retrieval files finish in %.2f sec. \n"% (time.time() - start_time))
         return all_doc, text_splitter
@@ -225,7 +225,6 @@ class My_Trainer:
             # target = tau2
             # kl_loss = self.kl_loss(input, target)
 
-
     def test_proc(self, dev_data_loader, test_data_loader):
         if self.args.if_RA:
             self.updata_retri_embedding()
@@ -248,7 +247,7 @@ class My_Trainer:
 
             if self.args.if_RA:
                 with torch.no_grad():
-                    retrieve_doc = self.retrieve(query)
+                    retrieve_doc, scores = self.retrieve(query)
                 if self.args.demonstration:
                     demonstration = self.random_select_demonstration(dev_data_loader)
                     generation = self.llm_chain.run(question=query, options=options, context=retrieve_doc, demonstration=demonstration)
