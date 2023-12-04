@@ -15,7 +15,7 @@ parser.add_argument('--seed', default=42, help='trandom seed')
 parser.add_argument('--num_workers', default=16, type=int, help='data_loader_work')
 
 # model and name 
-parser.add_argument("--if_train", type=bool, default=False, help="if retrieval augmented")
+parser.add_argument("--if_train", type=bool, default=True, help="if retrieval augmented")
 parser.add_argument("--if_RA", type=bool, default=False, help="if retrieval augmented")
 parser.add_argument("--int8", type=bool, default=False, help="if int8")
 parser.add_argument("--LLM", type=str,  default="llama2-7b", choices=["llama2-7b", "X", ], help="LLM to use")
@@ -29,7 +29,7 @@ parser.add_argument('--retrieval_processed_file_dir', type=str, default="dataset
 
 # retrieval
 parser.add_argument('--retri_batch_size', type=int, default=512, help='batch_size')
-parser.add_argument('--max_retri_num', type=int, default=3, help='max_document_num')
+parser.add_argument('--max_retri_num', type=int, default=1, help='max_document_num')
 parser.add_argument('--chunk_size', type=int, default=512, help='chunk_sizen, not token length')
 parser.add_argument('--chunk_overlap', type=int, default=20, help='chunk_size')
 parser.add_argument('--similarity_threshold', type=float, default=0.7, help='similarity_threshold')
@@ -99,8 +99,8 @@ def main(args):
     trainer = My_Trainer(args, my_model, LLM, LLM_tokenizer, retri_encoder, triever_tokenizer, device)
     
     if args.if_train:
-        trainer.train_proc(train_data_loader, dev_data_loader, test_data_loader)
-    trainer.test_proc(dev_data_loader, test_data_loader)
+        trainer.train_proc(train_data_loader, dev_data_loader)
+    trainer.test_proc(test_data_loader, dev_data_loader)
      
     
 

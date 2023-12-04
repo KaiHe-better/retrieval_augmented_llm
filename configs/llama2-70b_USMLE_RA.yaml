@@ -2,7 +2,7 @@
 LLM: llama2-70b
 dataset: USMLE
 prompt_file: "prompts/USMLE.json"
-max_new_tokens: 2
+max_new_tokens: 1
 if_RA: True
 retrieval_raw_data_dir: "datasets/USMLE/textbooks/en"
 retrieval_processed_file_dir: "datasets/USMLE/process_retrieval_corpus/"

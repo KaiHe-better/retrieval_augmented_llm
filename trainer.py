@@ -50,11 +50,11 @@ class My_Trainer:
                     # max_length=args.max_length,
                     max_new_tokens=args.max_new_tokens,
                     device_map="auto",
-                    batch_size=self.args.test_batch_size
+                    batch_size=self.args.test_batch_size, 
+                    output_scores=True, return_dict_in_generate=True,
                 ) 
-            self.my_model_pipeline = HuggingFacePipeline(pipeline=self.pipe)
         else:
-            self.my_model_pipeline = LLM
+            self.pipe = LLMChain(prompt=self.prompt, llm=LLM)
 
         if self.args.if_train:
             self.kl_loss = nn.KLDivLoss(reduction="batchmean", log_target=True)
@@ -89,7 +89,7 @@ class My_Trainer:
             prompt_text = json.load(f)[prompt_format]
 
         self.prompt = PromptTemplate.from_template(prompt_text)
-        self.llm_chain = LLMChain(prompt=self.prompt, llm=self.my_model_pipeline)
+        
 
     def process_document(self):
         start_time = time.time()
@@ -196,10 +196,11 @@ class My_Trainer:
             # self.result_logger.info(f"retrieve document: \n{tmp_str} \n")
         return batch_doc, scores
 
-    def train_proc(self, train_data_loader, dev_data_loader, test_data_loader):
-        if self.args.if_RA:
-            self.updata_retri_embedding()
-            
+    def train_proc(self, train_data_loader, dev_data_loader):
+        if not self.args.if_RA:
+            raise Exception("need retrieve ! ")
+
+        self.updata_retri_embedding()
         self.print_logger.info("Start training ... \n ")
 
         all_test_labels = []
@@ -207,27 +208,33 @@ class My_Trainer:
         
         cnt = 0
         for index, data_item in enumerate(train_data_loader):
-            question = data_item['question'][0]
-            options = data_item['options'][0]
-            label = data_item["label"][0]
-
             self.print_logger.info(f"process num: {index}")
-            self.result_logger.info(f"process num: {index}")
-            self.result_logger.info(f"question: {question} \n")
-            self.result_logger.info(f"options: {options} \n")
-
-            # retrieve_doc, retrieve_scores = self.retrieve(question)
-            # my_input = self.prompt.format(question=question, options=options, context=retrieve_doc)
-            my_input = self.prompt.format(question=question, options=options)
-            dataset = Prompt_Dataset([my_input])
-            for i in self.pipe(dataset):
-                print(i)
+            question = data_item['question']
+            options = data_item['options']
+            label = data_item["label"]
             
+            my_input_list = []
+            retrieve_doc, retrieve_scores = self.retrieve(question)
+
+            if self.args.demonstration:
+                demonstration = self.random_select_demonstration(dev_data_loader, self.args.test_batch_size)
+                input_dict = {'question': question, 'options': options, "context": retrieve_doc, "demonstration": demonstration}
+            else:
+                input_dict = {'question': question, 'options': options, "context": retrieve_doc}
+                
             # input = F.log_softmax(scores/tau1, dim=0)
             # target = tau2
             # kl_loss = self.kl_loss(input, target)
+            all_test_predictions, all_test_labels, scores = self.return_prediction(input_dict, label, all_test_predictions, all_test_labels)
 
-    def test_proc(self, dev_data_loader, test_data_loader):
+            # cnt+=1
+            # if cnt ==10:
+            #     break
+
+        self.my_metrics.metrics_task_res(all_test_labels, all_test_predictions, self.args.print_logger)
+            
+
+    def test_proc(self, test_data_loader, dev_data_loader):
         if self.args.if_RA:
             self.updata_retri_embedding()
             
@@ -243,7 +250,6 @@ class My_Trainer:
             options = data_item['options']
             label = data_item["label"]
 
-            my_input_list = []
             if self.args.if_RA:
                 with torch.no_grad():
                     retrieve_doc, retrieve_scores = self.retrieve(question)
@@ -258,12 +264,13 @@ class My_Trainer:
                     input_dict = {'question': question, 'options': options, "demonstration": demonstration}
                 else:
                     input_dict = {'question': question, 'options': options}
+            
+            with torch.no_grad():
+                all_test_predictions, all_test_labels, scores = self.return_prediction(input_dict, label, all_test_predictions, all_test_labels)
 
-            all_test_predictions, all_test_labels = self.return_prediction(input_dict, label, all_test_predictions, all_test_labels)
-
-            cnt+=1
-            if cnt ==10:
-                break
+            # cnt+=1
+            # if cnt ==10:
+            #     break
 
         self.my_metrics.metrics_task_res(all_test_labels, all_test_predictions, self.args.print_logger)
 
@@ -277,10 +284,10 @@ class My_Trainer:
 
         dataset = Prompt_Dataset(my_input_list)
         for index, generation in enumerate(self.pipe(dataset)):
-            pred = self.pasrse_record_res(my_input_list[index], label[index], generation[0]["generated_text"][-self.args.max_new_tokens-1:])
+            pred = self.pasrse_record_res(my_input_list[index], label[index], generation[0]["generated_text"][-self.args.max_new_tokens:])
             all_test_predictions.append(pred)
             all_test_labels.append(label[index])
-        return all_test_predictions, all_test_labels
+        return all_test_predictions, all_test_labels, generation[0]["scores"]
     
     def pasrse_record_res(self, my_input, label, generation):
         pred = extracted_label(generation)
