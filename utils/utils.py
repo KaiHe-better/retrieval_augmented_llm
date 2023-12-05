@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime
 import sys
+import math
 import torch
 import os
 import time
@@ -86,6 +87,17 @@ def extracted_label(res):
     if "D" in res:
         return 3
     return 0    
+
+def map_prob(labels, scores, LLM_tokenizer):
+    dic_map = {0:"A", 1:"B", 2:"C", 3:"4"}
+    prob_list = []
+    for label, score in zip(labels, scores):
+        id = LLM_tokenizer._convert_token_to_id(dic_map[label])
+        prob = score.squeeze()[id]
+        if math.isinf(prob):
+            prob = torch.tensor(1e-10)
+        prob_list.append(prob)
+    return torch.stack(prob_list)  
 
 def seed_everything(seed: int):
     import random, os

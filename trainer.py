@@ -9,23 +9,20 @@ from langchain.retrievers.multi_query import MultiQueryRetriever
 from langchain.retrievers.document_compressors import EmbeddingsFilter, DocumentCompressorPipeline
 from langchain.retrievers import ContextualCompressionRetriever
 from langchain.document_transformers import EmbeddingsRedundantFilter
-from transformers import AutoTokenizer, pipeline
+from transformers import pipeline
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
-from langchain.llms import HuggingFacePipeline
-from transformers.pipelines.pt_utils import KeyDataset
 from dataloader.usmle_loader import Prompt_Dataset
+import torch.nn.functional as F
 import json
 import os
 import time
 import torch
-import torch.nn.functional as F
 import torch.nn as nn
 from tqdm import tqdm
-from transformers import AutoTokenizer, AutoModel
 from utils.metrics import My_Metrics
 from torch.utils.tensorboard import SummaryWriter
-from utils.utils import extracted_label, LineListOutputParser
+from utils.utils import extracted_label, map_prob, LineListOutputParser
 
 
 class My_Trainer:
@@ -41,7 +38,7 @@ class My_Trainer:
         self.LLM = LLM
         self.LLM_tokenizer = LLM_tokenizer
         self.my_metrics = My_Metrics()
-        # self.writer = SummaryWriter(args.dir_path+"/runs/")
+        self.writer = SummaryWriter(args.dir_path+"/runs/")
         if args.LLM != "chatGPT":
             self.pipe = pipeline(
                     "text-generation",
@@ -70,9 +67,16 @@ class My_Trainer:
             if args.triever in ["dragon+"]:
                 self.query_encoder =  retri_encoder[0].to(self.device)
                 self.context_encoder = retri_encoder[1].to(self.device)
-
             else:
                 raise Exception("wrong !")
+            
+            if self.args.if_train:
+                param_list = []
+                for name, param in self.query_encoder.named_parameters():
+                    param_list.append(param)
+                for name, param in self.context_encoder.named_parameters():
+                    param_list.append(param)
+                self.optimizer = torch.optim.Adam( param_list, lr=self.args.lr, weight_decay=self.args.l2_coef)
 
             if self.args.demonstration:
                 prompt_format = "retrieve-demonstration-prompt"
@@ -90,7 +94,6 @@ class My_Trainer:
 
         self.prompt = PromptTemplate.from_template(prompt_text)
         
-
     def process_document(self):
         start_time = time.time()
         if not os.path.exists(self.args.retrieval_processed_file_dir):
@@ -172,29 +175,39 @@ class My_Trainer:
             self.print_logger.info(f"vectordb size: {self.vectordb.size()}")
             self.print_logger.info("updata_retri_embedding in %.2f sec. \n"% (time.time() - start_time))
 
-    def retrieve(self, query):
-
+    def retrieve(self, query, max_retri_num, train_flag):
+        if train_flag and max_retri_num==1:
+            raise Exception("train need retrieve more than one docs !")
+        
         query_input = self.triever_tokenizer(query, truncation=True, return_tensors='pt', max_length=self.args.chunk_size, padding=True).to(self.device)
         query_emb = self.query_encoder(**query_input).last_hidden_state[:, 0, :]
 
         scores = query_emb @ self.vectordb
-        select_index = torch.argsort(scores, descending=True)[:, :self.args.max_retri_num].tolist()
-        batch_doc = []
-        for docs in select_index:
+        batch_select_index = torch.argsort(scores, descending=True)[:, :max_retri_num].tolist()
+        batch_infer_doc = []
+        for docs in batch_select_index:
             retrieve_doc = [self.contexts[i] for i in docs]
-            
-            tmp_str = ""
-            tmp_len_list = []
-            if len(retrieve_doc)>0:
-                for index, i in enumerate(retrieve_doc):
-                    tmp_str += "document ("+ str(index) + ") \n\n"
-                    tmp_str = tmp_str + i + "\n\n"
-                    tmp_len_list.append(len(i))
-            batch_doc.append(tmp_str)
-            self.print_logger.info(f"retrieve document num: {len(retrieve_doc)}, length: {str(tmp_len_list)}")
 
-            # self.result_logger.info(f"retrieve document: \n{tmp_str} \n")
-        return batch_doc, scores
+            if train_flag:
+                batch_infer_doc.append(retrieve_doc)
+            else:
+                tmp_str = ""
+                tmp_len_list = []
+                if len(retrieve_doc)>0:
+                    for index, i in enumerate(retrieve_doc):
+                        tmp_str += "document ("+ str(index) + ") \n\n"
+                        tmp_str = tmp_str + i + "\n\n"
+                        tmp_len_list.append(len(i))
+                batch_infer_doc.append(tmp_str)
+                # self.print_logger.info(f"retrieve document num: {len(retrieve_doc)}, length: {str(tmp_len_list)}")
+
+        return batch_infer_doc, scores
+    
+    def compute_lsr_loss(self, retrieve_scores, batch_llm_score):
+        input = F.log_softmax(retrieve_scores/self.args.retrieval_tau, dim=-1)
+        target = F.log_softmax(batch_llm_score/self.args.llm_tau, dim=-1).to(input.device)
+        lsr_loss = self.kl_loss(input, target)
+        return lsr_loss
 
     def train_proc(self, train_data_loader, dev_data_loader):
         if not self.args.if_RA:
@@ -202,36 +215,79 @@ class My_Trainer:
 
         self.updata_retri_embedding()
         self.print_logger.info("Start training ... \n ")
-
-        all_test_labels = []
-        all_test_predictions = []
         
-        cnt = 0
-        for index, data_item in enumerate(train_data_loader):
-            self.print_logger.info(f"process num: {index}")
-            question = data_item['question']
-            options = data_item['options']
-            label = data_item["label"]
-            
-            my_input_list = []
-            retrieve_doc, retrieve_scores = self.retrieve(question)
-
-            if self.args.demonstration:
-                demonstration = self.random_select_demonstration(dev_data_loader, self.args.test_batch_size)
-                input_dict = {'question': question, 'options': options, "context": retrieve_doc, "demonstration": demonstration}
-            else:
-                input_dict = {'question': question, 'options': options, "context": retrieve_doc}
+        all_train_labels = []
+        all_train_predictions = []
+        total_batch = len(train_data_loader)
+        step_num = -1
+        best_step =0
+        best_acc =0
+        for _ in range(self.args.epoch):
+            for data_item in train_data_loader:
+                step_num+=1
+                question = data_item['question']
+                options = data_item['options']
+                batch_label = data_item["label"]
                 
-            # input = F.log_softmax(scores/tau1, dim=0)
-            # target = tau2
-            # kl_loss = self.kl_loss(input, target)
-            all_test_predictions, all_test_labels, scores = self.return_prediction(input_dict, label, all_test_predictions, all_test_labels)
+                retrieve_docs, retrieve_scores = self.retrieve(question, self.args.max_train_retri_num, train_flag=True)
+                
+                batch_llm_score = []
+                batch_pred_list = []
 
-            # cnt+=1
-            # if cnt ==10:
-            #     break
+                transposed_retrieve_docs = list(map(list, zip(*retrieve_docs))) # (max_train_retri_num, train_batch_size)
+                for batch_retrieve_doc in transposed_retrieve_docs:
+                    if self.args.demonstration:
+                        demonstration = self.random_select_demonstration(dev_data_loader, self.args.test_batch_size)
+                        input_dict = {'question': question, 'options': options, "context": batch_retrieve_doc, "demonstration": demonstration}
+                    else:
+                        input_dict = {'question': question, 'options': options, "context": batch_retrieve_doc}
+            
+                        batch_pred, scores = self.return_prediction(input_dict, batch_label, training_flag=True)
+                        llm_likelihood = map_prob(batch_label, scores, self.LLM_tokenizer)
+                        batch_llm_score.append(llm_likelihood)
+                        batch_pred_list.append(batch_pred)
 
-        self.my_metrics.metrics_task_res(all_test_labels, all_test_predictions, self.args.print_logger)
+                lsr_loss = self.compute_lsr_loss(retrieve_scores[:, :self.args.max_train_retri_num],  torch.stack(batch_llm_score).permute(1,0))
+                total_loss = lsr_loss
+                
+                self.optimizer.zero_grad()
+                total_loss.backward()
+                self.optimizer.step()
+
+                self.writer.add_scalar('Loss/total_loss', total_loss, step_num)
+                self.print_logger.info(f"training process num: {step_num}/{total_batch}, total_loss: {total_loss}, best_step :{best_step}, best_acc :{best_acc}")
+
+
+                # only choose the most likely doc to pred in training stage
+                all_train_predictions+=batch_pred_list[0]
+                all_train_labels+=batch_label
+
+                if (step_num % self.args.train_eval==0) and step_num>1:
+                    acc, precision, recall, f1 = self.my_metrics.metrics_task_res(all_train_labels, all_train_predictions, self.args.print_logger)
+                    
+                    self.writer.add_scalar('Performance/acc', acc, step_num)
+                    self.writer.add_scalar('Performance/precision', precision, step_num)
+                    self.writer.add_scalar('Performance/recall', recall, step_num)
+                    self.writer.add_scalar('Performance/f1', f1, step_num)
+
+                    all_train_labels = []
+                    all_train_predictions = []
+
+                    if acc>best_acc:
+                        best_acc = acc
+                        best_step = step_num
+                        if step_num>10:
+                            torch.save(self.query_encoder.state_dict(), self.args.dir_path+'/query_encoder.pkl') 
+                            torch.save(self.context_encoder.state_dict(), self.args.dir_path+'/context_encoder.pkl') 
+
+
+
+            #     step_num+=1
+            #     if step_num ==10:
+            #         break
+            # if step_num ==10:
+            #   break
+
             
 
     def test_proc(self, test_data_loader, dev_data_loader):
@@ -245,14 +301,14 @@ class My_Trainer:
         
         cnt = 0
         for index, data_item in enumerate(test_data_loader):
-            self.print_logger.info(f"process num: {index}")
+            self.print_logger.info(f"testing process num: {index}")
             question = data_item['question']
             options = data_item['options']
-            label = data_item["label"]
+            batch_label = data_item["label"]
 
             if self.args.if_RA:
                 with torch.no_grad():
-                    retrieve_doc, retrieve_scores = self.retrieve(question)
+                    retrieve_doc, _ = self.retrieve(question, self.args.max_retri_num, train_flag=False)
                 if self.args.demonstration:
                     demonstration = self.random_select_demonstration(dev_data_loader, self.args.test_batch_size)
                     input_dict = {'question': question, 'options': options, "context": retrieve_doc, "demonstration": demonstration}
@@ -266,15 +322,18 @@ class My_Trainer:
                     input_dict = {'question': question, 'options': options}
             
             with torch.no_grad():
-                all_test_predictions, all_test_labels, scores = self.return_prediction(input_dict, label, all_test_predictions, all_test_labels)
+                batch_pred, _ = self.return_prediction(input_dict, batch_label)
+
+            all_test_labels.append(batch_label)
+            all_test_predictions.append(batch_pred)
 
             # cnt+=1
             # if cnt ==10:
             #     break
 
-        self.my_metrics.metrics_task_res(all_test_labels, all_test_predictions, self.args.print_logger)
+        acc, precision, recall, f1 = self.my_metrics.metrics_task_res(all_test_labels, all_test_predictions, self.args.print_logger)
 
-    def return_prediction(self, input_dict, label, all_test_predictions, all_test_labels):
+    def return_prediction(self, input_dict, label, training_flag=False):
         my_input_list = []
         keys = input_dict.keys()
         for values in zip(*input_dict.values()):
@@ -282,19 +341,23 @@ class My_Trainer:
             my_input = self.prompt.format(**current_inputs)
             my_input_list.append(my_input)
 
+        batch_predictions = []
+        batch_score = []
         dataset = Prompt_Dataset(my_input_list)
         for index, generation in enumerate(self.pipe(dataset)):
-            pred = self.pasrse_record_res(my_input_list[index], label[index], generation[0]["generated_text"][-self.args.max_new_tokens:])
-            all_test_predictions.append(pred)
-            all_test_labels.append(label[index])
-        return all_test_predictions, all_test_labels, generation[0]["scores"]
+            pred = self.pasrse_record_res(my_input_list[index], label[index], generation[0]["generated_text"][-self.args.max_new_tokens:], training_flag)
+            batch_predictions.append(pred)
+            batch_score.append(generation[0]["scores"].squeeze())
+        return batch_predictions, batch_score
     
-    def pasrse_record_res(self, my_input, label, generation):
+    def pasrse_record_res(self, my_input, label, generation, training_flag):
         pred = extracted_label(generation)
 
-        self.result_logger.info(my_input)
-        self.result_logger.info(generation)
-        self.result_logger.info(f"label: {label}")
-        self.result_logger.info(f"pred: {pred} "+ "\n========================================================================================================================")
+        if not training_flag:
+            self.result_logger.info(my_input)
+            self.result_logger.info(generation)
+            self.result_logger.info(f"label: {label}")
+            self.result_logger.info(f"pred: {pred} "+ "\n========================================================================================================================")
         
         return pred
+    

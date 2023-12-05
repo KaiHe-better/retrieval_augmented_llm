@@ -36,10 +36,17 @@ parser.add_argument('--similarity_threshold', type=float, default=0.7, help='sim
 parser.add_argument('--multi_query', type=bool, default=False, help='multi_query, using open AI')
 
 # train
-parser.add_argument('--train_batch_size', type=int, default=1, help='batch_size')
-parser.add_argument('--test_batch_size', type=int, default=4, help='batch_size')
+parser.add_argument('--max_train_retri_num', type=int, default=1, help='max_document_num')
+parser.add_argument('--train_batch_size', type=int, default=2, help='train_batch_size')
+parser.add_argument('--test_batch_size', type=int, default=4, help='test_batch_size')
 parser.add_argument('--demonstration', type=bool, default=False, help='in_context learning')
 parser.add_argument('--demons_cnt', type=int, default=1, help='demonstration number')
+parser.add_argument('--retrieval_tau', type=float, default=1, help='demonstration number')
+parser.add_argument('--llm_tau', type=float, default=1, help='demonstration number')
+parser.add_argument('--l2_coef', type=float, default=1e-5, help='l2')
+parser.add_argument('--lr', type=float, default=1e-5, help='lr for retriever')
+parser.add_argument('--train_eval', type=int, default=20, help='lr for retriever')
+parser.add_argument('--epoch', type=int, default=99999, help='lr for retriever')
 
 # Decoding
 parser.add_argument("--temperature", type=float, default=1e-9, help="Temperature for decoding")

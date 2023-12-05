@@ -14,4 +14,4 @@ class My_Metrics():
         print_logger.info(f"test recall {round(recall*100, 2)}")
         print_logger.info(f"test f1 {round(f1*100, 2)}")
 
-    
+        return acc, precision, recall, f1
