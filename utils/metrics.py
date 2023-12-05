@@ -9,9 +9,14 @@ class My_Metrics():
         recall = recall_score(label, pred, average="macro")
         f1 = f1_score(label, pred, average="macro")
 
-        print_logger.info(f"test acc {round(acc*100, 2)}")
-        print_logger.info(f"test precision {round(precision*100, 2)}")
-        print_logger.info(f"test recall {round(recall*100, 2)}")
-        print_logger.info(f"test f1 {round(f1*100, 2)}")
+        acc = round(acc*100, 2)
+        precision = round(precision*100, 2)
+        recall = round(recall*100, 2)
+        f1 = round(f1*100, 2)
+
+        print_logger.info(f"test acc {acc}")
+        print_logger.info(f"test precision {precision}")
+        print_logger.info(f"test recall {recall}")
+        print_logger.info(f"test f1 {f1}")
 
         return acc, precision, recall, f1

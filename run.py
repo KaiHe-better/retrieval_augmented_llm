@@ -36,7 +36,7 @@ parser.add_argument('--similarity_threshold', type=float, default=0.7, help='sim
 parser.add_argument('--multi_query', type=bool, default=False, help='multi_query, using open AI')
 
 # train
-parser.add_argument('--max_train_retri_num', type=int, default=1, help='max_document_num')
+parser.add_argument('--max_train_retri_num', type=int, default=2, help='max_document_num')
 parser.add_argument('--train_batch_size', type=int, default=2, help='train_batch_size')
 parser.add_argument('--test_batch_size', type=int, default=4, help='test_batch_size')
 parser.add_argument('--demonstration', type=bool, default=False, help='in_context learning')
