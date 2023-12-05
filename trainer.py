@@ -110,11 +110,11 @@ class My_Trainer:
                 chunks = text_splitter.split_documents(documents)
                 all_doc += chunks
                 
-                break
-            break
-        self.print_logger.info("===============================breaking ===============================")
-        self.print_logger.info("===============================breaking ===============================")
-        self.print_logger.info("===============================breaking ===============================")
+        #         break
+        #     break
+        # self.print_logger.info("===============================breaking ===============================")
+        # self.print_logger.info("===============================breaking ===============================")
+        # self.print_logger.info("===============================breaking ===============================")
 
         self.print_logger.info("process retrieval files finish in %.2f sec. \n"% (time.time() - start_time))
         return all_doc, text_splitter
@@ -280,15 +280,11 @@ class My_Trainer:
                             torch.save(self.query_encoder.state_dict(), self.args.dir_path+'/query_encoder.pkl') 
                             torch.save(self.context_encoder.state_dict(), self.args.dir_path+'/context_encoder.pkl') 
 
-
-
             #     step_num+=1
             #     if step_num ==10:
             #         break
             # if step_num ==10:
             #   break
-
-            
 
     def test_proc(self, test_data_loader, dev_data_loader):
         if self.args.if_RA:
