@@ -126,11 +126,17 @@ def get_logger(dir, name):
     
     logger = logging.getLogger(name)
 
-    if name =="result":
+    if name == "test_result":
         # 创建一个handler，用于写入日志文件
         filename = f'{datetime.now().date()}_{name}.log'
         filename = os.path.join(dir, filename)
-        fh = logging.FileHandler(filename, mode='w+', encoding='utf-8')
+        fh_test = logging.FileHandler(filename, mode='w+', encoding='utf-8')
+
+    if name == "train_result":
+        # 创建一个handler，用于写入日志文件
+        filename = f'{datetime.now().date()}_{name}.log'
+        filename = os.path.join(dir, filename)
+        fh_train = logging.FileHandler(filename, mode='w+', encoding='utf-8')
 
     if name =="print":
         # 创建一个handler，用于写入日志文件
@@ -148,13 +154,21 @@ def get_logger(dir, name):
     # 定义日志输出层级
     logger.setLevel(logging.DEBUG)
     
-    if name =="result":
+    if name =="test_result":
         # 定义控制台输出层级
         # logger.setLevel(logging.DEBUG)
         # 为文件操作符绑定格式（可以绑定多种格式例fh.setFormatter(formatter2)）
-        fh.setFormatter(formatter)
+        fh_test.setFormatter(formatter)
         # 给logger对象绑定文件操作符
-        logger.addHandler(fh)
+        logger.addHandler(fh_test)
+
+    if name =="train_result":
+        # 定义控制台输出层级
+        # logger.setLevel(logging.DEBUG)
+        # 为文件操作符绑定格式（可以绑定多种格式例fh.setFormatter(formatter2)）
+        fh_train.setFormatter(formatter)
+        # 给logger对象绑定文件操作符
+        logger.addHandler(fh_train)
 
     if name =="print":
         fh.setFormatter(formatter)

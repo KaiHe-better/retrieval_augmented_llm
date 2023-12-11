@@ -30,7 +30,8 @@ class My_Trainer:
     def __init__(self, args, my_model, LLM, LLM_tokenizer, retri_encoder, triever_tokenizer, device):
         self.args = args
         self.print_logger = args.print_logger
-        self.result_logger = args.result_logger
+        self.test_result_logger = args.test_result_logger
+        self.train_result_logger = args.train_result_logger
 
         self.device = device
         self.my_model = my_model
@@ -110,11 +111,14 @@ class My_Trainer:
                 chunks = text_splitter.split_documents(documents)
                 all_doc += chunks
                 
-        #         break
-        #     break
-        # self.print_logger.info("===============================breaking ===============================")
-        # self.print_logger.info("===============================breaking ===============================")
-        # self.print_logger.info("===============================breaking ===============================")
+                if self.args.test_code_flag:
+                    break
+            if self.args.test_code_flag:
+                break
+        if self.args.test_code_flag:
+            self.print_logger.info("===============================breaking ===============================")
+            self.print_logger.info("===============================breaking ===============================")
+            self.print_logger.info("===============================breaking ===============================")
 
         self.print_logger.info("process retrieval files finish in %.2f sec. \n"% (time.time() - start_time))
         return all_doc, text_splitter
@@ -206,7 +210,7 @@ class My_Trainer:
     def compute_lsr_loss(self, retrieve_scores, batch_llm_score):
         input = F.log_softmax(retrieve_scores/self.args.retrieval_tau, dim=-1)
         target = F.log_softmax(batch_llm_score/self.args.llm_tau, dim=-1).to(input.device)
-        lsr_loss = self.kl_loss(input, target)
+        lsr_loss = -self.kl_loss(input, target)
         return lsr_loss
 
     def train_proc(self, train_data_loader, dev_data_loader):
@@ -263,6 +267,10 @@ class My_Trainer:
                 all_train_labels+=batch_label
 
                 if (step_num % self.args.train_eval==0) and step_num>1:
+                    file_path = self.train_result_logger.handlers[0].baseFilename
+                    if os.path.isfile(file_path):
+                        pass
+
                     acc, precision, recall, f1 = self.my_metrics.metrics_task_res(all_train_labels, all_train_predictions, self.args.print_logger)
                     
                     self.writer.add_scalar('Performance/acc', acc, step_num)
@@ -349,11 +357,15 @@ class My_Trainer:
     def pasrse_record_res(self, my_input, label, generation, training_flag):
         pred = extracted_label(generation)
 
-        if not training_flag:
-            self.result_logger.info(my_input)
-            self.result_logger.info(generation)
-            self.result_logger.info(f"label: {label}")
-            self.result_logger.info(f"pred: {pred} "+ "\n========================================================================================================================")
+        if training_flag:
+            result_logger = self.train_result_logger
+        else:    
+            result_logger = self.test_result_logger
+
+        result_logger.info(my_input)
+        result_logger.info(generation)
+        result_logger.info(f"label: {label}")
+        result_logger.info(f"pred: {pred} "+ "\n========================================================================================================================")
         
         return pred
     

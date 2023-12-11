@@ -9,10 +9,11 @@ parser = argparse.ArgumentParser()
 
 # system settings
 parser.add_argument('--ID', type=str, default='0', help='run ID')
-parser.add_argument("--config", type=str, default="llama2-7b_USMLE_RA.yaml", help="Path to the config file")
+parser.add_argument("--config", type=str, default="llama2-7b_USMLE_RA_test.yaml", help="Path to the config file")
 parser.add_argument('--gpu', default="5,6,7", type=str, help='gpu device numbers')
 parser.add_argument('--seed', default=42, help='trandom seed')
 parser.add_argument('--num_workers', default=16, type=int, help='data_loader_work')
+parser.add_argument("--test_code_flag", type=bool, default=False, help="if retrieval augmented")
 
 # model and name 
 parser.add_argument("--if_train", type=bool, default=True, help="if retrieval augmented")
@@ -45,7 +46,7 @@ parser.add_argument('--retrieval_tau', type=float, default=1, help='demonstratio
 parser.add_argument('--llm_tau', type=float, default=1, help='demonstration number')
 parser.add_argument('--l2_coef', type=float, default=1e-5, help='l2')
 parser.add_argument('--lr', type=float, default=1e-5, help='lr for retriever')
-parser.add_argument('--train_eval', type=int, default=20, help='lr for retriever')
+parser.add_argument('--train_eval', type=int, default=100, help='lr for retriever')
 parser.add_argument('--epoch', type=int, default=99999, help='lr for retriever')
 
 # Decoding
@@ -83,7 +84,8 @@ seed_everything(42)
 dir_path = make_log_dir()
 args.dir_path = dir_path
 args.print_logger = get_logger(dir_path, "print")
-args.result_logger = get_logger(dir_path, "result")
+args.test_result_logger = get_logger(dir_path, "test_result")
+args.train_result_logger = get_logger(dir_path, "train_result")
 
 def custom_excepthook(exc_type, exc_value, exc_traceback):
     args.print_logger.error("Uncaught exception", exc_info=(exc_type, exc_value, exc_traceback))
