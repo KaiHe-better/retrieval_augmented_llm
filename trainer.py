@@ -22,7 +22,7 @@ import torch.nn as nn
 from tqdm import tqdm
 from utils.metrics import My_Metrics
 from torch.utils.tensorboard import SummaryWriter
-from utils.utils import extracted_label, map_prob, LineListOutputParser
+from utils.utils import extracted_label, map_prob, LineListOutputParser, empty_logger_file
 
 
 class My_Trainer:
@@ -208,9 +208,10 @@ class My_Trainer:
         return batch_infer_doc, scores
     
     def compute_lsr_loss(self, retrieve_scores, batch_llm_score):
-        input = F.log_softmax(retrieve_scores/self.args.retrieval_tau, dim=-1)
-        target = F.log_softmax(batch_llm_score/self.args.llm_tau, dim=-1).to(input.device)
-        lsr_loss = -self.kl_loss(input, target)
+        input = F.softmax(retrieve_scores/self.args.retrieval_tau, dim=-1)
+        # target = F.log_softmax(batch_llm_score/self.args.llm_tau, dim=-1).to(input.device)
+        target = F.softmax(batch_llm_score/self.args.llm_tau, dim=-1).to(input.device)
+        lsr_loss = self.kl_loss(input, target)
         return lsr_loss
 
     def train_proc(self, train_data_loader, dev_data_loader):
@@ -267,10 +268,8 @@ class My_Trainer:
                 all_train_labels+=batch_label
 
                 if (step_num % self.args.train_eval==0) and step_num>1:
-                    file_path = self.train_result_logger.handlers[0].baseFilename
-                    if os.path.isfile(file_path):
-                        pass
-
+                    self.updata_retri_embedding()
+                    self.train_result_logger = empty_logger_file(self.train_result_logger)
                     acc, precision, recall, f1 = self.my_metrics.metrics_task_res(all_train_labels, all_train_predictions, self.args.print_logger)
                     
                     self.writer.add_scalar('Performance/acc', acc, step_num)

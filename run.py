@@ -6,11 +6,11 @@ import argparse
 
 
 parser = argparse.ArgumentParser()
-
+ 
 # system settings
 parser.add_argument('--ID', type=str, default='0', help='run ID')
 parser.add_argument("--config", type=str, default="llama2-7b_USMLE_RA_test.yaml", help="Path to the config file")
-parser.add_argument('--gpu', default="5,6,7", type=str, help='gpu device numbers')
+parser.add_argument('--gpu', default="5", type=str, help='gpu device numbers')
 parser.add_argument('--seed', default=42, help='trandom seed')
 parser.add_argument('--num_workers', default=16, type=int, help='data_loader_work')
 parser.add_argument("--test_code_flag", type=bool, default=False, help="if retrieval augmented")
@@ -37,9 +37,9 @@ parser.add_argument('--similarity_threshold', type=float, default=0.7, help='sim
 parser.add_argument('--multi_query', type=bool, default=False, help='multi_query, using open AI')
 
 # train
-parser.add_argument('--max_train_retri_num', type=int, default=2, help='max_document_num')
-parser.add_argument('--train_batch_size', type=int, default=2, help='train_batch_size')
-parser.add_argument('--test_batch_size', type=int, default=4, help='test_batch_size')
+parser.add_argument('--max_train_retri_num', type=int, default=5, help='max_document_num')
+parser.add_argument('--train_batch_size', type=int, default=1, help='train_batch_size')
+parser.add_argument('--test_batch_size', type=int, default=1, help='test_batch_size')
 parser.add_argument('--demonstration', type=bool, default=False, help='in_context learning')
 parser.add_argument('--demons_cnt', type=int, default=1, help='demonstration number')
 parser.add_argument('--retrieval_tau', type=float, default=1, help='demonstration number')

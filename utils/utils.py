@@ -89,9 +89,20 @@ def extracted_label(res):
     return 0    
 
 def map_prob(labels, scores, LLM_tokenizer):
-    dic_map = {0:"A", 1:"B", 2:"C", 3:"4"}
+    
+    total_tmp_list = []
+    dic_map = {0:"A", 1:"B", 2:"C", 3:"D"}
     prob_list = []
     for label, score in zip(labels, scores):
+        
+        tmp_list = []
+        tmp_prob_list, tmp_index_list = torch.sort(score, descending=True)
+        for prob1, index1 in zip(tmp_prob_list, tmp_index_list):
+            if math.isinf(prob1):
+                break
+            tmp_list.append(LLM_tokenizer._convert_id_to_token(int(index1)))
+        total_tmp_list.append(tmp_list)
+
         id = LLM_tokenizer._convert_token_to_id(dic_map[label])
         prob = score.squeeze()[id]
         if math.isinf(prob):
@@ -121,6 +132,22 @@ def make_log_dir():
     os.mkdir(dir_path)
 
     return dir_path
+
+def empty_logger_file(logger):
+    file_handler = logger.handlers[0]
+    log_file = logger.handlers[0].baseFilename
+
+    logger.removeHandler(file_handler)
+    file_handler.close()
+
+    # 然后，清空文件内容
+    with open(log_file, 'w') as file:
+        pass  # 打开文件后立即关闭，内容被清空
+
+    # 最后，重新创建FileHandler并绑定到logger
+    file_handler = logging.FileHandler(log_file)
+    logger.addHandler(file_handler)
+    return logger
 
 def get_logger(dir, name):
     
