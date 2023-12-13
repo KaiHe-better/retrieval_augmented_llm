@@ -108,7 +108,7 @@ def main(args):
     trainer = My_Trainer(args, my_model, LLM, LLM_tokenizer, retri_encoder, triever_tokenizer, device)
     
     if args.if_train:
-        trainer.train_proc(train_data_loader, dev_data_loader)
+        trainer.train_proc(train_data_loader, dev_data_loader, test_data_loader)
     trainer.test_proc(test_data_loader, dev_data_loader)
      
     

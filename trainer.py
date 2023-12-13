@@ -211,7 +211,7 @@ class My_Trainer:
         lsr_loss = self.kl_loss(input, target)
         return lsr_loss
 
-    def train_proc(self, train_data_loader, dev_data_loader):
+    def train_proc(self, train_data_loader, dev_data_loader, test_data_loader):
         if not self.args.if_RA:
             raise Exception("need retrieve ! ")
 
@@ -259,8 +259,6 @@ class My_Trainer:
                 self.writer.add_scalar('Loss/total_loss', total_loss, step_num)
                 self.print_logger.info(f"training process num: {step_num}/{total_batch}, total_loss: {total_loss}, best_step :{best_step}, best_acc :{best_acc}")
 
-                a = [param for param in self.query_encoder.parameters()]
-
                 # only choose the most likely doc to pred in training stage
                 all_train_predictions+=batch_pred_list[0]
                 all_train_labels+=batch_label
@@ -268,20 +266,28 @@ class My_Trainer:
                 if (step_num % self.args.train_eval==0) and step_num>1:
                     
                     self.train_result_logger = empty_logger_file(self.train_result_logger)
-                    acc, precision, recall, f1 = self.my_metrics.metrics_task_res(all_train_labels, all_train_predictions, self.args.print_logger)
-                    
-                    self.writer.add_scalar('Performance/acc', acc, step_num)
-                    self.writer.add_scalar('Performance/precision', precision, step_num)
-                    self.writer.add_scalar('Performance/recall', recall, step_num)
-                    self.writer.add_scalar('Performance/f1', f1, step_num)
+                    train_acc, train_precision, train_recall, train_f1 = self.my_metrics.metrics_task_res(all_train_labels, all_train_predictions, self.args.print_logger, "train")
+
+                    self.writer.add_scalar('Performance/train/acc', train_acc, step_num)
+                    self.writer.add_scalar('Performance/train/precision', train_precision, step_num)
+                    self.writer.add_scalar('Performance/train/recall', train_recall, step_num)
+                    self.writer.add_scalar('Performance/train/f1', train_f1, step_num)
+
+                    test_acc, test_precision, test_recall, test_f1 = self.test_proc(test_data_loader, dev_data_loader, break_cnt=100)
+
+                    self.writer.add_scalar('Performance/test/acc', test_acc, step_num)
+                    self.writer.add_scalar('Performance/test/precision', test_precision, step_num)
+                    self.writer.add_scalar('Performance/test/recall', test_recall, step_num)
+                    self.writer.add_scalar('Performance/test/f1', test_f1, step_num)
+
 
                     self.updata_retri_embedding()
 
                     all_train_labels = []
                     all_train_predictions = []
 
-                    if acc>best_acc:
-                        best_acc = acc
+                    if test_acc>best_acc:
+                        best_acc = test_acc
                         best_step = step_num
                         if step_num>10:
                             torch.save(self.query_encoder.state_dict(), self.args.dir_path+'/query_encoder.pkl') 
@@ -294,7 +300,7 @@ class My_Trainer:
             #   break
 
     
-    def test_proc(self, test_data_loader, dev_data_loader):
+    def test_proc(self, test_data_loader, dev_data_loader, break_cnt=None):
         if self.args.if_RA:
             self.updata_retri_embedding()
             
@@ -303,7 +309,6 @@ class My_Trainer:
         all_test_labels = []
         all_test_predictions = []
         
-        cnt = 0
         for index, data_item in enumerate(test_data_loader):
             self.print_logger.info(f"testing process num: {index}")
             question = data_item['question']
@@ -331,12 +336,12 @@ class My_Trainer:
             all_test_labels.append(batch_label)
             all_test_predictions.append(batch_pred)
 
-            # cnt+=1
-            # if cnt ==10:
-            #     break
+            if break_cnt is not None and break_cnt<index:
+                break
 
-        acc, precision, recall, f1 = self.my_metrics.metrics_task_res(all_test_labels, all_test_predictions, self.args.print_logger)
-
+        test_acc, test_precision, test_recall, test_f1 = self.my_metrics.metrics_task_res(all_test_labels, all_test_predictions, self.args.print_logger, "test")
+        return test_acc, test_precision, test_recall, test_f1
+    
     def pipeline_inference(self, input_dict, label, training_flag=False):
         my_input_list = []
         keys = input_dict.keys()
