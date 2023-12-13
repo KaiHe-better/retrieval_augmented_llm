@@ -9,3 +9,4 @@ retrieval_processed_file_dir: "datasets/USMLE/process_retrieval_corpus/"
 test_code_flag: True
 train_eval: 2
 train_batch_size: 8
+lr: 10

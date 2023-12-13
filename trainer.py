@@ -67,16 +67,13 @@ class My_Trainer:
 
             if args.triever in ["dragon+"]:
                 self.query_encoder =  retri_encoder[0].to(self.device)
-                self.context_encoder = retri_encoder[1].to(self.device)
+                # self.context_encoder = retri_encoder[1].to(self.device)
+                self.context_encoder = self.query_encoder
             else:
                 raise Exception("wrong !")
             
             if self.args.if_train:
-                param_list = []
-                for name, param in self.query_encoder.named_parameters():
-                    param_list.append(param)
-                for name, param in self.context_encoder.named_parameters():
-                    param_list.append(param)
+                param_list = list(self.query_encoder.parameters())
                 self.optimizer = torch.optim.Adam( param_list, lr=self.args.lr, weight_decay=self.args.l2_coef)
 
             if self.args.demonstration:
@@ -247,7 +244,7 @@ class My_Trainer:
                     else:
                         input_dict = {'question': question, 'options': options, "context": batch_retrieve_doc}
             
-                        batch_pred, scores = self.return_prediction(input_dict, batch_label, training_flag=True)
+                        batch_pred, scores = self.pipeline_inference(input_dict, batch_label, training_flag=True)
                         llm_likelihood = map_prob(batch_label, scores, self.LLM_tokenizer)
                         batch_llm_score.append(llm_likelihood)
                         batch_pred_list.append(batch_pred)
@@ -262,6 +259,7 @@ class My_Trainer:
                 self.writer.add_scalar('Loss/total_loss', total_loss, step_num)
                 self.print_logger.info(f"training process num: {step_num}/{total_batch}, total_loss: {total_loss}, best_step :{best_step}, best_acc :{best_acc}")
 
+                a = [param for param in self.query_encoder.parameters()]
 
                 # only choose the most likely doc to pred in training stage
                 all_train_predictions+=batch_pred_list[0]
@@ -278,7 +276,7 @@ class My_Trainer:
                     self.writer.add_scalar('Performance/f1', f1, step_num)
 
                     self.updata_retri_embedding()
-                    
+
                     all_train_labels = []
                     all_train_predictions = []
 
@@ -287,7 +285,7 @@ class My_Trainer:
                         best_step = step_num
                         if step_num>10:
                             torch.save(self.query_encoder.state_dict(), self.args.dir_path+'/query_encoder.pkl') 
-                            torch.save(self.context_encoder.state_dict(), self.args.dir_path+'/context_encoder.pkl') 
+                            # torch.save(self.context_encoder.state_dict(), self.args.dir_path+'/context_encoder.pkl') 
 
             #     step_num+=1
             #     if step_num ==10:
@@ -295,6 +293,7 @@ class My_Trainer:
             # if step_num ==10:
             #   break
 
+    
     def test_proc(self, test_data_loader, dev_data_loader):
         if self.args.if_RA:
             self.updata_retri_embedding()
@@ -327,7 +326,7 @@ class My_Trainer:
                     input_dict = {'question': question, 'options': options}
             
             with torch.no_grad():
-                batch_pred, _ = self.return_prediction(input_dict, batch_label)
+                batch_pred, _ = self.pipeline_inference(input_dict, batch_label)
 
             all_test_labels.append(batch_label)
             all_test_predictions.append(batch_pred)
@@ -338,7 +337,7 @@ class My_Trainer:
 
         acc, precision, recall, f1 = self.my_metrics.metrics_task_res(all_test_labels, all_test_predictions, self.args.print_logger)
 
-    def return_prediction(self, input_dict, label, training_flag=False):
+    def pipeline_inference(self, input_dict, label, training_flag=False):
         my_input_list = []
         keys = input_dict.keys()
         for values in zip(*input_dict.values()):
