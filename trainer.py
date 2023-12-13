@@ -268,7 +268,7 @@ class My_Trainer:
                 all_train_labels+=batch_label
 
                 if (step_num % self.args.train_eval==0) and step_num>1:
-                    self.updata_retri_embedding()
+                    
                     self.train_result_logger = empty_logger_file(self.train_result_logger)
                     acc, precision, recall, f1 = self.my_metrics.metrics_task_res(all_train_labels, all_train_predictions, self.args.print_logger)
                     
@@ -277,6 +277,8 @@ class My_Trainer:
                     self.writer.add_scalar('Performance/recall', recall, step_num)
                     self.writer.add_scalar('Performance/f1', f1, step_num)
 
+                    self.updata_retri_embedding()
+                    
                     all_train_labels = []
                     all_train_predictions = []
 

@@ -95,18 +95,18 @@ def map_prob(labels, scores, LLM_tokenizer):
     prob_list = []
     for label, score in zip(labels, scores):
         
-        tmp_list = []
-        tmp_prob_list, tmp_index_list = torch.sort(score, descending=True)
-        for prob1, index1 in zip(tmp_prob_list, tmp_index_list):
-            if math.isinf(prob1):
-                break
-            tmp_list.append(LLM_tokenizer._convert_id_to_token(int(index1)))
-        total_tmp_list.append(tmp_list)
+        # tmp_list = []
+        # tmp_prob_list, tmp_index_list = torch.sort(score, descending=True)
+        # for prob1, index1 in zip(tmp_prob_list, tmp_index_list):
+        #     if math.isinf(prob1):
+        #         break
+        #     tmp_list.append(LLM_tokenizer._convert_id_to_token(int(index1)))
+        # total_tmp_list.append(tmp_list)
 
         id = LLM_tokenizer._convert_token_to_id(dic_map[label])
         prob = score.squeeze()[id]
         if math.isinf(prob):
-            prob = torch.tensor(1e-10)
+            prob = torch.tensor(1e-9)
         prob_list.append(prob)
     return torch.stack(prob_list)  
 

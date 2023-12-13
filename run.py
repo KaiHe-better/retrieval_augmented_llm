@@ -29,7 +29,7 @@ parser.add_argument('--retrieval_raw_data_dir', type=str, default="datasets/USML
 parser.add_argument('--retrieval_processed_file_dir', type=str, default="datasets/USMLE/process_retrieval_corpus/", help='retrieval_processed_file_dir')
 
 # retrieval
-parser.add_argument('--retri_batch_size', type=int, default=512, help='batch_size')
+parser.add_argument('--retri_batch_size', type=int, default=640, help='batch_size')
 parser.add_argument('--max_retri_num', type=int, default=1, help='max_document_num')
 parser.add_argument('--chunk_size', type=int, default=512, help='chunk_sizen, not token length')
 parser.add_argument('--chunk_overlap', type=int, default=20, help='chunk_size')
