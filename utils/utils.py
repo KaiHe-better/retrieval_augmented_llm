@@ -88,8 +88,7 @@ def extracted_label(res):
         return 3
     return 0    
 
-def map_prob(labels, scores, LLM_tokenizer):
-    
+def map_prob(labels, scores, LLM_tokenizer):    
     total_tmp_list = []
     dic_map = {0:"A", 1:"B", 2:"C", 3:"D"}
     prob_list = []
@@ -295,21 +294,20 @@ def load_retriever(args, print_logger):
         return "", ""
     else:
         print_logger.info("loading retriever ...")
+        
         if args.triever == "dragon+":
             tokenizer_path = "../LLM_models/dragon+/facebook_dragon-plus-query-encoder"
-            query_encoder_path = "../LLM_models/dragon+/facebook_dragon-plus-query-encoder"
-            context_encoder_path = "../LLM_models/dragon+/facebook_dragon-plus-context-encoder"
-            retri_encoder_path = (query_encoder_path, context_encoder_path)
+            triever_path = "../LLM_models/dragon+/facebook_dragon-plus-query-encoder"
+            # context_encoder_path = "../LLM_models/dragon+/facebook_dragon-plus-context-encoder"
 
         if args.triever == "NIL":
             tokenizer_path = "../LLM_models/google/t5_xxl_true_nli_mixture"
-            retri_encoder_path = "../LLM_models/google/t5_xxl_true_nli_mixture"
+            triever_path = "../LLM_models/google/t5_xxl_true_nli_mixture"
 
-    # device_map='auto',
         triever_tokenizer =  AutoTokenizer.from_pretrained(tokenizer_path)
-        query_encoder =  AutoModel.from_pretrained('facebook/dragon-plus-query-encoder')
-        context_encoder = AutoModel.from_pretrained('facebook/dragon-plus-context-encoder')
-
-        return (query_encoder, context_encoder), triever_tokenizer
+        # triever =  AutoModel.from_pretrained('facebook/dragon-plus-query-encoder')
+        triever =  AutoModel.from_pretrained(triever_path,)
+        
+        return triever, triever_tokenizer
     
 

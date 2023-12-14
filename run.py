@@ -14,9 +14,10 @@ parser.add_argument('--gpu', default="5", type=str, help='gpu device numbers')
 parser.add_argument('--seed', default=42, help='trandom seed')
 parser.add_argument('--num_workers', default=16, type=int, help='data_loader_work')
 parser.add_argument("--test_code_flag", type=bool, default=False, help="if retrieval augmented")
+parser.add_argument("--retriever_ckpt_path", type=str, default=None, help="if load trained retriever")
 
 # model and name 
-parser.add_argument("--if_train", type=bool, default=True, help="if retrieval augmented")
+parser.add_argument("--if_train", type=bool, default=False, help="if retrieval augmented")
 parser.add_argument("--if_RA", type=bool, default=False, help="if retrieval augmented")
 parser.add_argument("--int8", type=bool, default=False, help="if int8")
 parser.add_argument("--LLM", type=str,  default="llama2-7b", choices=["llama2-7b", "X", ], help="LLM to use")
@@ -46,7 +47,7 @@ parser.add_argument('--retrieval_tau', type=float, default=1, help='demonstratio
 parser.add_argument('--llm_tau', type=float, default=1, help='demonstration number')
 parser.add_argument('--l2_coef', type=float, default=1e-5, help='l2')
 parser.add_argument('--lr', type=float, default=1e-5, help='lr for retriever')
-parser.add_argument('--train_eval', type=int, default=100, help='lr for retriever')
+parser.add_argument('--train_eval', type=int, default=50, help='lr for retriever')
 parser.add_argument('--epoch', type=int, default=99999, help='lr for retriever')
 
 # Decoding

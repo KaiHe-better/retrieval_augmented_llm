@@ -66,14 +66,16 @@ class My_Trainer:
             self.retrieved_document, self.text_splitter = self.process_document()
 
             if args.triever in ["dragon+"]:
-                self.query_encoder =  retri_encoder[0].to(self.device)
-                # self.context_encoder = retri_encoder[1].to(self.device)
-                self.context_encoder = self.query_encoder
+                self.retriever =  retri_encoder.to(self.device)
             else:
                 raise Exception("wrong !")
             
+            if self.args.retriever_ckpt_path is not None:
+                self.retriever.load_state_dict(torch.load(self.args.retriever_ckpt_path))
+                self.print_logger.info(f"load retriever: {self.args.retriever_ckpt_path} \n")    
+
             if self.args.if_train:
-                param_list = list(self.query_encoder.parameters())
+                param_list = list(self.retriever.parameters())
                 self.optimizer = torch.optim.Adam( param_list, lr=self.args.lr, weight_decay=self.args.l2_coef)
 
             if self.args.demonstration:
@@ -168,7 +170,7 @@ class My_Trainer:
             vectordb = []
             for context in tqdm(context_batches):
                 ctx_input = self.triever_tokenizer(context, padding=True, truncation=True, return_tensors='pt', max_length=self.args.chunk_size).to(self.device)
-                tmp_res = self.context_encoder(**ctx_input).last_hidden_state[:, 0, :]
+                tmp_res = self.retriever(**ctx_input).last_hidden_state[:, 0, :]
                 vectordb.append(tmp_res.detach().cpu().to(self.device))
                 torch.cuda.empty_cache()
 
@@ -181,7 +183,7 @@ class My_Trainer:
             raise Exception("train need retrieve more than one docs !")
         
         query_input = self.triever_tokenizer(query, truncation=True, return_tensors='pt', max_length=self.args.chunk_size, padding=True).to(self.device)
-        query_emb = self.query_encoder(**query_input).last_hidden_state[:, 0, :]
+        query_emb = self.retriever(**query_input).last_hidden_state[:, 0, :]
 
         scores = query_emb @ self.vectordb
         batch_select_index = torch.argsort(scores, descending=True)[:, :max_retri_num].tolist()
@@ -266,14 +268,16 @@ class My_Trainer:
                 if (step_num % self.args.train_eval==0) and step_num>1:
                     
                     self.train_result_logger = empty_logger_file(self.train_result_logger)
-                    train_acc, train_precision, train_recall, train_f1 = self.my_metrics.metrics_task_res(all_train_labels, all_train_predictions, self.args.print_logger, "train")
+                    train_acc, train_precision, train_recall, train_f1 = self.my_metrics.metrics_task_res(all_train_labels, 
+                                                                        all_train_predictions, self.args.print_logger, "train")
 
                     self.writer.add_scalar('Performance/train/acc', train_acc, step_num)
                     self.writer.add_scalar('Performance/train/precision', train_precision, step_num)
                     self.writer.add_scalar('Performance/train/recall', train_recall, step_num)
                     self.writer.add_scalar('Performance/train/f1', train_f1, step_num)
 
-                    test_acc, test_precision, test_recall, test_f1 = self.test_proc(test_data_loader, dev_data_loader, break_cnt=100)
+                    # test_acc, test_precision, test_recall, test_f1 = self.test_proc(test_data_loader, dev_data_loader, break_cnt=500)
+                    test_acc, test_precision, test_recall, test_f1 = self.test_proc(test_data_loader, dev_data_loader)
 
                     self.writer.add_scalar('Performance/test/acc', test_acc, step_num)
                     self.writer.add_scalar('Performance/test/precision', test_precision, step_num)
@@ -290,8 +294,7 @@ class My_Trainer:
                         best_acc = test_acc
                         best_step = step_num
                         if step_num>10:
-                            torch.save(self.query_encoder.state_dict(), self.args.dir_path+'/query_encoder.pkl') 
-                            # torch.save(self.context_encoder.state_dict(), self.args.dir_path+'/context_encoder.pkl') 
+                            torch.save(self.retriever.state_dict(), self.args.dir_path+'/retriever.pkl') 
 
             #     step_num+=1
             #     if step_num ==10:
@@ -310,7 +313,8 @@ class My_Trainer:
         all_test_predictions = []
         
         for index, data_item in enumerate(test_data_loader):
-            self.print_logger.info(f"testing process num: {index}")
+            if index%100==0:
+                self.print_logger.info(f"testing process num: {index}")
             question = data_item['question']
             options = data_item['options']
             batch_label = data_item["label"]
