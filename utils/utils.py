@@ -5,6 +5,7 @@ import math
 import torch
 import os
 import time
+import re
 import shutil
 import torch
 from transformers import AutoModel, AutoModelForCausalLM, AutoTokenizer
@@ -12,7 +13,53 @@ from pydantic import BaseModel, Field
 from langchain.output_parsers import PydanticOutputParser
 from typing import List
 from langchain.chat_models import ChatOpenAI
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.document_loaders import TextLoader
 
+
+def process_document(args, triever_tokenizer):
+        start_time = time.time()
+        
+        if args.test_code_flag:
+            process_file = os.path.join(args.retrieval_processed_file_dir, 
+                                    "test_"+args.dataset+"_"+str(args.triever)+"_"+str(args.chunk_size)+"_"+str(args.chunk_overlap)+".txt")
+            args.print_logger.info("\n====test==============\n====test==============\n====test==============\n")
+
+        else:
+            process_file = os.path.join(args.retrieval_processed_file_dir, 
+                                    args.dataset+"_"+str(args.triever)+"_"+str(args.chunk_size)+"_"+str(args.chunk_overlap)+".txt")
+            
+        if not os.path.exists(os.path.join(args.retrieval_processed_file_dir)):
+            os.makedirs(args.retrieval_processed_file_dir)
+        
+        text_splitter = RecursiveCharacterTextSplitter.from_huggingface_tokenizer(triever_tokenizer, 
+                                            chunk_size=args.chunk_size, chunk_overlap=args.chunk_overlap)
+            
+        if not os.path.exists(process_file):
+            args.print_logger.info("chunking retrieval files ... \n")
+
+            all_doc = []
+            for root, dirs, files in os.walk(args.retrieval_raw_data_dir):
+                for file in files:
+                    loader = TextLoader(os.path.join(root, file))
+                    documents = loader.load()
+                    chunks = text_splitter.split_documents(documents)
+                    temp_list = [[re.sub(r'[^\x00-\x7F]+', ' ', i.page_content.replace("\n\n", "\n "))] for i in chunks]
+                    all_doc+=temp_list
+
+            with open(process_file, "w", encoding="utf-8") as f:
+                for i in all_doc:
+                    f.writelines(str(i)+"\n")
+        else:
+            args.print_logger.info("already chunked !")
+        
+        with open(process_file, "r", encoding="utf-8") as f:
+            all_doc = f.readlines()
+        
+        all_doc = [eval(i)[0] for i in all_doc]
+
+        args.print_logger.info("process retrieval files finish in %.2f sec. \n"% (time.time() - start_time))
+        return all_doc, text_splitter
 
 class IndexRefreshScheduler(object):
     def __init__(self, format_str: str, freeze_retriever_steps: int, train_retriever: bool, logger):
@@ -289,11 +336,11 @@ def load_LLM(args, dtype=torch.float16):
         
         return model, tokenizer, stop_token_ids
 
-def load_retriever(args, print_logger):
+def load_retriever(args):
     if not args.if_RA:
         return "", ""
     else:
-        print_logger.info("loading retriever ...")
+        args.print_logger.info("loading retriever ...")
         
         if args.triever == "dragon+":
             tokenizer_path = "../LLM_models/dragon+/facebook_dragon-plus-query-encoder"

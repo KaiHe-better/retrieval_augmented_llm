@@ -28,26 +28,27 @@ parser.add_argument('--dataset', type=str, default="USMLE", choices=["USMLE", "X
 parser.add_argument('--prompt_file', type=str, default="prompts/USMLE.json",  help='prompt_file')
 parser.add_argument('--retrieval_raw_data_dir', type=str, default="datasets/USMLE/textbooks/en", help='retrieval_raw_data_dir')
 parser.add_argument('--retrieval_processed_file_dir', type=str, default="datasets/USMLE/process_retrieval_corpus/", help='retrieval_processed_file_dir')
+parser.add_argument('--preprocess_retri_num', type=int, default=100, help='max_document_num')
 
 # retrieval
 parser.add_argument('--retri_batch_size', type=int, default=640, help='batch_size')
-parser.add_argument('--max_retri_num', type=int, default=1, help='max_document_num')
-parser.add_argument('--chunk_size', type=int, default=512, help='chunk_sizen, not token length')
-parser.add_argument('--chunk_overlap', type=int, default=20, help='chunk_size')
+parser.add_argument('--infer_retri_num', type=int, default=10, help='max_document_num')
 parser.add_argument('--similarity_threshold', type=float, default=0.7, help='similarity_threshold')
 parser.add_argument('--multi_query', type=bool, default=False, help='multi_query, using open AI')
+parser.add_argument('--chunk_size', type=int, default=512, help='chunk_sizen, not token length')
+parser.add_argument('--chunk_overlap', type=int, default=20, help='chunk_size')
 
 # train
-parser.add_argument('--max_train_retri_num', type=int, default=5, help='max_document_num')
+parser.add_argument('--train_retri_num', type=int, default=5, help='max_document_num')
 parser.add_argument('--train_batch_size', type=int, default=1, help='train_batch_size')
-parser.add_argument('--test_batch_size', type=int, default=1, help='test_batch_size')
+parser.add_argument('--test_batch_size', type=int, default=2, help='test_batch_size')
 parser.add_argument('--demonstration', type=bool, default=False, help='in_context learning')
 parser.add_argument('--demons_cnt', type=int, default=1, help='demonstration number')
 parser.add_argument('--retrieval_tau', type=float, default=1, help='demonstration number')
 parser.add_argument('--llm_tau', type=float, default=1, help='demonstration number')
 parser.add_argument('--l2_coef', type=float, default=1e-5, help='l2')
 parser.add_argument('--lr', type=float, default=1e-5, help='lr for retriever')
-parser.add_argument('--train_eval', type=int, default=50, help='lr for retriever')
+parser.add_argument('--train_eval', type=int, default=500, help='lr for retriever')
 parser.add_argument('--epoch', type=int, default=99999, help='lr for retriever')
 
 # Decoding
@@ -70,7 +71,7 @@ os.environ["OPENAI_API_KEY"] = "sk-kO4dfLlexeByEywFXSwrT3BlbkFJF9R0cYa4jIEJNKb8r
 from dataloader.data_loader import get_loader  
 from trainer import My_Trainer 
 import torch
-from utils.utils import load_LLM, load_retriever, get_logger, make_log_dir, seed_everything
+from utils.utils import load_LLM, load_retriever, get_logger, make_log_dir, seed_everything, process_document
 from models.my_model import My_Model
 
 if torch.cuda.is_available():
@@ -100,18 +101,26 @@ args.print_logger.info("**************** Configuration **************** \n\n")
 
 
 def main(args):
+    if args.if_RA:
+        retri_encoder, triever_tokenizer = load_retriever(args)
+        all_retrieve_doc, text_splitter = process_document(args, triever_tokenizer)
+    else:
+        retri_encoder, triever_tokenizer, all_retrieve_doc, text_splitter=None
+
     LLM, LLM_tokenizer, stop_token_ids = load_LLM(args)
-    retri_encoder, triever_tokenizer = load_retriever(args, args.print_logger)
     my_model = My_Model(LLM, LLM_tokenizer,  args,  stop_token_ids)
 
     train_data_loader, dev_data_loader, test_data_loader = get_loader(args)
     
-    trainer = My_Trainer(args, my_model, LLM, LLM_tokenizer, retri_encoder, triever_tokenizer, device)
+    trainer = My_Trainer(args, my_model, LLM, LLM_tokenizer, device, 
+                         retri_encoder, triever_tokenizer, all_retrieve_doc, text_splitter)
     
-    if args.if_train:
-        trainer.train_proc(train_data_loader, dev_data_loader, test_data_loader)
+    # trainer.get_llm_likelihoods(train_data_loader)
+    
+    # if args.if_train:
+    #     trainer.train_proc(train_data_loader, dev_data_loader, test_data_loader)
     trainer.test_proc(test_data_loader, dev_data_loader)
-     
+    
     
 
 

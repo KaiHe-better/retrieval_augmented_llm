@@ -17,6 +17,7 @@ class My_Model(nn.Module):
     
     def forward(self, my_input):
         my_input = self.LLM_tokenizer(my_input, return_tensors='pt')
+        
         outputs = self.LLM.generate(
             **my_input,
             do_sample=True, temperature=self.args.temperature, top_p=self.args.top_p, 
