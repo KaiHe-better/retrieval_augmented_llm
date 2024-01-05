@@ -15,7 +15,35 @@ from typing import List
 from langchain.chat_models import ChatOpenAI
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_loaders import TextLoader
+import torch.nn.functional as F
 
+
+
+def calculate_perplexity(probabilities):
+    total_perplexity = []
+    for p in probabilities:
+        p = torch.where(torch.isinf(p), torch.tensor(1e-10), p)
+        entropy = -torch.sum(p * torch.log(p))
+        perplexity = torch.exp(entropy)
+        total_perplexity.append(perplexity)
+    return sum(total_perplexity)/len(total_perplexity)
+
+def __dist__(x, y, dim=-1, tau=1, method='dot'): 
+    if method == 'dot':
+        sim = torch.matmul(x, y) / tau
+    elif method == 'euclidean':
+        x= x.unsqueeze(1)
+        y= y.permute(1,0).unsqueeze(0)
+        sim = (torch.pow(x - y, 2)).sum(dim) / tau
+    elif method == 'cosine':
+        x= x.unsqueeze(1)
+        y= y.permute(1,0).unsqueeze(0)
+        sim = torch.abs(F.cosine_similarity(x, y, dim=dim) / tau)
+    elif method == 'KL':
+        kl_mean_1 = F.kl_div(F.log_softmax(x, dim=-1), F.softmax(y, dim=-1), reduction='sum')
+        kl_mean_2 = F.kl_div(F.log_softmax(y, dim=-1), F.softmax(x, dim=-1), reduction='sum')
+        sim = (kl_mean_1 + kl_mean_2)/2
+    return sim
 
 def process_document(args, triever_tokenizer):
         start_time = time.time()
@@ -121,34 +149,33 @@ class LineListOutputParser(PydanticOutputParser):
 
     def parse(self, text: str) -> LineList:
         lines = text.strip().split("\n")
-        return LineList(lines=lines)
+        return lines
 
 def extracted_label(res):
     res = res[:10]
     if "A" in res:
-        return 0
+        return 0, 0 
     if "B" in res:
-        return 1
+        return 1, 0
     if "C" in res:
-        return 2
+        return 2, 0
     if "D" in res:
-        return 3
-    return 0    
+        return 3, 0
+    return 99 , 1  
+
+def combine_doc(retrieve_doc):
+    tmp_str = ""
+    if len(retrieve_doc)>0:
+        for index, i in enumerate(retrieve_doc):
+            tmp_str += "document ("+ str(index) + ") \n\n"
+            tmp_str = tmp_str + i + "\n\n"
+    return tmp_str
 
 def map_prob(labels, scores, LLM_tokenizer):    
     total_tmp_list = []
     dic_map = {0:"A", 1:"B", 2:"C", 3:"D"}
     prob_list = []
     for label, score in zip(labels, scores):
-        
-        # tmp_list = []
-        # tmp_prob_list, tmp_index_list = torch.sort(score, descending=True)
-        # for prob1, index1 in zip(tmp_prob_list, tmp_index_list):
-        #     if math.isinf(prob1):
-        #         break
-        #     tmp_list.append(LLM_tokenizer._convert_id_to_token(int(index1)))
-        # total_tmp_list.append(tmp_list)
-
         id = LLM_tokenizer._convert_token_to_id(dic_map[label])
         prob = score.squeeze()[id]
         if math.isinf(prob):
@@ -262,7 +289,7 @@ def get_max_memory():
     max_memory = {i: max_memory for i in range(n_gpus)}
     return max_memory
 
-def load_LLM(args, dtype=torch.float16):
+def load_LLM(args, dtype=torch.bfloat16):
     # Load a huggingface model and tokenizer
     # dtype: torch.float16 or torch.bfloat16
     # int8: whether to use int8 quantization

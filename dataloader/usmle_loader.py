@@ -16,6 +16,7 @@ class Prompt_Dataset(Dataset):
     def __getitem__(self, idx):
         return self.data[idx]
 
+
 class USMLE(Dataset):
 
     def __init__(self, args, data_file):
@@ -65,11 +66,10 @@ def get_loader_USMLE(args, train_file_path, dev_file_path, test_file_path) :
     train_dataset = USMLE(args, train_file_path)
     train_data_loader = DataLoader(dataset=train_dataset,
                                    batch_size=args.train_batch_size,
-                                   shuffle=True,
+                                   shuffle=False,
                                    pin_memory=True,
                                    num_workers=args.num_workers,
                                    collate_fn=collate_fn_USMLE,
-                                   
                                   )       
 
     # for demonstration

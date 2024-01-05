@@ -28,8 +28,8 @@ class My_MI_learner(nn.Module):
         self.dropout1 = Dropout(self.args.dropout)
         self.dropout2 = Dropout(self.args.dropout)
         self.activation = F.gelu
-        # self.loss = nn.CrossEntropyLoss(weight=torch.tensor([1.0, 1.5]).to(self.args.device))
-        self.loss = nn.CrossEntropyLoss().to(self.args.device)
+        self.loss = nn.CrossEntropyLoss(weight=torch.tensor([1.0, 2.0]).to(self.args.device))
+        # self.loss = nn.CrossEntropyLoss().to(self.args.device)
 
     def forward(self, query_emb, ques_att_masks, bags_list, bag_pesu_label, batch_loss, retriever, triever_tokenizer, train_flag):
         total_pred = []
@@ -37,31 +37,22 @@ class My_MI_learner(nn.Module):
         select_doc = []
         select_doc_num = []
         for bag, raw_ques_emb, ques_att_mask in zip(bags_list, query_emb, ques_att_masks):
-            print(bag[0][:10])
             with torch.no_grad():
                 doc_input = triever_tokenizer(bag, truncation=True, return_tensors='pt', max_length=self.args.chunk_size, padding=True).to(self.args.device)
                 raw_doc_emb = retriever(**doc_input).last_hidden_state
-            
-            bz = raw_doc_emb.size(0)
+        
+            doc_emb = self.trans_doc(raw_doc_emb, src_key_padding_mask= (1- doc_input["attention_mask"]).bool())
 
-            # doc_att_mask = doc_input['attention_mask']
-            # attn_mask = self.get_att(ques_att_mask, doc_att_mask, raw_doc_emb, raw_ques_emb, bz)
-
-            raw_ques_emb = raw_ques_emb.repeat(bz,1,1)
-            ques_att_mask = (1- ques_att_mask.repeat(bz,1)).bool()
-
-            _, doc_emb = self.encoder_layer(raw_doc_emb, raw_ques_emb, attn_mask=None, key_padding_mask= ques_att_mask )
-            # _, doc_emb = self.encoder_layer(raw_doc_emb, raw_ques_emb, attn_mask=attn_mask, key_padding_mask= None )
             doc_emb = torch.mean(doc_emb[:, 0, :], dim=0)  # size (bz, len, dim) -> (dim)
 
             logit = self.linear3(doc_emb) 
             total_logit.append(logit)
             total_pred.append( int(torch.argmax(logit)) )
             select_doc.append( combine_doc([bag[i] for i in range(0, len(bag))]) )
-            select_doc_num.append(len(bag))
+            select_doc_num.append(len(bags_list))
 
         if train_flag:
-            MSL_loss = self.loss(torch.stack(total_logit), torch.LongTensor(bag_pesu_label).to(self.args.device) )
+            MSL_loss = self.loss(torch.stack(total_logit), torch.LongTensor(bag_pesu_label).to(self.args.device))
         else:
             MSL_loss = 0
             pred_acc = 0
@@ -69,12 +60,17 @@ class My_MI_learner(nn.Module):
         return MSL_loss, select_doc, select_doc_num, total_pred
     
     def get_att(self, ques_att_mask, doc_att_mask, doc_emb, ques_emb, bz):
+        doc_len = doc_emb.size(1) 
+        ques_len = ques_emb.size(0) 
         
-        ques_att_mask = ques_att_mask.unsqueeze(0).repeat(bz, 1)
-        attn_mask = torch.einsum('bl,bs->bls', doc_att_mask, ques_att_mask)  # (batch_size, L, S)
-        attn_mask = 1- attn_mask.repeat_interleave(self.args.nhead, dim=0)  # (batch_size * num_heads, L, S)
+        # ques_att_mask1 = (1- ques_att_mask.repeat(bz,1)).bool()
 
-        return attn_mask.bool()
+        source_mask_expanded = ques_att_mask.unsqueeze(0).unsqueeze(1).expand(bz, doc_len, ques_len) 
+        target_mask_expanded = doc_att_mask.unsqueeze(-1).expand(bz, doc_len, ques_len)  
+        combined_mask = ((source_mask_expanded * target_mask_expanded)).bool().repeat(self.args.nhead, 1, 1) 
+        # combined_mask = F._canonical_mask(mask=combined_mask, mask_name="src_key_padding_mask", other_type=F._none_or_dtype(None), other_name="src_mask", target_type=doc_emb.dtype)
+
+        return combined_mask
 
     def encoder_layer(self, q, k_v, attn_mask=None, key_padding_mask= None):
         tmp_att, att_weights = self._sa_block(q, k_v, k_v,  attn_mask=attn_mask, key_padding_mask= key_padding_mask)
