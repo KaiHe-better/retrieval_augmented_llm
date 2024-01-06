@@ -246,12 +246,11 @@ class My_Trainer:
                 total_loss.backward()
 
                 self.writer.add_scalar('Loss/total_loss', round(float(total_loss), 4), step_num)
-                # self.print_logger.info(f"epoch_num:{epoch_num}, bag_pesu_label :{bag_pesu_label}, bag_pred:{bag_pred}, labels: {labels}, batch_pred:{batch_pred}, new_batch_pred:{new_batch_pred}, enhanced_acc:{enhanced_acc}, old_acc:{old_acc}")
+                self.print_logger.info(f"epoch_num: {epoch_num}, training process num: {step_num}/{total_batch}, total_loss: {round(float(total_loss), 4)}, old_hall_cnt:{old_batch_hallucination_cnt}/{len(question)}, hall_cnt {batch_hallucination_cnt}/{len(question)}, select_doc_num: {select_doc_num}/{self.args.train_retri_num}, total_work_num: {total_work_num}, old_acc:{old_acc}, enhanced_acc:{enhanced_acc}, best_step:{best_step}, best_acc: {best_acc}")
                                        
                 if (step_num + 1) % self.args.accumulation_steps == 0:
                     self.optimizer.step()
                     self.optimizer.zero_grad()
-                    self.print_logger.info(f"epoch_num: {epoch_num}, training process num: {step_num}/{total_batch}, total_loss: {round(float(total_loss), 4)}, old_hall_cnt:{old_batch_hallucination_cnt}/{len(question)}, hall_cnt {batch_hallucination_cnt}/{len(question)}, select_doc_num: {select_doc_num}/{self.args.train_retri_num}, total_work_num: {total_work_num}, old_acc:{old_acc}, enhanced_acc:{round(sum(enhanced_acc_list)/len(enhanced_acc_list),2)}, best_step:{best_step}, best_acc: {best_acc}")
 
                 if (step_num % self.args.train_eval==0) and step_num>1:
                     total_work_num = 0
