@@ -8,7 +8,7 @@ parser = argparse.ArgumentParser()
 # system settings
 parser.add_argument('--ID', type=str, default='0', help='run ID')
 parser.add_argument("--config", type=str, default="llama2-7b_USMLE_RA_test.yaml", help="Path to the config file")
-parser.add_argument('--gpu', default="5", type=str, help='gpu device numbers')
+parser.add_argument('--gpu', default="7", type=str, help='gpu device numbers')
 parser.add_argument('--seed', default=42, help='trandom seed')
 parser.add_argument('--num_workers', default=16, type=int, help='data_loader_work')
 parser.add_argument("--test_code_flag", type=bool, default=False, help="if retrieval augmented")
@@ -29,7 +29,7 @@ parser.add_argument('--retrieval_processed_file_dir', type=str, default="dataset
 parser.add_argument('--preprocess_retri_num', type=int, default=100, help='max_document_num')
 
 # retrieval
-parser.add_argument('--infer_retri_num', type=int, default=7, help='max_document_num')
+parser.add_argument('--infer_retri_num', type=int, default=5, help='max_document_num')
 parser.add_argument('--multi_query', type=bool, default=False, help='multi_query, using open AI')
 parser.add_argument('--rewrite_num', type=int, default=3, help='max_document_num')
 parser.add_argument('--retri_batch_size', type=int, default=640, help='batch_size')
@@ -40,18 +40,18 @@ parser.add_argument('--save_ratio', type=float, default=0.8, help='chunk_size')
 
 # train
 parser.add_argument('--train_retri_num', type=int, default=5, help='max_document_num')
-parser.add_argument('--train_batch_size', type=int, default=3, help='train_batch_size')
+parser.add_argument('--train_batch_size', type=int, default=2, help='train_batch_size')
 parser.add_argument('--accumulation_steps', type=int, default=1, help='accumulation_steps')
-parser.add_argument('--test_batch_size', type=int, default=3, help='test_batch_size')
+parser.add_argument('--test_batch_size', type=int, default=2, help='test_batch_size')
 parser.add_argument('--demonstration', type=bool, default=False, help='in_context learning')
 parser.add_argument('--demons_cnt', type=int, default=1, help='demonstration number')
 parser.add_argument('--retrieval_tau', type=float, default=1, help='demonstration number')
 parser.add_argument('--llm_tau', type=float, default=1, help='demonstration number')
 parser.add_argument('--l2_coef', type=float, default=1e-5, help='l2')
-parser.add_argument('--lr', type=float, default=1e-3, help='lr for retriever')
-parser.add_argument('--train_eval', type=int, default=99900, help='lr for retriever')
+parser.add_argument('--lr', type=float, default=1e-4, help='lr for retriever')
+parser.add_argument('--train_eval', type=int, default=300, help='lr for retriever')
 parser.add_argument('--epoch', type=int, default=99999, help='lr for retriever')
-parser.add_argument('--confirm_enhanced_acc', type=bool, default=False, help='confirm_enhanced_acc')
+parser.add_argument('--confirm_enhanced_acc', type=bool, default=True, help='confirm_enhanced_acc')
 
 # model parameters
 parser.add_argument('--d_model', type=int, default=768, help='MI_learner dim')

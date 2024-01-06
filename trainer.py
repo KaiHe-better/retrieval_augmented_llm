@@ -208,16 +208,13 @@ class My_Trainer:
         best_acc = 0
         total_work_num =0
         enhanced_acc_list = []
-        for _ in range(self.args.epoch):
+        for epoch_num in range(self.args.epoch):
             for data_item in train_data_loader:
                 step_num+=1
                 question = data_item['question']
                 answer = data_item['answer']
                 options = data_item['options']
                 labels = data_item['label']
-                
-                print(question[0][:10] + question[1][:10] + question[2][:10])
-
 
                 retrieve_docs, bags_list, query_emb, att_mask = self.retrieve(question, self.args.train_retri_num, train_flag=True)
                 input_dict = self.return_input_dict(dev_data_loader, question, options, retrieve_docs)
@@ -249,12 +246,12 @@ class My_Trainer:
                 total_loss.backward()
 
                 self.writer.add_scalar('Loss/total_loss', round(float(total_loss), 4), step_num)
-                self.print_logger.info(f"bag_pesu_label :{bag_pesu_label}, bag_pred:{bag_pred}, labels: {labels}, batch_pred:{batch_pred}, new_batch_pred:{new_batch_pred}, enhanced_acc:{enhanced_acc}, old_acc:{old_acc}")
+                # self.print_logger.info(f"epoch_num:{epoch_num}, bag_pesu_label :{bag_pesu_label}, bag_pred:{bag_pred}, labels: {labels}, batch_pred:{batch_pred}, new_batch_pred:{new_batch_pred}, enhanced_acc:{enhanced_acc}, old_acc:{old_acc}")
                                        
                 if (step_num + 1) % self.args.accumulation_steps == 0:
                     self.optimizer.step()
                     self.optimizer.zero_grad()
-                    self.print_logger.info(f"training process num: {step_num}/{total_batch}, total_loss: {round(float(total_loss), 4)}, old_hall_cnt:{old_batch_hallucination_cnt}/{len(question)}, hall_cnt {batch_hallucination_cnt}/{len(question)}, select_doc_num: {select_doc_num}/{self.args.train_retri_num}, total_work_num: {total_work_num}, pred_bag_acc:{round(sum(enhanced_acc_list)/len(enhanced_acc_list),2)}, best_step:{best_step}, best_acc: {best_acc} \n")
+                    self.print_logger.info(f"epoch_num: {epoch_num}, training process num: {step_num}/{total_batch}, total_loss: {round(float(total_loss), 4)}, old_hall_cnt:{old_batch_hallucination_cnt}/{len(question)}, hall_cnt {batch_hallucination_cnt}/{len(question)}, select_doc_num: {select_doc_num}/{self.args.train_retri_num}, total_work_num: {total_work_num}, old_acc:{old_acc}, enhanced_acc:{round(sum(enhanced_acc_list)/len(enhanced_acc_list),2)}, best_step:{best_step}, best_acc: {best_acc}")
 
                 if (step_num % self.args.train_eval==0) and step_num>1:
                     total_work_num = 0
@@ -272,10 +269,11 @@ class My_Trainer:
                     if test_acc>best_acc:
                         best_acc = test_acc
                         best_step = step_num
+
                 #         if step_num>10:
                 #             torch.save(self.retriever.state_dict(), self.args.dir_path+'/retriever.pkl') 
                 
-                # if step_num % 5 ==0 :
+                # if step_num % 1 ==0 :
                 #     break
             # if step_num ==100:
             #   break
