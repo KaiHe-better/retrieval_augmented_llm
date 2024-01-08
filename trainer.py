@@ -175,17 +175,6 @@ class My_Trainer:
             batch_infer_doc.append(tmp_str)
 
         return batch_infer_doc, batch_item_list, query_embs, query_input["attention_mask"]
-    
-    def compute_lsr_loss(self, retrieve_scores, batch_llm_score):
-        input = F.log_softmax(retrieve_scores/self.args.retrieval_tau, dim=-1)
-
-        tmp_prob = F.softmax(retrieve_scores, dim=-1) * batch_llm_score
-        target = F.log_softmax( tmp_prob /self.args.llm_tau, dim=-1).to(input.device)
-
-        # target[target<1e-5]=0
-        lsr_loss = self.kl_loss(input, target)
-
-        return lsr_loss
 
     def return_input_dict(self, dev_data_loader, question, options, retrieve_docs):
         if self.args.demonstration:
@@ -207,9 +196,11 @@ class My_Trainer:
         best_step = 0
         best_acc = 0
         total_work_num =0
+        eval_num = 0
         enhanced_acc_list = []
         for epoch_num in range(self.args.epoch):
             for data_item in train_data_loader:
+                self.MI_learner.train()
                 step_num+=1
                 question = data_item['question']
                 answer = data_item['answer']
@@ -219,19 +210,19 @@ class My_Trainer:
                 retrieve_docs, bags_list, query_emb, att_mask = self.retrieve(question, self.args.train_retri_num, train_flag=True)
                 input_dict = self.return_input_dict(dev_data_loader, question, options, retrieve_docs)
                 with torch.no_grad():
-                    batch_pred,  old_batch_hallucination_cnt, save_doc_num, batch_loss = self.pipeline_inference(input_dict, labels, training_flag=True, record_flag=False)
-                    bag_pesu_label = [1 if batch_pred[i] == labels[i] else 0 for i in range(min(len(batch_pred), len(labels)))]
+                    batch_pred,  old_batch_hallucination_cnt, save_doc_num, batch_loss, batch_logit_log_softmax = self.pipeline_inference(input_dict, labels, training_flag=True, record_flag=False)
                     old_acc = round(accuracy_score(labels, batch_pred), 2)
 
                 for doc_index, doc_num in enumerate(save_doc_num):
                     bags_list[doc_index] = bags_list[doc_index][:doc_num]
 
-                MSL_loss, new_retrieve_docs, select_doc_num, bag_pred = self.MI_learner(query_emb, att_mask, bags_list, bag_pesu_label, batch_loss, self.retriever, self.triever_tokenizer, True)
+                total_loss, new_retrieve_docs, select_doc_num = self.MI_learner(query_emb, att_mask, bags_list, batch_logit_log_softmax, 
+                                                                              batch_loss, self.retriever, self.triever_tokenizer, True)
                 # can accelerate by turn off this
                 if self.args.confirm_enhanced_acc:
                     new_input_dict = self.return_input_dict(dev_data_loader, question, options, new_retrieve_docs)
-                    new_batch_pred, batch_hallucination_cnt, _, _ = self.pipeline_inference(new_input_dict, labels, training_flag=True, record_flag=True)
-                    enhanced_acc =  round(accuracy_score(labels, new_batch_pred), 2)
+                    new_batch_pred, batch_hallucination_cnt, _, _, _ = self.pipeline_inference(new_input_dict, labels, training_flag=True, record_flag=True)
+                    enhanced_acc = round(accuracy_score(labels, new_batch_pred), 2)
                     enhanced_acc_list.append(enhanced_acc)
                 else:
                     batch_hallucination_cnt, enhanced_acc, new_batch_pred = 0, 0, 0 
@@ -242,7 +233,6 @@ class My_Trainer:
                 if  enhanced_acc<old_acc:
                     total_work_num-=1
 
-                total_loss = MSL_loss
                 total_loss.backward()
 
                 self.writer.add_scalar('Loss/total_loss', round(float(total_loss), 4), step_num)
@@ -254,16 +244,16 @@ class My_Trainer:
 
                 if (step_num % self.args.train_eval==0) and step_num>1:
                     total_work_num = 0
-
+                    eval_num +=1
                     self.train_result_logger = empty_logger_file(self.train_result_logger)
 
                     break_cnt = 2 if self.args.test_code_flag else None
                     test_acc, test_precision, test_recall, test_f1 = self.test_proc(test_data_loader, dev_data_loader, break_cnt=break_cnt)
 
-                    self.writer.add_scalar('Performance/test/acc', test_acc, step_num)
-                    self.writer.add_scalar('Performance/test/precision', test_precision, step_num)
-                    self.writer.add_scalar('Performance/test/recall', test_recall, step_num)
-                    self.writer.add_scalar('Performance/test/f1', test_f1, step_num)
+                    self.writer.add_scalar('Performance/test/acc', test_acc, eval_num )
+                    self.writer.add_scalar('Performance/test/precision', test_precision, eval_num )
+                    self.writer.add_scalar('Performance/test/recall', test_recall, eval_num )
+                    self.writer.add_scalar('Performance/test/f1', test_f1, eval_num )
 
                     if test_acc>best_acc:
                         best_acc = test_acc
@@ -274,10 +264,12 @@ class My_Trainer:
                 
                 # if step_num % 1 ==0 :
                 #     break
+                        
             # if step_num ==100:
             #   break
 
     def test_proc(self, test_data_loader, dev_data_loader, break_cnt=None):
+        self.MI_learner.train().eval()
         if self.args.if_RA and (self.args.if_train is False):
             self.updata_retri_embedding()
             
@@ -296,7 +288,7 @@ class My_Trainer:
             if self.args.if_RA:
                 with torch.no_grad():
                     retrieve_docs, bags_list, query_emb, att_mask = self.retrieve(question, self.args.infer_retri_num, train_flag=False)
-                    _, new_retrieve_docs, select_doc_num, _ = self.MI_learner(query_emb, att_mask, bags_list, "bag_pesu_label", "batch_loss", self.retriever, self.triever_tokenizer, False)
+                    _, new_retrieve_docs, _ = self.MI_learner(query_emb, att_mask, bags_list, "bag_pesu_label", "batch_loss", self.retriever, self.triever_tokenizer, False)
                 if self.args.demonstration:
                     demonstration = self.random_select_demonstration(dev_data_loader, self.args.test_batch_size)
                     input_dict = {'question': question, 'options': options, "context": new_retrieve_docs, "demonstration": demonstration}
@@ -310,7 +302,7 @@ class My_Trainer:
                     input_dict = {'question': question, 'options': options}
           
             with torch.no_grad():
-                batch_pred,  batch_hallucination_cnt, _, _ = self.pipeline_inference(input_dict, batch_label, training_flag=False, record_flag=True)
+                batch_pred,  batch_hallucination_cnt, _, _, _ = self.pipeline_inference(input_dict, batch_label, training_flag=False, record_flag=True)
 
             all_test_labels+=batch_label
             all_test_predictions+=batch_pred
@@ -326,11 +318,10 @@ class My_Trainer:
     def pipeline_inference(self, input_dict, label, training_flag=False, record_flag=True):
         if self.args.LLM == "chatGPT":
             batch_pred, batch_hallucination_cnt, save_doc_num = self.non_local_llm_infer(input_dict, label, training_flag, record_flag)
-            batch_loss = 0
         else:
-            batch_pred, batch_hallucination_cnt, save_doc_num, batch_loss= self.local_llm_infer(input_dict, label, training_flag, record_flag)
+            batch_pred, batch_hallucination_cnt, save_doc_num, batch_loss, batch_logit_log_softmax= self.local_llm_infer(input_dict, label, training_flag, record_flag)
 
-        return batch_pred, batch_hallucination_cnt, save_doc_num, batch_loss
+        return batch_pred, batch_hallucination_cnt, save_doc_num, batch_loss, batch_logit_log_softmax
 
     def non_local_llm_infer(self, input_dict, label, training_flag=False, record_flag=True):
         batch_pred = []
@@ -384,7 +375,6 @@ class My_Trainer:
             my_input_list.append(my_input)
         
         batch_pred = []
-        batch_score = []
         batch_hallucination_cnt = 0
         inputs = self.LLM_tokenizer(my_input_list, return_tensors="pt", padding=True).to(self.args.device)
         outputs = self.LLM.generate(**inputs, max_new_tokens=self.args.max_new_tokens, 
@@ -392,15 +382,16 @@ class My_Trainer:
                                     temperature=self.args.temperature,
                                     top_p=self.args.top_p,
                                     return_dict_in_generate=True, 
-                                    # output_scores=True,
+                                    output_scores=True,
                                     output_hidden_states=True )
         
         last_hidden_states = outputs["hidden_states"][0][-1]
         logit = self.LLM.lm_head(last_hidden_states)[:, -1, :]
-        loss_fct = nn.CrossEntropyLoss(reduction="none")
         label = torch.LongTensor(label).to(self.args.device)
-        batch_loss = loss_fct(logit, label )
 
+        logit_log_softmax = F.log_softmax(logit, dim=-1)
+        loss_fct = nn.NLLLoss(reduction="none")
+        batch_loss = loss_fct(logit_log_softmax, label)
         for index, output in enumerate(zip(outputs["sequences"])):
             pred = self.LLM_tokenizer.decode(output[0], skip_special_tokens=True)
             pred, hallucination_cnt = self.pasrse_record_res(my_input_list[index], label[index], pred[-self.args.max_new_tokens:], training_flag, record_flag)
@@ -418,7 +409,7 @@ class My_Trainer:
         #     batch_score.append(generation[0]["scores"].squeeze())
         #     batch_hallucination_cnt+=hallucination_cnt
 
-        return batch_pred, batch_hallucination_cnt, save_doc_num, batch_loss
+        return batch_pred, batch_hallucination_cnt, save_doc_num, batch_loss, logit_log_softmax
 
     def pasrse_record_res(self, my_input, label, generation, training_flag, record_flag):
         pred, hallucination_cnt = extracted_label(generation)
