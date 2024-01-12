@@ -38,7 +38,7 @@ parser.add_argument('--similarity_threshold', type=float, default=0.7, help='sim
 parser.add_argument('--chunk_size', type=int, default=512, help='chunk_sizen, not token length')
 parser.add_argument('--chunk_overlap', type=int, default=20, help='chunk_size')
 parser.add_argument('--if_hierarchical_retrieval', type=bool, default=False, help='if_hierarchical_retrieval')
-parser.add_argument('--hierarchical_ratio', type=int, default=2, help='hierarchical_ratio')
+parser.add_argument('--hierarchical_ratio', type=float, default=2, help='hierarchical_ratio')
 parser.add_argument('--quantile_num', type=float, default=0.95, help='quantile_num')
 
 # train

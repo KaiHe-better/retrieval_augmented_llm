@@ -274,24 +274,27 @@ class My_Trainer:
                 total_loss, new_retrieve_docs, select_doc_num = self.MI_learner(query_emb, att_mask, bags_list, batch_logit_log_softmax, 
                                                                               one_hot_labels, self.retriever, self.triever_tokenizer, True)
                 # can accelerate by turn off this
-                if self.args.confirm_enhanced_acc:
-                    new_input_dict = self.return_input_dict(dev_data_loader, question, options, new_retrieve_docs)
-                    new_batch_pred, batch_hallucination_cnt, _, _, _ = self.pipeline_inference(new_input_dict, labels, training_flag=True, record_flag=True)
-                    enhanced_acc = round(accuracy_score(labels, new_batch_pred), 2)
-                    enhanced_acc_list.append(enhanced_acc)
-                else:
-                    batch_hallucination_cnt, enhanced_acc, new_batch_pred = 0, 0, 0 
-                    enhanced_acc_list=[1]
+                # if self.args.confirm_enhanced_acc:
+                #     new_input_dict = self.return_input_dict(dev_data_loader, question, options, new_retrieve_docs)
+                #     new_batch_pred, batch_hallucination_cnt, _, _, _ = self.pipeline_inference(new_input_dict, labels, training_flag=True, record_flag=True)
+                #     enhanced_acc = round(accuracy_score(labels, new_batch_pred), 2)
+                #     enhanced_acc_list.append(enhanced_acc)
+                # else:
+                #     batch_hallucination_cnt, enhanced_acc, new_batch_pred = 0, 0, 0 
+                #     enhanced_acc_list=[1]
 
-                if enhanced_acc>old_acc:
-                    total_work_num+=1
-                if  enhanced_acc<old_acc:
-                    total_work_num-=1
+                # if enhanced_acc>old_acc:
+                #     total_work_num+=1
+                # if  enhanced_acc<old_acc:
+                #     total_work_num-=1
 
                 total_loss.backward()
+                old_doc_len = sum([len(i) for i in retrieve_docs])/len(retrieve_docs)
+                new_doc_len = sum([len(i) for i in new_retrieve_docs])/len(new_retrieve_docs)
 
                 self.writer.add_scalar('Loss/total_loss', round(float(total_loss), 4), step_num)
-                self.print_logger.info(f"epoch_num: {epoch_num}, training process num: {step_num}/{total_batch}, total_loss: {round(float(total_loss), 4)}, old_hall_cnt:{old_batch_hallucination_cnt}/{len(question)}, hall_cnt {batch_hallucination_cnt}/{len(question)}, select_doc_num: {select_doc_num}/{self.args.train_retri_num}, total_work_num: {total_work_num}, old_acc:{old_acc}, enhanced_acc:{enhanced_acc}, best_step:{best_step}, best_acc: {best_acc}")
+                # self.print_logger.info(f"epoch_num: {epoch_num}, training process num: {step_num}/{total_batch}, total_loss: {round(float(total_loss), 4)}, old_hall_cnt:{old_batch_hallucination_cnt}/{len(question)}, hall_cnt {batch_hallucination_cnt}/{len(question)}, select_doc_num: {select_doc_num}/{self.args.train_retri_num}, total_work_num: {total_work_num}, old_acc:{old_acc}, enhanced_acc:{enhanced_acc}, best_step:{best_step}, best_acc: {best_acc}")
+                self.print_logger.info(f"epoch_num: {epoch_num}, training process num: {step_num}/{total_batch}, total_loss: {round(float(total_loss), 4)}, old_doc_len:{old_doc_len}, new_doc_len:{new_doc_len}, best_step:{best_step}, best_acc: {best_acc}")
                                        
                 if (step_num + 1) % self.args.accumulation_steps == 0:
                     self.optimizer.step()
@@ -332,7 +335,6 @@ class My_Trainer:
 
         all_test_labels = []
         all_test_predictions = []
-        total_hallucination_cnt = 0
         for index, data_item in enumerate(test_data_loader):
             if index%100==0:
                 self.print_logger.info(f"testing process num: {index}")
@@ -342,8 +344,12 @@ class My_Trainer:
 
             if self.args.if_RA:
                 with torch.no_grad():
-                    _, bags_list, query_emb, att_mask = self.retrieve(question, self.args.infer_retri_num, train_flag=False)
+                    retrieve_docs, bags_list, query_emb, att_mask = self.retrieve(question, self.args.infer_retri_num, train_flag=False)
                     _, new_retrieve_docs, _ = self.MI_learner(query_emb, att_mask, bags_list, "batch_logit_log_softmax", "one_hot_labels", self.retriever, self.triever_tokenizer, False)
+
+                    old_doc_len = sum([len(i) for i in retrieve_docs])/len(retrieve_docs)
+                    new_doc_len = sum([len(i) for i in new_retrieve_docs])/len(new_retrieve_docs)
+
                 if self.args.demonstration:
                     demonstration = self.random_select_demonstration(dev_data_loader, self.args.test_batch_size)
                     input_dict = {'question': question, 'options': options, "context": new_retrieve_docs, "demonstration": demonstration}
@@ -361,12 +367,11 @@ class My_Trainer:
 
             all_test_labels+=batch_label
             all_test_predictions+=batch_pred
-            total_hallucination_cnt += batch_hallucination_cnt
             if break_cnt is not None and break_cnt<index:
                 break
 
         test_acc, test_precision, test_recall, test_f1 = self.my_metrics.metrics_task_res(all_test_labels, all_test_predictions)
-        self.args.print_logger.info(f"test: acc {test_acc}, f1 {test_f1}, precision {test_precision}, recall {test_recall}, total_hallucination_cnt {total_hallucination_cnt}, hallucination {round(total_hallucination_cnt / len(all_test_predictions), 2)} \n ")
+        self.args.print_logger.info(f"test: acc {test_acc}, f1 {test_f1}, precision {test_precision}, recall {test_recall}, old_doc_len:{old_doc_len}, new_doc_len:{new_doc_len} \n ")
 
         return test_acc, test_precision, test_recall, test_f1
     
@@ -453,17 +458,6 @@ class My_Trainer:
             pred, hallucination_cnt = self.pasrse_record_res(my_input_list[index], label[index], pred[-self.args.max_new_tokens:], training_flag, record_flag)
             batch_pred.append(pred)
             batch_hallucination_cnt+=hallucination_cnt
-
-        # batch_pred = []
-        # batch_score = []
-        # batch_hallucination_cnt = 0
-        # dataset = Prompt_Dataset(my_input_list)
-        # generator = self.pipe(dataset)
-        # for index, generation in enumerate(generator):
-        #     pred, hallucination_cnt = self.pasrse_record_res(my_input_list[index], label[index], generation[0]["generated_text"][-self.args.max_new_tokens:], training_flag, record_flag)
-        #     batch_pred.append(pred)
-        #     batch_score.append(generation[0]["scores"].squeeze())
-        #     batch_hallucination_cnt+=hallucination_cnt
 
         return batch_pred, batch_hallucination_cnt, save_doc_num, batch_loss, logit_log_softmax
 
