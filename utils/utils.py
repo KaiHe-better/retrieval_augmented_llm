@@ -19,14 +19,16 @@ import torch.nn.functional as F
 
 
 
-def calculate_perplexity(probabilities):
-    total_perplexity = []
-    for p in probabilities:
-        p = torch.where(torch.isinf(p), torch.tensor(1e-10), p)
-        entropy = -torch.sum(p * torch.log(p))
-        perplexity = torch.exp(entropy)
-        total_perplexity.append(perplexity)
-    return sum(total_perplexity)/len(total_perplexity)
+def map_one_hot_labels(labels, LLM_tokenizer):
+    dic_map = {0:"A", 1:"B", 2:"C", 3:"D"}
+    vocob_size = LLM_tokenizer.vocab_size
+    bz = len(labels)
+    one_hot_label = torch.zeros(bz, vocob_size)
+    ids= [LLM_tokenizer._convert_token_to_id(dic_map[label]) for label in labels]
+    
+    for index, id in enumerate(ids):
+        one_hot_label[index][id] = 1
+    return one_hot_label
 
 def __dist__(x, y, dim=-1, tau=1, method='dot'): 
     if method == 'dot':
@@ -44,50 +46,6 @@ def __dist__(x, y, dim=-1, tau=1, method='dot'):
         kl_mean_2 = F.kl_div(F.log_softmax(y, dim=-1), F.softmax(x, dim=-1), reduction='sum')
         sim = (kl_mean_1 + kl_mean_2)/2
     return sim
-
-def process_document(args, triever_tokenizer):
-        start_time = time.time()
-        
-        if args.test_code_flag:
-            process_file = os.path.join(args.retrieval_processed_file_dir, 
-                                    "test_"+args.dataset+"_"+str(args.triever)+"_"+str(args.chunk_size)+"_"+str(args.chunk_overlap)+".txt")
-            args.print_logger.info("\n====test==============\n====test==============\n====test==============\n")
-
-        else:
-            process_file = os.path.join(args.retrieval_processed_file_dir, 
-                                    args.dataset+"_"+str(args.triever)+"_"+str(args.chunk_size)+"_"+str(args.chunk_overlap)+".txt")
-            
-        if not os.path.exists(os.path.join(args.retrieval_processed_file_dir)):
-            os.makedirs(args.retrieval_processed_file_dir)
-        
-        text_splitter = RecursiveCharacterTextSplitter.from_huggingface_tokenizer(triever_tokenizer, 
-                                            chunk_size=args.chunk_size, chunk_overlap=args.chunk_overlap)
-            
-        if not os.path.exists(process_file):
-            args.print_logger.info("chunking retrieval files ... \n")
-
-            all_doc = []
-            for root, dirs, files in os.walk(args.retrieval_raw_data_dir):
-                for file in files:
-                    loader = TextLoader(os.path.join(root, file))
-                    documents = loader.load()
-                    chunks = text_splitter.split_documents(documents)
-                    temp_list = [[re.sub(r'[^\x00-\x7F]+', ' ', i.page_content.replace("\n\n", "\n "))] for i in chunks]
-                    all_doc+=temp_list
-
-            with open(process_file, "w", encoding="utf-8") as f:
-                for i in all_doc:
-                    f.writelines(str(i)+"\n")
-        else:
-            args.print_logger.info("already chunked !")
-        
-        with open(process_file, "r", encoding="utf-8") as f:
-            all_doc = f.readlines()
-        
-        all_doc = [eval(i)[0] for i in all_doc]
-
-        args.print_logger.info("process retrieval files finish in %.2f sec. \n"% (time.time() - start_time))
-        return all_doc, text_splitter
 
 class IndexRefreshScheduler(object):
     def __init__(self, format_str: str, freeze_retriever_steps: int, train_retriever: bool, logger):
@@ -298,7 +256,8 @@ def load_LLM(args, dtype=torch.bfloat16):
     # Llama: set up the root dir
     if args.LLM == "chatGPT":
         model = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=args.temperature) 
-        return model, "tokenizer", "stop_token_ids"
+        tokenizer = AutoTokenizer.from_pretrained("../LLM_models/llama2/Llama-2-7b-chat-hf", use_fast=False)
+        return model, tokenizer
     else:
         model_name_or_path = args.LLM
         open_source_models = ["gpt2", "llama", "alpaca", "vicuna"]
@@ -361,7 +320,7 @@ def load_LLM(args, dtype=torch.bfloat16):
         # model.save_pretrained("/raid/hpc/hekai/WorkShop/My_project/LLM_models/llama2/Llama-2-70b-chat-hf")
         # tokenizer.save_pretrained("/raid/hpc/hekai/WorkShop/My_project/LLM_models/llama2/Llama-2-70b-chat-hf")
         
-        return model, tokenizer, stop_token_ids
+        return model, tokenizer
 
 def load_retriever(args):
     if not args.if_RA:

@@ -12,13 +12,16 @@ import torch.nn.functional as F
 import json
 import os
 import time
+import re
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.document_loaders import TextLoader
 import torch
 import torch.nn as nn
 from tqdm import tqdm
 from utils.metrics import My_Metrics
 from sklearn.metrics import  accuracy_score
 from torch.utils.tensorboard import SummaryWriter
-from utils.utils import extracted_label, map_prob, LineListOutputParser, empty_logger_file, combine_doc, __dist__, calculate_perplexity
+from utils.utils import extracted_label, map_one_hot_labels, LineListOutputParser, empty_logger_file, combine_doc, __dist__
 
 
 class My_Trainer:
@@ -98,25 +101,76 @@ class My_Trainer:
             demon_prompt_list.append(demon_prompt)
         return demon_prompt_list
 
+    def process_document(self, process_file):
+        start_time = time.time()
+
+        if not os.path.exists(os.path.join(self.args.retrieval_processed_file_dir)):
+            os.makedirs(self.args.retrieval_processed_file_dir)
+        
+        text_splitter = RecursiveCharacterTextSplitter.from_huggingface_tokenizer(self.triever_tokenizer, 
+                                            chunk_size=self.args.chunk_size, chunk_overlap=self.args.chunk_overlap)
+            
+        if not os.path.exists(process_file):
+            self.args.print_logger.info("chunking retrieval files ... \n")
+
+            all_doc = []
+            for root, dirs, files in os.walk(self.args.retrieval_raw_data_dir):
+                for file in files:
+                    loader = TextLoader(os.path.join(root, file))
+                    documents = loader.load()
+                    chunks = text_splitter.split_documents(documents)
+                    temp_list = [[re.sub(r'[^\x00-\x7F]+', ' ', i.page_content.replace("\n\n", "\n "))] for i in chunks]
+                    all_doc+=temp_list
+
+            with open(process_file, "w", encoding="utf-8") as f:
+                for i in all_doc:
+                    f.writelines(str(i)+"\n")
+        else:
+            self.args.print_logger.info("already chunked !")
+        
+        with open(process_file, "r", encoding="utf-8") as f:
+            all_doc = f.readlines()
+        
+        all_doc = [eval(i)[0] for i in all_doc]
+
+        self.args.print_logger.info("loading retrieval files finish in %.2f sec. \n"% (time.time() - start_time))
+        return all_doc
+    
     def updata_retri_embedding(self):
         self.print_logger.info("updata_retri_embedding ...")
         start_time = time.time()
-        with torch.no_grad():
 
-            context_batches = [self.retrieved_document[i:i + self.args.retri_batch_size] for i in range(0, len(self.retrieved_document), self.args.retri_batch_size)]
+        if self.args.test_code_flag:
+            process_file = os.path.join(self.args.retrieval_processed_file_dir,  "test_"+self.args.dataset+"_"+str(self.args.triever)+"_"+str(self.args.chunk_size)+"_"+str(self.args.chunk_overlap)+".txt")
+            self.args.print_logger.info("\n====test==============\n====test==============\n====test==============\n")
 
-            vectordb = []
-            for context in tqdm(context_batches):
-                ctx_input = self.triever_tokenizer(context, padding=True, truncation=True, return_tensors='pt', max_length=self.args.chunk_size).to(self.device)
-                # tmp_res = torch.mean(self.retriever(**ctx_input).last_hidden_state * ctx_input["attention_mask"][:, :, None], dim=1)
-                tmp_res = self.retriever(**ctx_input).last_hidden_state[:, 0, :]
-                vectordb.append(tmp_res.detach().cpu().to(self.device))
-                torch.cuda.empty_cache()
+        else:
+            process_file = os.path.join(self.args.retrieval_processed_file_dir, self.args.dataset+"_"+str(self.args.triever)+"_"+str(self.args.chunk_size)+"_"+str(self.args.chunk_overlap)+".txt")
+            
+        embed_process_file = process_file[:-3] +"pt"
+        self.retrieved_document = self.process_document(process_file)
 
-            self.vectordb  = torch.cat((vectordb), dim=0).transpose(0, 1)
-            self.print_logger.info(f"vectordb size: {self.vectordb.size()}")
-            self.print_logger.info("updata_retri_embedding in %.2f sec. \n"% (time.time() - start_time))
-    
+        if os.path.exists(embed_process_file):
+            self.vectordb = torch.load(embed_process_file).to(self.args.device)
+            self.print_logger.info("exist retri_embedding, loading it in %.2f sec. \n"% (time.time() - start_time))
+        else:
+            self.print_logger.info("encoding retri embedding... \n" )
+            with torch.no_grad():
+                context_batches = [self.retrieved_document[i:i + self.args.retri_batch_size] for i in range(0, len(self.retrieved_document), self.args.retri_batch_size)]
+
+                vectordb = []
+                for context in tqdm(context_batches):
+                    ctx_input = self.triever_tokenizer(context, padding=True, truncation=True, return_tensors='pt', max_length=self.args.chunk_size).to(self.device)
+                    # tmp_res = torch.mean(self.retriever(**ctx_input).last_hidden_state * ctx_input["attention_mask"][:, :, None], dim=1)
+                    tmp_res = self.retriever(**ctx_input).last_hidden_state[:, 0, :]
+                    vectordb.append(tmp_res.detach().cpu().to(self.device))
+                    torch.cuda.empty_cache()
+
+                self.vectordb  = torch.cat((vectordb), dim=0).transpose(0, 1)
+                torch.save(self.vectordb, embed_process_file)
+                self.print_logger.info("no saved retri_embedding, make it in %.2f sec. \n"% (time.time() - start_time))
+        self.print_logger.info(f"vectordb size: {self.vectordb.size()}")
+        
     def retrieve(self, query, retri_num, train_flag):
         if train_flag and retri_num==1:
             raise Exception("train need retrieve more than one docs !")
@@ -216,8 +270,9 @@ class My_Trainer:
                 for doc_index, doc_num in enumerate(save_doc_num):
                     bags_list[doc_index] = bags_list[doc_index][:doc_num]
 
+                one_hot_labels = map_one_hot_labels(labels, self.LLM_tokenizer).to(self.device)
                 total_loss, new_retrieve_docs, select_doc_num = self.MI_learner(query_emb, att_mask, bags_list, batch_logit_log_softmax, 
-                                                                              batch_loss, self.retriever, self.triever_tokenizer, True)
+                                                                              one_hot_labels, self.retriever, self.triever_tokenizer, True)
                 # can accelerate by turn off this
                 if self.args.confirm_enhanced_acc:
                     new_input_dict = self.return_input_dict(dev_data_loader, question, options, new_retrieve_docs)
@@ -287,8 +342,8 @@ class My_Trainer:
 
             if self.args.if_RA:
                 with torch.no_grad():
-                    retrieve_docs, bags_list, query_emb, att_mask = self.retrieve(question, self.args.infer_retri_num, train_flag=False)
-                    _, new_retrieve_docs, _ = self.MI_learner(query_emb, att_mask, bags_list, "bag_pesu_label", "batch_loss", self.retriever, self.triever_tokenizer, False)
+                    _, bags_list, query_emb, att_mask = self.retrieve(question, self.args.infer_retri_num, train_flag=False)
+                    _, new_retrieve_docs, _ = self.MI_learner(query_emb, att_mask, bags_list, "batch_logit_log_softmax", "one_hot_labels", self.retriever, self.triever_tokenizer, False)
                 if self.args.demonstration:
                     demonstration = self.random_select_demonstration(dev_data_loader, self.args.test_batch_size)
                     input_dict = {'question': question, 'options': options, "context": new_retrieve_docs, "demonstration": demonstration}
@@ -318,6 +373,7 @@ class My_Trainer:
     def pipeline_inference(self, input_dict, label, training_flag=False, record_flag=True):
         if self.args.LLM == "chatGPT":
             batch_pred, batch_hallucination_cnt, save_doc_num = self.non_local_llm_infer(input_dict, label, training_flag, record_flag)
+            batch_loss, batch_logit_log_softmax = 0, 0
         else:
             batch_pred, batch_hallucination_cnt, save_doc_num, batch_loss, batch_logit_log_softmax= self.local_llm_infer(input_dict, label, training_flag, record_flag)
 

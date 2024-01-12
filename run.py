@@ -29,7 +29,7 @@ parser.add_argument('--retrieval_processed_file_dir', type=str, default="dataset
 parser.add_argument('--preprocess_retri_num', type=int, default=100, help='max_document_num')
 
 # retrieval
-parser.add_argument('--infer_retri_num', type=int, default=3, help='max_document_num')
+parser.add_argument('--infer_retri_num', type=int, default=5, help='max_document_num')
 parser.add_argument('--test_batch_size', type=int, default=2, help='test_batch_size')
 parser.add_argument('--multi_query', type=bool, default=False, help='multi_query, using open AI')
 parser.add_argument('--rewrite_num', type=int, default=3, help='max_document_num')
@@ -37,10 +37,12 @@ parser.add_argument('--retri_batch_size', type=int, default=640, help='batch_siz
 parser.add_argument('--similarity_threshold', type=float, default=0.7, help='similarity_threshold')
 parser.add_argument('--chunk_size', type=int, default=512, help='chunk_sizen, not token length')
 parser.add_argument('--chunk_overlap', type=int, default=20, help='chunk_size')
-parser.add_argument('--save_ratio', type=float, default=0.8, help='chunk_size')
+parser.add_argument('--if_hierarchical_retrieval', type=bool, default=False, help='if_hierarchical_retrieval')
+parser.add_argument('--hierarchical_ratio', type=int, default=2, help='hierarchical_ratio')
+parser.add_argument('--quantile_num', type=float, default=0.95, help='quantile_num')
 
 # train
-parser.add_argument('--train_retri_num', type=int, default=3, help='max_document_num')
+parser.add_argument('--train_retri_num', type=int, default=5, help='max_document_num')
 parser.add_argument('--train_batch_size', type=int, default=2, help='train_batch_size')
 parser.add_argument('--accumulation_steps', type=int, default=1, help='accumulation_steps')
 parser.add_argument('--demonstration', type=bool, default=False, help='in_context learning')
@@ -52,8 +54,9 @@ parser.add_argument('--lr', type=float, default=1e-4, help='lr for retriever')
 parser.add_argument('--train_eval', type=int, default=100, help='lr for retriever')
 parser.add_argument('--epoch', type=int, default=99999, help='lr for retriever')
 parser.add_argument('--confirm_enhanced_acc', type=bool, default=True, help='confirm_enhanced_acc')
-parser.add_argument('--quantile_num', type=float, default=0.95, help='quantile_num')
-parser.add_argument('--loss_list', type=str, default="kl", help='mse+kl')
+parser.add_argument('--loss_list', type=str, default="kl_soft", help='kl_soft+kl_hard')
+parser.add_argument('--soft_weight', type=float, default=1, help='soft_weight')
+parser.add_argument('--hard_weight', type=float, default=0, help='hard_weight')
 
 # model parameters
 parser.add_argument('--d_model', type=int, default=768, help='MI_learner dim')
@@ -82,7 +85,7 @@ os.environ["OPENAI_API_KEY"] = "sk-4MXWoPL9fV7Zv9ZK5HJfT3BlbkFJoRwsjTyOBYKAB564G
 from dataloader.data_loader import get_loader  
 from trainer import My_Trainer
 import torch
-from utils.utils import load_LLM, load_retriever, get_logger, make_log_dir, seed_everything, process_document
+from utils.utils import load_LLM, load_retriever, get_logger, make_log_dir, seed_everything
 from models.my_model import My_MI_learner
 
 if torch.cuda.is_available():
@@ -114,16 +117,15 @@ args.print_logger.info("**************** Configuration **************** \n\n")
 def main(args):
     if args.if_RA:
         retri_encoder, triever_tokenizer = load_retriever(args)
-        all_retrieve_doc, text_splitter = process_document(args, triever_tokenizer)
     else:
-        retri_encoder, triever_tokenizer, all_retrieve_doc, text_splitter=None, None, None, None
+        retri_encoder, triever_tokenizer=None, None
 
-    LLM, LLM_tokenizer, stop_token_ids = load_LLM(args)
-    MI_learner = My_MI_learner(args, LLM_tokenizer.vocab_size)
+    LLM, LLM_tokenizer = load_LLM(args)
+    MI_learner = My_MI_learner(args, LLM_tokenizer.vocab_size if args.LLM != "chatGPT" else 32000)
 
     train_data_loader, dev_data_loader, test_data_loader = get_loader(args)
     
-    trainer = My_Trainer(args, MI_learner, LLM, LLM_tokenizer, device, retri_encoder, triever_tokenizer, all_retrieve_doc, text_splitter)
+    trainer = My_Trainer(args, MI_learner, LLM, LLM_tokenizer, device, retri_encoder, triever_tokenizer)
     
     if args.if_train:
         trainer.train_proc(train_data_loader, dev_data_loader, test_data_loader)

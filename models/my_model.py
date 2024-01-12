@@ -5,7 +5,8 @@ from torch.nn import TransformerEncoderLayer, MultiheadAttention, Linear, Dropou
 import torch.nn.functional as F
 from utils.utils import combine_doc
 from sklearn.metrics import  accuracy_score
-from sklearn.cluster import KMeans
+from langchain.docstore.document import Document
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 class My_MI_learner(nn.Module):
     def __init__(self, args, vocab_size):
@@ -24,13 +25,29 @@ class My_MI_learner(nn.Module):
 
         self.mse_loss = nn.MSELoss()
         self.kl_loss = nn.KLDivLoss(reduction="batchmean", log_target=True)
-
-    def forward(self, query_emb, ques_att_masks, bags_list, batch_logit_log_softmax, batch_loss, retriever, triever_tokenizer, train_flag):
+        self.kl_loss_hard = nn.KLDivLoss(reduction="batchmean")
+        
+    def return_hierarchical_bag(self, bag, text_splitter):
+        new_bag_list =[]
+        new_doc_list =[]
+        for item in bag:
+            new_doc_list.append(Document(page_content=item))
+        chunks = text_splitter.split_documents(new_doc_list)
+        new_bag_list = [i.page_content for i in chunks]
+        return new_bag_list
+    
+    def forward(self, query_emb, ques_att_masks, bags_list, batch_logit_log_softmax, one_hot_labels, retriever, triever_tokenizer, train_flag):
         total_mse_logit = []
         total_kl_logit = []
         select_doc = []
         select_doc_num = []
         for bag, raw_ques_emb, ques_att_mask in zip(bags_list, query_emb, ques_att_masks):
+            if self.args.if_hierarchical_retrieval:
+                text_splitter = RecursiveCharacterTextSplitter.from_huggingface_tokenizer(triever_tokenizer, 
+                                                                                chunk_size=int(self.args.chunk_size/self.args.hierarchical_ratio), 
+                                                                                chunk_overlap=int(self.args.chunk_overlap/self.args.hierarchical_ratio))
+                bag = self.return_hierarchical_bag(bag, text_splitter)
+
             with torch.no_grad():
                 doc_input = triever_tokenizer(bag, truncation=True, return_tensors='pt', max_length=self.args.chunk_size, padding=True).to(self.args.device)
                 raw_doc_emb = retriever(**doc_input).last_hidden_state
@@ -61,13 +78,16 @@ class My_MI_learner(nn.Module):
                     total_kl_logit.append(MI_logit_log_softmax)
 
         total_loss = 0
+        KLL_soft_loss = 0
+        KLL_hard_loss = 0
         if train_flag:
-            if "mse" in self.args.loss_list:
-                MSL_loss = self.mse_loss( torch.stack(total_mse_logit).squeeze(), 1/batch_loss.float() )
-                total_loss+=MSL_loss
-            if "kl" in self.args.loss_list:
-                KLL_loss = self.kl_loss(torch.stack(total_kl_logit).squeeze(), batch_logit_log_softmax) 
-                total_loss+=KLL_loss
+            if "kl_soft" in self.args.loss_list:
+                KLL_soft_loss = self.kl_loss(torch.stack(total_kl_logit).squeeze(), batch_logit_log_softmax) 
+                
+            if "kl_hard" in self.args.loss_list:
+                KLL_hard_loss = self.kl_loss_hard(torch.stack(total_kl_logit).squeeze(), one_hot_labels) 
+            
+            total_loss = (self.args.soft_weight * KLL_soft_loss) + (self.args.hard_weight * KLL_hard_loss) 
 
         return total_loss, select_doc, select_doc_num
     
