@@ -1,0 +1,9 @@
+{
+    "general-prompt":  "You are an AI language model assistant for answering medical questions. Your task is to select a correct answer from the provided options to the give question. \n\nQuestion: {question} \n Options: {options} \n Select an option from the provided Options <A>, <B>, <C>, <D> to answer the given Question. The selected answer is <",
+    "retrieve-prompt": "You are an AI language model assistant for answering medical questions. Your task is to select a correct answer from the provided options to the give question. Please learn and think according to the provided Context. \n Context: \n {context} \n\nQuestion: {question} \n Options: {options}  \n Select an option from the provided Options <A>, <B>, <C>, <D> to answer the given Question. The selected answer is <",
+    "general-demonstration-prompt":  "You are an AI language model assistant for answering medical questions. Your task is to select a correct answer from the provided options to the give question. Please learn and think according to the provided Demonstration. \n  {demonstration} \n\nQuestion: {question} \n Options: {options} \n Select an option from the provided Options <A>, <B>, <C>, <D> to answer the given Question.  The selected answer is <",
+    "retrieve-demonstration-prompt": "You are an AI language model assistant for answering medical questions. Your task is to select a correct answer from the provided options to the give question. Please learn and think according to the provided Demonstration and the Context. \n  {demonstration} \n Context: {context} \n\nQuestion: {question} \n Options: {options} \n Select an option from the provided Options <A>, <B>, <C>, <D> to answer the given Question.  The selected answer is <"
+
+}
+
+

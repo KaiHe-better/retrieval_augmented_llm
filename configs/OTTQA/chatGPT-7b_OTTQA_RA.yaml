@@ -1,0 +1,7 @@
+---
+LLM: chatGPT
+dataset: OTTQA
+max_new_tokens: 90
+if_train: False
+if_RA: True
+if_MI_RA: False

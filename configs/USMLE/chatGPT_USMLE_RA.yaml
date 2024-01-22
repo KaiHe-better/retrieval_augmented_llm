@@ -1,0 +1,7 @@
+---
+LLM: chatGPT 
+dataset: USMLE
+prompt_file: "prompts/USMLE.json"
+if_train: False
+if_RA: True
+if_MI_RA: False

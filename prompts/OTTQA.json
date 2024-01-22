@@ -1,0 +1,8 @@
+{
+    "general-prompt":  "You are an AI language model assistant for answering questions. Your task is understanding the intent of the <Question> and then generating <Answer> to <Question> with you knowledge. \n<Question>: {question} \nPlease directly generate <Answer> to <Question>. The genated <Answer> should as short as possible, which can be a phrase, not a sentence. <Answer>: \n\n",
+    "retrieve-prompt": "You are an AI language model assistant for answering questions from retrieved Context. Your task is to answer the question based on the provided Context. The answer should not contain any Explanations. Please learn and think according to the Context. \n Context: \n {context} \n\nQuestion: {question} \n  the answer is",
+    "general-demonstration-prompt":  "You are an AI language model assistant for answering questions. Your task is to answer the question. The answer should not contain any Explanations. Please learn and think according to the provided Demonstration. \n  Demonstration: {demonstration} \n\nQuestion: {question} \n The answer is",
+    "retrieve-demonstration-prompt": "You are an AI language model assistant for answering questions from retrieved Context. Your task is to answer the question based on the provided Context. The answer should not contain any Explanations. Please learn and think according to the provided Demonstration and Context. \n Demonstration: {demonstration} \n Context: \n {context} \n\nQuestion: {question} \n The answer is"
+}
+
+

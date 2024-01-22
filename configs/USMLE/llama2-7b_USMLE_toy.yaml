@@ -1,0 +1,8 @@
+---
+LLM: llama2-7b
+dataset: USMLE
+max_new_tokens: 1
+test_code_flag: True
+train_eval: 1
+if_train: False
+if_RA: False
