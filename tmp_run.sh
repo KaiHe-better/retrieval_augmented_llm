@@ -1,2 +1,0 @@
-python run.py --ID test_00 --gpu 2 --config llama2-7b_USMLE_RA.yaml --dataset USMLE --test_batch_size 1 --infer_retri_num 10  
-python run.py --ID test_11 --gpu 2 --config llama2-7b_USMLE_MI_RA.yaml --dataset USMLE --test_batch_size 1 --infer_retri_num 10  

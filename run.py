@@ -7,7 +7,7 @@ parser = argparse.ArgumentParser()
 
 # system settings
 parser.add_argument('--ID', type=str, default='0', help='run ID')
-parser.add_argument('--gpu', default="2", type=str, help='gpu device numbers')
+parser.add_argument('--gpu', default="7", type=str, help='gpu device numbers')
 parser.add_argument('--seed', default=42, help='trandom seed')
 parser.add_argument('--num_workers', default=16, type=int, help='data_loader_work')
 parser.add_argument("--test_code_flag", type=bool, default=False, help="if retrieval augmented")
@@ -20,8 +20,8 @@ parser.add_argument("--LLM", type=str,  default="llama2-7b", choices=["llama2-7b
 parser.add_argument("--triever", type=str,  default="dragon+", choices=["dragon+", "NIL", ], help="triever to use")
 parser.add_argument("--num_layers", type=int,  default=1, help="num_layers")
 # data
-parser.add_argument('--dataset', type=str, default="HEADQA", choices=["USMLE", "MedMCQA", "HEADQA", "MMLU", "OTTQA"], help='train_file_path')
-parser.add_argument("--config", type=str, default="llama2-7b_HEADQA_MI_RA_toy.yaml", help="Path to the config file")
+parser.add_argument('--dataset', type=str, default="USMLE", choices=["USMLE", "MedMCQA", "HEADQA", "MMLU", "OTTQA"], help='train_file_path')
+parser.add_argument("--config", type=str, default="llama2-7b_USMLE_RA.yaml", help="Path to the config file")
 parser.add_argument('--chunk_size', type=int, default=512, help='chunk_sizen, not token length')
 parser.add_argument('--chunk_overlap', type=int, default=20, help='chunk_size')
 # retrieval
@@ -95,7 +95,7 @@ else:
     device = "cpu"
 args.device = device
 
-seed_everything(42)
+seed_everything(int(args.seed))
 
 args.prompt_file = "prompts/" + args.dataset + ".json"
 
@@ -140,6 +140,7 @@ def main(args):
     if args.if_train and args.if_RA and args.if_MI_RA and (args.dataset!= "MMLU"):
         trainer.train_proc(train_data_loader, dev_data_loader, test_data_loader)
 
+    # test_data_loader = dev_data_loader
     trainer.test_proc(test_data_loader, dev_data_loader)
     
     

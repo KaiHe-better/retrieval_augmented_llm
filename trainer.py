@@ -369,8 +369,9 @@ class My_Trainer:
                 total_loss = loss_list[-1]
 
                 total_loss.backward()
-                old_doc_len = sum([len(i) for i in retrieve_docs])/len(retrieve_docs)
-                new_doc_len = sum([len(i) for i in new_retrieve_docs])/len(new_retrieve_docs)
+                # new
+                old_doc_len =  sum([len(i) for i in self.LLM_tokenizer(retrieve_docs)["input_ids"]]) / len(retrieve_docs)
+                new_doc_len =  sum([len(i) for i in self.LLM_tokenizer(new_retrieve_docs)["input_ids"]]) / len(retrieve_docs)
 
                 self.writer.add_scalar('Loss/total_loss', round(float(total_loss), 4), step_num)
                 self.writer.add_scalar('LR', self.optimizer.param_groups[0]['lr'], step_num)
@@ -433,10 +434,10 @@ class My_Trainer:
                 if self.args.infer_add_gold_retrieval:
                     retrieve_docs = self.add_gold_retrieval(retrieve_docs, data_item)
 
-                old_doc_len = sum([len(i) for i in retrieve_docs])/len(retrieve_docs)
+                old_doc_len +=  sum([len(i) for i in self.LLM_tokenizer(retrieve_docs)["input_ids"]]) / len(retrieve_docs)
                 if self.args.if_MI_RA:
                     _, retrieve_docs, _ = self.MI_learner(query_emb, att_mask, bags_list, "batch_logit_log_softmax", "one_hot_labels", "batch_loss", self.retriever, self.triever_tokenizer, False)
-                    new_doc_len = sum([len(i) for i in retrieve_docs])/len(retrieve_docs)
+                    new_doc_len +=  sum([len(i) for i in self.LLM_tokenizer(retrieve_docs)["input_ids"]]) / len(retrieve_docs)
             else:
                 retrieve_docs = ""
 
@@ -453,7 +454,10 @@ class My_Trainer:
             break_cnt = 2 if self.args.test_code_flag else None
             if break_cnt is not None and break_cnt<index:
                 break
-            
+        
+        old_doc_len = old_doc_len / len(test_data_loader)   
+        new_doc_len = new_doc_len / len(test_data_loader)   
+
         if self.args.dataset == "OTTQA":
             test_f1 , test_EM =  self.my_metrics.get_raw_scores(all_test_predictions, all_test_answers)   
             

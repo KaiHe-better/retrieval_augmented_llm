@@ -13,7 +13,7 @@ class HEADQA(Dataset):
     def __init__(self, args, data_file, LLM_tokenizer):
         self.args = args
         self.LLM_tokenizer = LLM_tokenizer
-        self.map_dic = {"0": "A", "1": "B", "2": "C", "3": "D", "4":"E"}
+        self.map_dic = {"0": "A", "1": "B", "2": "C", "3": "D"}
 
         with open(data_file, "r") as f:
             self.data =  eval(f.readlines()[0])
