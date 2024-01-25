@@ -88,7 +88,7 @@ class My_MI_learner(nn.Module):
                 mse_loss = self.args.mse_weight * mse_loss
 
             if "kl_soft" in self.args.loss_list:
-                kl_soft_loss = self.kl_loss(torch.stack(total_kl_logit), batch_logit_log_softmax) 
+                kl_soft_loss = self.kl_loss(torch.stack(total_kl_logit), batch_logit_log_softmax.to(MI_logit_log_softmax.device)) 
                 kl_soft_loss = self.args.soft_weight * kl_soft_loss
 
             if "kl_hard" in self.args.loss_list:

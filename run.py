@@ -7,7 +7,7 @@ parser = argparse.ArgumentParser()
 
 # system settings
 parser.add_argument('--ID', type=str, default='0', help='run ID')
-parser.add_argument('--gpu', default="7", type=str, help='gpu device numbers')
+parser.add_argument('--gpu', default="3", type=str, help='gpu device numbers')
 parser.add_argument('--seed', default=42, help='trandom seed')
 parser.add_argument('--num_workers', default=16, type=int, help='data_loader_work')
 parser.add_argument("--test_code_flag", type=bool, default=False, help="if retrieval augmented")
@@ -21,7 +21,7 @@ parser.add_argument("--triever", type=str,  default="dragon+", choices=["dragon+
 parser.add_argument("--num_layers", type=int,  default=1, help="num_layers")
 # data
 parser.add_argument('--dataset', type=str, default="USMLE", choices=["USMLE", "MedMCQA", "HEADQA", "MMLU", "OTTQA"], help='train_file_path')
-parser.add_argument("--config", type=str, default="llama2-7b_USMLE_RA.yaml", help="Path to the config file")
+parser.add_argument("--config", type=str, default="llama2-7b_USMLE_MI_RA.yaml", help="Path to the config file")
 parser.add_argument('--chunk_size', type=int, default=512, help='chunk_sizen, not token length')
 parser.add_argument('--chunk_overlap', type=int, default=20, help='chunk_size')
 # retrieval
@@ -31,7 +31,7 @@ parser.add_argument('--infer_retri_num', type=int, default=5, help='max_document
 parser.add_argument('--pass_retri_num', type=int, default=3, help='max_document_num')
 parser.add_argument('--test_batch_size', type=int, default=2, help='test_batch_size')
 parser.add_argument('--multi_query', type=bool, default=False, help='multi_query, using open AI')
-parser.add_argument('--rewrite_num', type=int, default=3, help='max_document_num')
+parser.add_argument('--rewrite_num', type=int, default=2, help='rewrite_num, more than 1')
 parser.add_argument('--OTTQA_more_passage', type=bool, default=True, help='OTTQA_more_passage')
 parser.add_argument('--retri_batch_size', type=int, default=320, help='batch_size')
 parser.add_argument('--retrieval_corpus_ids', type=str, default="0", help='0, 0_1, 0_1_2')
@@ -98,7 +98,7 @@ args.device = device
 seed_everything(int(args.seed))
 
 args.prompt_file = "prompts/" + args.dataset + ".json"
-
+assert args.rewrite_num>1
 if args.if_train is True and args.if_MI_RA is False:
     raise Exception("if if_train is true, if_MI_RA have to be true ! ")
 

@@ -233,7 +233,7 @@ class My_Trainer:
             batch_queries = []
             for q in query:
                 batch_queries.append(q)
-                batch_queries += llm_chain({"question":q, "rewrite_num":self.args.rewrite_num})["text"] 
+                batch_queries += llm_chain({"question":q, "rewrite_num": self.args.rewrite_num })["text"] 
 
         else:
             batch_queries=query
@@ -262,22 +262,28 @@ class My_Trainer:
             curr_vectordb = self.vectordb["train"] 
             curr_retrieved_document = self.retrieved_document["train"]
         
-        scores = __dist__(query_emb, curr_vectordb, method='dot')
-        batch_select_index = torch.argsort(scores, descending=True)[:, :retri_num].tolist()
-
         if self.args.multi_query:
-            # results from multi query are all needed
-            merged_list = []
-            i = 0
-            while i < len(batch_select_index):
-                # Merge n consecutive sublists into one sublist
-                merged_sublist = []
-                for sublist in batch_select_index[i:i + self.args.rewrite_num+1]:
-                    merged_sublist.extend(sublist)
+            scores = __dist__(query_emb, curr_vectordb, method='dot')
+            tmp_toal_num = scores.size(-1)
+            scores = scores.view(len(query), -1)
+            batch_select_index = (torch.argsort(scores, descending=True)[:, :retri_num] % tmp_toal_num ).tolist()
+        else:
+            scores = __dist__(query_emb, curr_vectordb, method='dot')
+            batch_select_index = torch.argsort(scores, descending=True)[:, :retri_num].tolist()
+
+        # if self.args.multi_query:
+        #     # results from multi query are all needed
+        #     merged_list = []
+        #     i = 0
+        #     while i < len(batch_select_index):
+        #         # Merge n consecutive sublists into one sublist
+        #         merged_sublist = []
+        #         for sublist in batch_select_index[i:i + self.args.rewrite_num+1]:
+        #             merged_sublist.extend(sublist)
                 
-                merged_list.append(merged_sublist)
-                i = self.args.rewrite_num+i+1
-            batch_select_index = merged_list
+        #         merged_list.append(merged_sublist)
+        #         i = self.args.rewrite_num+i+1
+        #     batch_select_index = merged_list
 
         batch_infer_doc = []
         batch_item_list = []
