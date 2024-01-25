@@ -34,7 +34,7 @@ parser.add_argument('--multi_query', type=bool, default=False, help='multi_query
 parser.add_argument('--rewrite_num', type=int, default=2, help='rewrite_num, more than 1')
 parser.add_argument('--OTTQA_more_passage', type=bool, default=True, help='OTTQA_more_passage')
 parser.add_argument('--retri_batch_size', type=int, default=320, help='batch_size')
-parser.add_argument('--retrieval_corpus_ids', type=str, default="0", help='0, 0_1, 0_1_2')
+parser.add_argument('--retrieval_corpus_ids', type=str, default="0_1_2", help='0, 0_1, 0_1_2')
 # hierarchical retrieval
 parser.add_argument('--if_hierarchical_retrieval', type=bool, default=True, help='if_hierarchical_retrieval')
 parser.add_argument('--hierarchical_ratio', type=float, default=1.4, help='hierarchical_ratio')

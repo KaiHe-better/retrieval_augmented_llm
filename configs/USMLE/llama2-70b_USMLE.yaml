@@ -1,0 +1,8 @@
+---
+LLM: llama2-70b
+dataset: USMLE
+prompt_file: "prompts/USMLE.json"
+max_new_tokens: 1
+if_RA: False
+if_MI_RA: False
+if_train: False

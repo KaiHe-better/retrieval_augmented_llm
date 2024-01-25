@@ -1,0 +1,13 @@
+---
+LLM: llama2-13b
+dataset: USMLE
+max_new_tokens: 1
+if_train: True
+if_RA: True
+if_MI_RA: True
+loss_list: kl_soft+kl_hard
+soft_weight: 0.7
+hard_weight: 0.3  
+num_layers: 1 
+lr: 3e-4
+num_layers: 3
