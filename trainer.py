@@ -233,8 +233,9 @@ class My_Trainer:
             batch_queries = []
             for q in query:
                 batch_queries.append(q)
-                batch_queries += llm_chain({"question":q, "rewrite_num": self.args.rewrite_num })["text"] 
-
+                for llm_chain_item in llm_chain({"question":q, "rewrite_num": self.args.rewrite_num })["text"]:
+                    if len(llm_chain_item)>1 and len(batch_queries)<= (len(query) * (self.args.rewrite_num+1)):
+                        batch_queries.append(llm_chain_item)
         else:
             batch_queries=query
 
@@ -429,8 +430,8 @@ class My_Trainer:
         new_doc_len = 0
         total_hallucination_cnt = 0
         for index, data_item in enumerate(test_data_loader):
-            if index%200==0:
-                self.print_logger.info(f"testing process num: {index}")
+            # if index%200==0:
+            self.print_logger.info(f"testing process num: {index}")
             question = data_item['question']
             batch_label = data_item["label"]
             batch_answer = data_item["answer"]
