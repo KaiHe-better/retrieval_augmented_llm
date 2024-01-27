@@ -1,0 +1,7 @@
+---
+LLM: llama2-13b
+dataset: HEADQA
+max_new_tokens: 1
+if_train: False
+if_RA: True
+if_MI_RA: False
