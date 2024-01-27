@@ -1,0 +1,107 @@
+2024-01-27 11:14:33,472 **************** Configuration **************** 
+2024-01-27 11:14:33,472 ID: 0_USMLE
+2024-01-27 11:14:33,472 gpu: 1
+2024-01-27 11:14:33,472 seed: 42
+2024-01-27 11:14:33,472 num_workers: 16
+2024-01-27 11:14:33,472 test_code_flag: False
+2024-01-27 11:14:33,472 loading_ckpt_path: None
+2024-01-27 11:14:33,472 if_train: False
+2024-01-27 11:14:33,472 if_RA: True
+2024-01-27 11:14:33,472 if_MI_RA: False
+2024-01-27 11:14:33,472 LLM: llama2-7b
+2024-01-27 11:14:33,472 triever: dragon+
+2024-01-27 11:14:33,473 num_layers: 1
+2024-01-27 11:14:33,473 dataset: USMLE
+2024-01-27 11:14:33,473 config: llama2-7b_USMLE_RA.yaml
+2024-01-27 11:14:33,473 chunk_size: 512
+2024-01-27 11:14:33,473 chunk_overlap: 20
+2024-01-27 11:14:33,473 train_add_gold_retrieval: False
+2024-01-27 11:14:33,473 infer_add_gold_retrieval: False
+2024-01-27 11:14:33,473 infer_retri_num: 5
+2024-01-27 11:14:33,473 pass_retri_num: 3
+2024-01-27 11:14:33,473 test_batch_size: 2
+2024-01-27 11:14:33,473 multi_query: False
+2024-01-27 11:14:33,473 rewrite_num: 2
+2024-01-27 11:14:33,473 OTTQA_more_passage: True
+2024-01-27 11:14:33,473 retri_batch_size: 320
+2024-01-27 11:14:33,473 retrieval_corpus_ids: 0_1_2
+2024-01-27 11:14:33,473 if_hierarchical_retrieval: True
+2024-01-27 11:14:33,473 hierarchical_ratio: 1.4
+2024-01-27 11:14:33,473 quantile_num: 0.95
+2024-01-27 11:14:33,473 train_retri_num: 3
+2024-01-27 11:14:33,473 train_batch_size: 2
+2024-01-27 11:14:33,473 accumulation_steps: 1
+2024-01-27 11:14:33,473 demonstration: False
+2024-01-27 11:14:33,473 demons_cnt: 1
+2024-01-27 11:14:33,473 l2_coef: 0
+2024-01-27 11:14:33,473 train_eval: 100
+2024-01-27 11:14:33,473 epoch: 1
+2024-01-27 11:14:33,474 lr: 0.0001
+2024-01-27 11:14:33,474 init_lr_num: 500
+2024-01-27 11:14:33,474 lr_decay: 0.9
+2024-01-27 11:14:33,474 lr_decay_interval: 400
+2024-01-27 11:14:33,474 loss_list: kl_soft+kl_hard
+2024-01-27 11:14:33,474 mse_weight: 0
+2024-01-27 11:14:33,474 soft_weight: 0.7
+2024-01-27 11:14:33,474 hard_weight: 0.3
+2024-01-27 11:14:33,474 d_model: 768
+2024-01-27 11:14:33,474 dim_feedforward: 2048
+2024-01-27 11:14:33,474 layer_norm_eps: 1e-05
+2024-01-27 11:14:33,474 nhead: 8
+2024-01-27 11:14:33,474 dropout: 0.1
+2024-01-27 11:14:33,474 temperature: 1e-09
+2024-01-27 11:14:33,474 top_p: 0
+2024-01-27 11:14:33,474 max_new_tokens: 1
+2024-01-27 11:14:33,474 max_length: 2048
+2024-01-27 11:14:33,474 device: cuda
+2024-01-27 11:14:33,474 prompt_file: prompts/USMLE.json
+2024-01-27 11:14:33,474 dir_path: ./results/output/ID_0_USMLE_gpu_1_config_llama2-7b_USMLE_RA.yaml_dataset_USMLE_epoch_1_retrieval_
+2024-01-27 11:14:33,474 print_logger: <Logger print (DEBUG)>
+2024-01-27 11:14:33,474 test_result_logger: <Logger test_result (DEBUG)>
+2024-01-27 11:14:33,474 train_result_logger: <Logger train_result (DEBUG)>
+2024-01-27 11:14:33,474 **************** Configuration **************** 
+
+
+2024-01-27 11:14:33,474 Loading retriever ...
+2024-01-27 11:14:34,727 Loading ../LLM_models/llama2/Llama-2-7b-chat-hf in torch.bfloat16...
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.06s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:05<00:00,  2.34s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:05<00:00,  2.59s/it]
+2024-01-27 11:14:40,407 Finish loading in 0.09 mins.
+2024-01-27 11:14:40,503 Loading data ...
+2024-01-27 11:14:40,896 prompt_format: retrieve-prompt 
+
+2024-01-27 11:14:40,897 updata_retri_embedding ...
+2024-01-27 11:14:40,897 datasets/Retrieval_corpus/process_retrieval_corpus/train_dragon+_512_20_0_1_2.txt already chunked !
+2024-01-27 11:14:43,952 loading retrieval files in 0.05 mins. 
+
+2024-01-27 11:14:44,222 exist retri_embedding for train , loading it in 0.06 min. 
+2024-01-27 11:14:44,222 vectordb train, size: torch.Size([768, 166917])
+2024-01-27 11:14:44,222 
+ Start test ...  
+2024-01-27 11:14:45,066 Uncaught exception
+Traceback (most recent call last):
+  File "/hpc/home/kai_he/WorkShop/My_project/retrieval_augmented_llm/run.py", line 152, in <module>
+    main(args)
+  File "/hpc/home/kai_he/WorkShop/My_project/retrieval_augmented_llm/run.py", line 144, in main
+    trainer.test_proc(test_data_loader, dev_data_loader)
+  File "/hpc/home/kai_he/WorkShop/My_project/retrieval_augmented_llm/trainer.py", line 449, in test_proc
+    for index, data_item in enumerate(test_data_loader):
+  File "/hpc/home/kai_he/miniconda3/envs/retrieval/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 634, in __next__
+    data = self._next_data()
+  File "/hpc/home/kai_he/miniconda3/envs/retrieval/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 1346, in _next_data
+    return self._process_data(data)
+  File "/hpc/home/kai_he/miniconda3/envs/retrieval/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 1372, in _process_data
+    data.reraise()
+  File "/hpc/home/kai_he/miniconda3/envs/retrieval/lib/python3.9/site-packages/torch/_utils.py", line 644, in reraise
+    raise exception
+IndexError: Caught IndexError in DataLoader worker process 0.
+Original Traceback (most recent call last):
+  File "/hpc/home/kai_he/miniconda3/envs/retrieval/lib/python3.9/site-packages/torch/utils/data/_utils/worker.py", line 308, in _worker_loop
+    data = fetcher.fetch(index)
+  File "/hpc/home/kai_he/miniconda3/envs/retrieval/lib/python3.9/site-packages/torch/utils/data/_utils/fetch.py", line 51, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/hpc/home/kai_he/miniconda3/envs/retrieval/lib/python3.9/site-packages/torch/utils/data/_utils/fetch.py", line 51, in <listcomp>
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/hpc/home/kai_he/WorkShop/My_project/retrieval_augmented_llm/dataloader/usmle_loader.py", line 32, in __getitem__
+    rewrte_data_item = self.rewrte_data[index][:self.args.rewrite_num]
+IndexError: list index out of range
+

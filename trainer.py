@@ -218,28 +218,30 @@ class My_Trainer:
         if train_flag and retri_num<=1:
             raise Exception("train need retrieve more than one docs !")
 
-        if self.args.multi_query:
-            output_parser = LineListOutputParser()
-            QUERY_PROMPT = PromptTemplate(
-                input_variables=["question"],
-                template="""You are an AI language model assistant. Your task is to generate  {rewrite_num} 
-                different versions of the given user question to retrieve relevant documents from a vector 
-                database. By generating multiple perspectives on the user question, your goal is to help
-                the user overcome some of the limitations of the distance-based similarity search. 
-                Provide these alternative questions separated by newlines.
-                Original question: {question}""" )
+        # if self.args.multi_query:
+        #     output_parser = LineListOutputParser()
+        #     QUERY_PROMPT = PromptTemplate(
+        #         input_variables=["question"],
+        #         template="""You are an AI language model assistant. Your task is to generate  {rewrite_num} 
+        #         different versions of the given user question to retrieve relevant documents from a vector 
+        #         database. By generating multiple perspectives on the user question, your goal is to help
+        #         the user overcome some of the limitations of the distance-based similarity search. 
+        #         Provide these alternative questions separated by newlines.
+        #         Original question: {question}""" )
 
-            llm_chain = LLMChain(llm= ChatOpenAI(temperature=0), prompt=QUERY_PROMPT, output_parser=output_parser)
-            batch_queries = []
-            for q in query:
-                batch_queries.append(q)
-                for llm_chain_item in llm_chain({"question":q, "rewrite_num": self.args.rewrite_num })["text"]:
-                    if len(llm_chain_item)>1 and len(batch_queries)<= (len(query) * (self.args.rewrite_num+1)):
-                        batch_queries.append(llm_chain_item)
-        else:
-            batch_queries=query
+        #     llm_chain = LLMChain(llm= ChatOpenAI(temperature=0), prompt=QUERY_PROMPT, output_parser=output_parser)
+        #     batch_queries = []
+        #     for q in query:
+        #         batch_queries.append(q)
+        #         for llm_chain_item in llm_chain({"question":q, "rewrite_num": self.args.rewrite_num })["text"]:
+        #             if len(llm_chain_item)>1 and len(batch_queries)<= (len(query) * (self.args.rewrite_num+1)):
+        #                 batch_queries.append(llm_chain_item)
+        #     while len(batch_queries) < (len(query) * (self.args.rewrite_num+1)):
+        #         batch_queries.append(q)
+        # else:   
+        #     batch_queries=query
 
-        query_input = self.triever_tokenizer(batch_queries, truncation=True, return_tensors='pt', max_length=self.args.chunk_size, padding=True).to(self.device)
+        query_input = self.triever_tokenizer(query, truncation=True, return_tensors='pt', max_length=self.args.chunk_size, padding=True).to(self.device)
         query_embs = self.retriever(**query_input).last_hidden_state
         query_emb = query_embs[:, 0, :]
 
@@ -263,28 +265,31 @@ class My_Trainer:
             curr_vectordb = self.vectordb["train"] 
             curr_retrieved_document = self.retrieved_document["train"]
         
-        if self.args.multi_query:
-            scores = __dist__(query_emb, curr_vectordb, method='dot')
-            tmp_toal_num = scores.size(-1)
-            scores = scores.view(len(query), -1)
-            batch_select_index = (torch.argsort(scores, descending=True)[:, :retri_num] % tmp_toal_num ).tolist()
-        else:
-            scores = __dist__(query_emb, curr_vectordb, method='dot')
-            batch_select_index = torch.argsort(scores, descending=True)[:, :retri_num].tolist()
-
         # if self.args.multi_query:
-        #     # results from multi query are all needed
-        #     merged_list = []
-        #     i = 0
-        #     while i < len(batch_select_index):
-        #         # Merge n consecutive sublists into one sublist
-        #         merged_sublist = []
-        #         for sublist in batch_select_index[i:i + self.args.rewrite_num+1]:
-        #             merged_sublist.extend(sublist)
+        #     scores = __dist__(query_emb, curr_vectordb, method='dot')
+        #     tmp_toal_num = scores.size(-1)
+        #     scores = scores.view(len(query), -1)
+        #     batch_select_index = (torch.argsort(scores, descending=True)[:, :retri_num] % tmp_toal_num ).tolist()
+        # else:
+        #     scores = __dist__(query_emb, curr_vectordb, method='dot')
+        #     batch_select_index = torch.argsort(scores, descending=True)[:, :retri_num].tolist()
+
+        scores = __dist__(query_emb, curr_vectordb, method='dot')
+        batch_select_index = torch.argsort(scores, descending=True)[:, :retri_num].tolist()
+            
+        if self.args.multi_query:
+            # results from multi query are all needed
+            merged_list = []
+            i = 0
+            while i < len(batch_select_index):
+                # Merge n consecutive sublists into one sublist
+                merged_sublist = []
+                for sublist in batch_select_index[i:i + self.args.rewrite_num+1]:
+                    merged_sublist.extend(sublist)
                 
-        #         merged_list.append(merged_sublist)
-        #         i = self.args.rewrite_num+i+1
-        #     batch_select_index = merged_list
+                merged_list.append(list(set(merged_sublist)) )
+                i = self.args.rewrite_num+i+1
+            batch_select_index = merged_list
 
         batch_infer_doc = []
         batch_item_list = []
@@ -340,6 +345,21 @@ class My_Trainer:
 
         return retrieve_docs
     
+    def get_multi_query_input(self, questions, data_item):
+        if "rewrite_question" in data_item.keys():
+            if len(data_item["rewrite_question"])==0:
+                return questions
+        
+        if self.args.multi_query:
+            rewrite_questions = data_item["rewrite_question"]
+            query = []
+            for question, rewrite_question in zip(questions, rewrite_questions):
+                query.append(question)
+                query+=rewrite_question
+            return query
+        else:
+            return questions
+
     def train_proc(self, train_data_loader, dev_data_loader, test_data_loader):
         if (not self.args.if_RA) or (not self.args.if_MI_RA):
             raise Exception("need retrieve ! ")
@@ -361,7 +381,8 @@ class My_Trainer:
                 one_hot_labels = data_item['one_hot_label']
                 batch_answer = data_item["answer"]
 
-                retrieve_docs, bags_list, query_emb, att_mask = self.retrieve(question, self.args.train_retri_num, train_flag=True)
+                query = self.get_multi_query_input(question, data_item)
+                retrieve_docs, bags_list, query_emb, att_mask = self.retrieve(query, self.args.train_retri_num, train_flag=True)
                 if self.args.train_add_gold_retrieval:
                     retrieve_docs = self.add_gold_retrieval(retrieve_docs, data_item)
 
@@ -430,14 +451,15 @@ class My_Trainer:
         new_doc_len = 0
         total_hallucination_cnt = 0
         for index, data_item in enumerate(test_data_loader):
-            # if index%200==0:
-            self.print_logger.info(f"testing process num: {index}")
+            if index%200==0:
+                self.print_logger.info(f"testing process num: {index}")
             question = data_item['question']
             batch_label = data_item["label"]
             batch_answer = data_item["answer"]
 
             if self.args.if_RA:
-                retrieve_docs, bags_list, query_emb, att_mask = self.retrieve(question, self.args.infer_retri_num, train_flag=False)
+                query = self.get_multi_query_input(question, data_item)
+                retrieve_docs, bags_list, query_emb, att_mask = self.retrieve(query, self.args.infer_retri_num, train_flag=False)
                 if self.args.infer_add_gold_retrieval:
                     retrieve_docs = self.add_gold_retrieval(retrieve_docs, data_item)
 
@@ -485,6 +507,93 @@ class My_Trainer:
 
         return record_performance
     
+
+         
+    def retrieve_save(self, query, retri_num, train_flag):
+        if train_flag and retri_num<=1:
+            raise Exception("train need retrieve more than one docs !")
+
+        output_parser = LineListOutputParser()
+        QUERY_PROMPT = PromptTemplate(
+            input_variables=["question"],
+            template="""You are an AI language model assistant. Your task is to generate  {rewrite_num} 
+            different versions of the given user question to retrieve relevant documents from a vector 
+            database. By generating multiple perspectives on the user question, your goal is to help
+            the user overcome some of the limitations of the distance-based similarity search. 
+            Provide these alternative questions separated by newlines.
+            Original question: {question}""" )
+
+        llm_chain = LLMChain(llm= ChatOpenAI(temperature=0), prompt=QUERY_PROMPT, output_parser=output_parser)
+        batch_queries = []
+        for q in query:
+            for llm_chain_item in llm_chain({"question":q, "rewrite_num": self.args.rewrite_num })["text"]:
+                if len(llm_chain_item)>1 and len(batch_queries) < self.args.rewrite_num:
+                    batch_queries.append(llm_chain_item)
+
+            while len(batch_queries) < self.args.rewrite_num :
+                batch_queries.append(q)
+        return batch_queries
+        
+    def train_save(self, train_data_loader, dev_data_loader, test_data_loader):
+
+        self.updata_retri_embedding()
+        self.print_logger.info("Start training ... \n ")
+        
+        total_batch = len(train_data_loader)
+        step_num = -1
+        best_step = 0
+        best_performce = 0
+        eval_num = 0
+        train_totel = []
+        cnt =0
+        for index, data_item in enumerate(train_data_loader):
+            self.print_logger.info(f"traing process num: {index}")
+            self.MI_learner.train()
+            step_num+=1
+            question = data_item['question']
+            labels = data_item['label']
+            one_hot_labels = data_item['one_hot_label']
+            batch_answer = data_item["answer"]
+            batch_queries = self.retrieve_save(question, self.args.train_retri_num, train_flag=True)
+            train_totel.append(batch_queries)
+
+            # cnt+=1
+            # if cnt>2:
+            #     break
+
+        with open(self.args.dataset+"_train.json", "w") as f:
+            f.writelines(str(train_totel))
+
+    def test_save(self, test_data_loader, dev_data_loader, eval_num=0, break_cnt=None):
+        
+        if ((self.args.if_RA or self.args.if_MI_RA) and (self.args.if_train is False)) or ( self.args.dataset =="MMLU"):
+            self.updata_retri_embedding()
+            
+        self.print_logger.info("\n Start test ...  ")
+
+        all_test_labels = []
+        all_test_prediction_ids = []
+        all_test_predictions = []
+        all_test_answers = []
+        old_doc_len = 0
+        new_doc_len = 0
+        total_hallucination_cnt = 0
+        test_totel = []
+        for index, data_item in enumerate(test_data_loader):
+            self.print_logger.info(f"testing process num: {index}")
+            question = data_item['question']
+            batch_label = data_item["label"]
+            batch_answer = data_item["answer"]
+            batch_queries = self.retrieve_save(question, self.args.infer_retri_num, train_flag=False)
+            test_totel.append(batch_queries)
+            # break
+
+        with open(self.args.dataset+"_test.json", "w") as f:
+            f.writelines(str(test_totel))
+
+
+
+
     def pipeline_inference(self, input_dict, label, batch_answer, training_flag=False, record_flag=True):
         if self.args.LLM == "chatGPT":
             batch_pred, batch_id_pred, batch_hallucination_cnt, save_doc_num = self.non_local_llm_infer(input_dict, label, batch_answer, training_flag, record_flag)

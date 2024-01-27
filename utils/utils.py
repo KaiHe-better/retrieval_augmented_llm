@@ -328,11 +328,12 @@ def load_LLM(args, dtype=torch.bfloat16):
             model_name_or_path,
             device_map='auto',
             torch_dtype=dtype,
-            # max_memory=get_max_memory(),
+            max_memory=get_max_memory(),
             load_in_8bit=False,
             offload_folder=model_name_or_path,
             # pretraining_tp=8
         )
+        # model = 0
         args.print_logger.info("Finish loading in %.2f mins." % ((time.time() - start_time)/60))
 
         # Load the tokenizer
@@ -347,7 +348,10 @@ def load_LLM(args, dtype=torch.bfloat16):
         
         stop = ["\n", "\n\n"]
         stop = list(set(stop + ["Ċ", "ĊĊ", "<0x0A>"])) # In Llama \n is <0x0A>; In OPT \n is Ċ
+
         stop_token_ids = list(set([tokenizer._convert_token_to_id(stop_token) for stop_token in stop] + [model.config.eos_token_id]))
+        # stop_token_ids = list(set([tokenizer._convert_token_to_id(stop_token) for stop_token in stop]))
+
         if "llama" in args.LLM:
             stop_token_ids.remove(tokenizer.unk_token_id)
 

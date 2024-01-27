@@ -68,7 +68,7 @@ def get_loader_OTTQA(args, triever_tokenizer, train_file_path, dev_file_path, te
     # for demonstration
     dev_dataset = OTTQA(args, dev_file_path, triever_tokenizer)
     dev_data_loader = DataLoader(dataset=dev_dataset,
-                                 shuffle=True,
+                                 shuffle=False,
                                  pin_memory=True,
                                  batch_size=args.test_batch_size,
                                  num_workers=args.num_workers,

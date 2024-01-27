@@ -4,12 +4,15 @@ from torch.utils.data import Dataset, DataLoader
 
 class MMLU(Dataset):
 
-    def __init__(self, args, data_file, LLM_tokenizer):
+    def __init__(self, args, data_file, LLM_tokenizer, rewrite_file_path):
         self.args = args
         self.LLM_tokenizer = LLM_tokenizer
 
         with open(data_file, "r") as f:
             self.data = f.readlines()
+
+        # with open(rewrite_file_path, "r") as f:
+        #     self.rewrte_data = eval(f.readlines()[0])
 
     def __len__(self):
         return len(self.data)
@@ -50,9 +53,9 @@ def collate_fn_MMLU(data):
 
  
 
-def get_loader_MMLU(args, triever_tokenizer, test_file_path) :
+def get_loader_MMLU(args, triever_tokenizer, test_file_path, rewrite_train_file_path) :
 
-    test_dataset = MMLU(args, test_file_path, triever_tokenizer)
+    test_dataset = MMLU(args, test_file_path, triever_tokenizer, rewrite_train_file_path)
     test_data_loader = DataLoader(dataset=test_dataset,
                                   batch_size=args.test_batch_size,
                                   shuffle=False,

@@ -11,13 +11,17 @@ import os
 
 class MedMCQA(Dataset):
 
-    def __init__(self, args, data_file, LLM_tokenizer):
+    def __init__(self, args, data_file, LLM_tokenizer, rewrite_file_path):
         self.args = args
         self.LLM_tokenizer = LLM_tokenizer
         self.map_dic = {"1": "A", "2": "B", "3": "C", "4": "D"}
+        
         with open(data_file, "r") as f:
             self.data = f.readlines()
-        
+
+        # if rewrite_file_path is not None:
+        #     with open(rewrite_file_path, "r") as f:
+        #         self.rewrite_data = eval(f.readlines()[0])
 
     def __len__(self):
         return len(self.data)
@@ -59,9 +63,9 @@ def collate_fn_MedMCQA(data):
 
  
 
-def get_loader_MedMCQA(args, triever_tokenizer, train_file_path, dev_file_path, test_file_path) :
+def get_loader_MedMCQA(args, triever_tokenizer, train_file_path, dev_file_path, test_file_path, rewrite_train_file_path, rewrite_dev_file_path, rewrite_test_file_path) :
     
-    train_dataset = MedMCQA(args, train_file_path, triever_tokenizer)
+    train_dataset = MedMCQA(args, train_file_path, triever_tokenizer, rewrite_train_file_path)
     train_data_loader = DataLoader(dataset=train_dataset,
                                    batch_size=args.train_batch_size,
                                    shuffle=False,
@@ -71,17 +75,17 @@ def get_loader_MedMCQA(args, triever_tokenizer, train_file_path, dev_file_path, 
                                   )       
 
     # for demonstration
-    dev_dataset = MedMCQA(args, dev_file_path, triever_tokenizer)
+    dev_dataset = MedMCQA(args, dev_file_path, triever_tokenizer, rewrite_dev_file_path)
     dev_data_loader = DataLoader(dataset=dev_dataset,
                                  batch_size=args.demons_cnt,
-                                 shuffle=True,
+                                 shuffle=False,
                                  pin_memory=True,
                                  num_workers=args.num_workers,
                                  collate_fn=collate_fn_MedMCQA,
                                 ) 
     
 
-    test_dataset = MedMCQA(args, test_file_path, triever_tokenizer)
+    test_dataset = MedMCQA(args, test_file_path, triever_tokenizer, rewrite_test_file_path)
     test_data_loader = DataLoader(dataset=test_dataset,
                                   batch_size=args.test_batch_size,
                                   shuffle=False,
