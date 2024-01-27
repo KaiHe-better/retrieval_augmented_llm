@@ -442,6 +442,7 @@ class My_Trainer:
             self.updata_retri_embedding()
             
         self.print_logger.info("\n Start test ...  ")
+        start_time = time.time()
 
         all_test_labels = []
         all_test_prediction_ids = []
@@ -484,6 +485,7 @@ class My_Trainer:
             if break_cnt is not None and break_cnt<index:
                 break
         
+        cost_time  = (time.time() - start_time)/60
         old_doc_len = old_doc_len / len(test_data_loader)   
         new_doc_len = new_doc_len / len(test_data_loader)   
 
@@ -497,7 +499,8 @@ class My_Trainer:
             self.writer.add_scalar('Performance/test/f1', test_f1, eval_num )
         else:
             test_acc, test_precision, test_recall, test_f1 = self.my_metrics.acc_PRF(all_test_labels, all_test_prediction_ids)
-            self.args.print_logger.info(f"test: acc {test_acc}, f1 {test_f1}, precision {test_precision}, recall {test_recall}, old_doc_len:{old_doc_len}, new_doc_len:{new_doc_len}, hallucination: {total_hallucination_cnt/len(test_data_loader)/len(question)} \n ")
+            self.args.print_logger.info(f"test: acc {test_acc}, f1 {test_f1}, precision {test_precision}, recall {test_recall}, old_doc_len:{old_doc_len}, new_doc_len:{new_doc_len}, hallucination: {total_hallucination_cnt/len(test_data_loader)/len(question)} ")
+            self.args.print_logger.info(f"cost_time: {cost_time} \n ")
             record_performance = test_acc
 
             self.writer.add_scalar('Performance/test/acc', test_acc, eval_num )
