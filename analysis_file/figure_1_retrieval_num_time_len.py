@@ -148,6 +148,6 @@ def col_3_1():
     plt.savefig(save_file)
 
 
-col_1_1()
+# col_1_1()
 # col_2_1()
-# col_3_1()
+col_3_1()

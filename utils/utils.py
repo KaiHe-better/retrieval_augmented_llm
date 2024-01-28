@@ -314,8 +314,8 @@ def load_LLM(args, dtype=torch.bfloat16):
                 model_name_or_path = "../LLM_models/llama2/Llama-2-13b-chat-hf"
 
             if model_name_or_path == "llama2-70b":
-                # model_name_or_path = "../LLM_models/llama2/Llama-2-70b-chat-hf"
-                model_name_or_path = "meta-llama/Llama-2-70b-chat-hf"
+                model_name_or_path = "../LLM_models/llama2/Llama-2-70b-chat-hf"
+                # model_name_or_path = "meta-llama/Llama-2-70b-chat-hf"
 
             model_name_or_path = os.path.join(model_name_or_path)
         else:

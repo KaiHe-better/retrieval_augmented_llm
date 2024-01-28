@@ -299,7 +299,9 @@ class My_Trainer:
             tmp_str = combine_doc(retrieve_doc)        
             batch_infer_doc.append(tmp_str)
 
-        return batch_infer_doc, batch_item_list, query_embs, query_input["attention_mask"]
+        query_embs = query_embs.view(-1, self.args.rewrite_num+1, query_embs.size(1), query_embs.size(2))[:, 0, :]
+        query_attention_mask = query_input["attention_mask"].view(-1, self.args.rewrite_num+1, query_embs.size(1))[:, 0, :]
+        return batch_infer_doc, batch_item_list, query_embs, query_attention_mask
 
     def return_input_dict(self, dev_data_loader, data_item, retrieve_docs):
         if self.args.dataset == "OTTQA":
@@ -349,6 +351,8 @@ class My_Trainer:
         if "rewrite_question" in data_item.keys():
             if len(data_item["rewrite_question"])==0:
                 return questions
+        else:
+            return questions
         
         if self.args.multi_query:
             rewrite_questions = data_item["rewrite_question"]
@@ -388,12 +392,12 @@ class My_Trainer:
 
                 input_dict = self.return_input_dict(dev_data_loader, data_item, retrieve_docs)
                 with torch.no_grad():
-                    _, _,  _, save_doc_num, batch_loss, batch_logit_log_softmax = self.pipeline_inference(input_dict, labels, batch_answer, training_flag=True, record_flag=False)
+                    _, _,  _, _, batch_loss, batch_logit_log_softmax = self.pipeline_inference(input_dict, labels, batch_answer, training_flag=True, record_flag=False)
 
-                for doc_index, doc_num in enumerate(save_doc_num):
-                    bags_list[doc_index] = bags_list[doc_index][:doc_num]
+                # for doc_index, doc_num in enumerate(save_doc_num):
+                #     bags_list[doc_index] = bags_list[doc_index][:doc_num]
 
-                loss_list, new_retrieve_docs, select_doc_num = self.MI_learner(query_emb, att_mask, bags_list, batch_logit_log_softmax, one_hot_labels, batch_loss, self.retriever, self.triever_tokenizer, True)
+                loss_list, new_retrieve_docs, _ = self.MI_learner(query_emb, att_mask, bags_list, batch_logit_log_softmax, one_hot_labels, batch_loss, self.retriever, self.triever_tokenizer, True)
                 total_loss = loss_list[-1]
 
                 total_loss.backward()
