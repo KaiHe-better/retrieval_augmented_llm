@@ -51,15 +51,20 @@ nohup python run.py --ID HEADQA_1 --gpu 4 --config llama2-7b_HEADQA_MI_RA.yaml -
 
 # nohup python run.py --ID HEADQA_5 --gpu 5 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA >/dev/null 2>&1 & # MI_44.57
 
-nohup python run.py --ID HEADQA_0 --gpu 0 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --multi_query True  --rewrite_num 2 --infer_retri_num 2 --train_retri_num 2 >/dev/null 2>&1 & 
-nohup python run.py --ID HEADQA_1 --gpu 1 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --multi_query True  --rewrite_num 1 --infer_retri_num 3 --train_retri_num 3  --hierarchical_ratio 2 --quantile_num 0.7 >/dev/null 2>&1 & 
-nohup python run.py --ID HEADQA_2 --gpu 2 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --multi_query True  --rewrite_num 1 --infer_retri_num 3 --train_retri_num 3  --quantile_num 0.8 >/dev/null 2>&1 & 
-nohup python run.py --ID HEADQA_3 --gpu 3 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --multi_query True  --rewrite_num 1 --infer_retri_num 4 --train_retri_num 3  --hierarchical_ratio 1.2 >/dev/null 2>&1 & 
-nohup python run.py --ID HEADQA_4 --gpu 4 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --multi_query True  --rewrite_num 1 --infer_retri_num 4 --train_retri_num 3  --hierarchical_ratio 1.6 >/dev/null 2>&1 & 
-nohup python run.py --ID HEADQA_5 --gpu 5 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --multi_query True  --rewrite_num 1 --infer_retri_num 4 --train_retri_num 4  --hierarchical_ratio 1.6 >/dev/null 2>&1 & 
+nohup python run.py --ID HEADQA_0 --gpu 0 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --if_hierarchical_retrieval False  >/dev/null 2>&1 &
+nohup python run.py --ID HEADQA_1 --gpu 1 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --quantile_num 0.5 --if_hierarchical_retrieval False >/dev/null 2>&1 &
+nohup python run.py --ID HEADQA_2 --gpu 2 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --quantile_num 0.7  >/dev/null 2>&1 &
+nohup python run.py --ID HEADQA_3 --gpu 3 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --quantile_num 0.5  >/dev/null 2>&1 &
+nohup python run.py --ID HEADQA_4 --gpu 4 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --quantile_num 0.3  >/dev/null 2>&1 &
+nohup python run.py --ID HEADQA_5 --gpu 5 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --multi_query True  --rewrite_num 1 --infer_retri_num 4 --train_retri_num 4  --quantile_num 0.5 >/dev/null 2>&1 & 
 
-
-
+# nohup python run.py --ID HEADQA_0 --gpu 0 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --multi_query True  --rewrite_num 2 --infer_retri_num 2 --train_retri_num 2 >/dev/null 2>&1 & # MI_41.79
+# nohup python run.py --ID HEADQA_0 --gpu 0 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --multi_query True  --rewrite_num 1 --infer_retri_num 3 --train_retri_num 3 >/dev/null --quantile_num 0.5  2>&1 & # MI_43.33
+# nohup python run.py --ID HEADQA_1 --gpu 1 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --multi_query True  --rewrite_num 1 --infer_retri_num 3 --train_retri_num 3  --hierarchical_ratio 2 --quantile_num 0.7 >/dev/null 2>&1 & # MI_42.92
+# nohup python run.py --ID HEADQA_2 --gpu 2 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --multi_query True  --rewrite_num 1 --infer_retri_num 3 --train_retri_num 3  --quantile_num 0.8 >/dev/null 2>&1 & # MI_43.47
+# nohup python run.py --ID HEADQA_3 --gpu 3 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --multi_query True  --rewrite_num 1 --infer_retri_num 3 --train_retri_num 3  --hierarchical_ratio 1.2 >/dev/null 2>&1 & # MI_42.3
+# nohup python run.py --ID HEADQA_4 --gpu 4 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --multi_query True  --rewrite_num 1 --infer_retri_num 4 --train_retri_num 3  --hierarchical_ratio 1.6 >/dev/null 2>&1 & # MI_42.92
+# nohup python run.py --ID HEADQA_5 --gpu 5 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --multi_query True  --rewrite_num 1 --infer_retri_num 4 --train_retri_num 4  --hierarchical_ratio 1.6 >/dev/null 2>&1 & # MI_43.76
 
 
 ====================================================================================================================================================================================================

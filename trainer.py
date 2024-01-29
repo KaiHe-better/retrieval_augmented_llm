@@ -299,8 +299,13 @@ class My_Trainer:
             tmp_str = combine_doc(retrieve_doc)        
             batch_infer_doc.append(tmp_str)
 
-        query_embs = query_embs.view(-1, self.args.rewrite_num+1, query_embs.size(1), query_embs.size(2))[:, 0, :]
-        query_attention_mask = query_input["attention_mask"].view(-1, self.args.rewrite_num+1, query_embs.size(1))[:, 0, :]
+        if self.args.multi_query:
+            query_embs = query_embs.view(-1, self.args.rewrite_num+1, query_embs.size(1), query_embs.size(2))[:, 0, :]
+            query_attention_mask = query_input["attention_mask"].view(-1, self.args.rewrite_num+1, query_embs.size(1))[:, 0, :]
+        else:
+            query_embs = query_embs
+            query_attention_mask = query_input["attention_mask"]
+            
         return batch_infer_doc, batch_item_list, query_embs, query_attention_mask
 
     def return_input_dict(self, dev_data_loader, data_item, retrieve_docs):
