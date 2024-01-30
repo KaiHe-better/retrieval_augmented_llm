@@ -50,13 +50,12 @@ nohup python run.py --ID HEADQA_0 --gpu 0 --config llama2-7b_HEADQA_MI_RA.yaml -
 nohup python run.py --ID HEADQA_1 --gpu 4 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --multi_query True  --rewrite_num 1 --infer_retri_num 4 --train_retri_num 3 >/dev/null 2>&1 & # best_step:100, best_performce: 43.07
 
 # nohup python run.py --ID HEADQA_5 --gpu 5 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA >/dev/null 2>&1 & # MI_44.57
-
-nohup python run.py --ID HEADQA_0 --gpu 0 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --if_hierarchical_retrieval False  >/dev/null 2>&1 &
-nohup python run.py --ID HEADQA_1 --gpu 1 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --quantile_num 0.5 --if_hierarchical_retrieval False >/dev/null 2>&1 &
-nohup python run.py --ID HEADQA_2 --gpu 2 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --quantile_num 0.7  >/dev/null 2>&1 &
-nohup python run.py --ID HEADQA_3 --gpu 3 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --quantile_num 0.5  >/dev/null 2>&1 &
-nohup python run.py --ID HEADQA_4 --gpu 4 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --quantile_num 0.3  >/dev/null 2>&1 &
-nohup python run.py --ID HEADQA_5 --gpu 5 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --multi_query True  --rewrite_num 1 --infer_retri_num 4 --train_retri_num 4  --quantile_num 0.5 >/dev/null 2>&1 & 
+# nohup python run.py --ID HEADQA_0 --gpu 0 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --quantile_num 0.95 >/dev/null 2>&1 &  # MI_43.51
+# nohup python run.py --ID HEADQA_1 --gpu 1 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --quantile_num 0.8 >/dev/null 2>&1 &   # MI_44.13
+# nohup python run.py --ID HEADQA_2 --gpu 2 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --if_hierarchical_retrieval True >/dev/null 2>&1 &  # MI_44.57
+# nohup python run.py --ID HEADQA_3 --gpu 3 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --quantile_num 0.9  --if_hierarchical_retrieval True >/dev/null 2>&1 & # MI_44.46
+# nohup python run.py --ID HEADQA_4 --gpu 4 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --quantile_num 0.8  --if_hierarchical_retrieval True >/dev/null 2>&1 & # MI_44.57
+# nohup python run.py --ID HEADQA_5 --gpu 5 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --multi_query True  --rewrite_num 1 --infer_retri_num 3 --train_retri_num 3  --quantile_num 0.85 >/dev/null 2>&1 & # 42.43 
 
 # nohup python run.py --ID HEADQA_0 --gpu 0 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --multi_query True  --rewrite_num 2 --infer_retri_num 2 --train_retri_num 2 >/dev/null 2>&1 & # MI_41.79
 # nohup python run.py --ID HEADQA_0 --gpu 0 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --multi_query True  --rewrite_num 1 --infer_retri_num 3 --train_retri_num 3 >/dev/null --quantile_num 0.5  2>&1 & # MI_43.33
@@ -67,20 +66,35 @@ nohup python run.py --ID HEADQA_5 --gpu 5 --config llama2-7b_HEADQA_MI_RA.yaml -
 # nohup python run.py --ID HEADQA_5 --gpu 5 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --multi_query True  --rewrite_num 1 --infer_retri_num 4 --train_retri_num 4  --hierarchical_ratio 1.6 >/dev/null 2>&1 & # MI_43.76
 
 
+nohup python run.py --ID HEADQA_00 --gpu 0 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --hierarchical_ratio 1.4 >/dev/null 2>&1 &   # MI_44.57
+# nohup python run.py --ID HEADQA_0 --gpu 0 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --hierarchical_ratio 1.2 >/dev/null 2>&1 & 
+# nohup python run.py --ID HEADQA_1 --gpu 1 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --hierarchical_ratio 1.6 >/dev/null 2>&1 & 
+# nohup python run.py --ID HEADQA_2 --gpu 2 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --hierarchical_ratio 1.8 >/dev/null 2>&1 & 
+# nohup python run.py --ID HEADQA_3 --gpu 3 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --hierarchical_ratio 2.0 >/dev/null 2>&1 & 
+
 ====================================================================================================================================================================================================
 # > 36.17
 
-nohup python run.py --ID MedMCQA_0 --gpu 0 --config llama2-7b_MedMCQA_RA.yaml --dataset MedMCQA --epoch 1 --retrieval_corpus_ids 0  >/dev/null 2>&1 & # 36.17
-nohup python run.py --ID MedMCQA_1 --gpu 1 --config llama2-7b_MedMCQA_RA.yaml --dataset MedMCQA --epoch 1 --retrieval_corpus_ids 0_1  >/dev/null 2>&1 & # acc 54.77
-nohup python run.py --ID MedMCQA_2 --gpu 2 --config llama2-7b_MedMCQA_RA.yaml --dataset MedMCQA --epoch 1 --retrieval_corpus_ids 0_1_2  >/dev/null 2>&1 & # acc 54.51
+# nohup python run.py --ID MedMCQA_0 --gpu 0 --config llama2-7b_MedMCQA_RA.yaml --dataset MedMCQA --epoch 1 --retrieval_corpus_ids 0  >/dev/null 2>&1 & # 36.17
+# nohup python run.py --ID MedMCQA_1 --gpu 1 --config llama2-7b_MedMCQA_RA.yaml --dataset MedMCQA --epoch 1 --retrieval_corpus_ids 0_1  >/dev/null 2>&1 & # acc 54.77
+# nohup python run.py --ID MedMCQA_2 --gpu 2 --config llama2-7b_MedMCQA_RA.yaml --dataset MedMCQA --epoch 1 --retrieval_corpus_ids 0_1_2  >/dev/null 2>&1 & # acc 54.51
 
-nohup python run.py --ID MedMCQA_1 --gpu 1 --config llama2-7b_MedMCQA_MI_RA.yaml --dataset MedMCQA --hierarchical_ratio 1.4 >/dev/null 2>&1 &  # best_step:700, best_performce: 36.41
-nohup python run.py --ID MedMCQA_2 --gpu 2 --config llama2-7b_MedMCQA_MI_RA.yaml --dataset MedMCQA --hierarchical_ratio 2   >/dev/null 2>&1 &  # best_step:900,  best_performce: 36.15
-nohup python run.py --ID MedMCQA_3 --gpu 3 --config llama2-7b_MedMCQA_MI_RA.yaml --dataset MedMCQA --hierarchical_ratio 1.7 >/dev/null 2>&1 &  # best_step:2100, best_performce: 36.19
-nohup python run.py --ID MedMCQA_4 --gpu 5 --config llama2-7b_MedMCQA_MI_RA.yaml --dataset MedMCQA --if_hierarchical_retrieval False >/dev/null 2>&1 &  # 
+# nohup python run.py --ID MedMCQA_1 --gpu 1 --config llama2-7b_MedMCQA_MI_RA.yaml --dataset MedMCQA --hierarchical_ratio 1.4 >/dev/null 2>&1 &  # best_step:700, best_performce: 36.41
+# nohup python run.py --ID MedMCQA_2 --gpu 2 --config llama2-7b_MedMCQA_MI_RA.yaml --dataset MedMCQA --hierarchical_ratio 2   >/dev/null 2>&1 &  # best_step:900,  best_performce: 36.15
+# nohup python run.py --ID MedMCQA_3 --gpu 3 --config llama2-7b_MedMCQA_MI_RA.yaml --dataset MedMCQA --hierarchical_ratio 1.7 >/dev/null 2>&1 &  # best_step:2100, best_performce: 36.19
+# nohup python run.py --ID MedMCQA_4 --gpu 5 --config llama2-7b_MedMCQA_MI_RA.yaml --dataset MedMCQA --if_hierarchical_retrieval False >/dev/null 2>&1 &  # 
 
-nohup python run.py --ID MedMCQA_3 --gpu 3 --config llama2-7b_MedMCQA_MI_RA.yaml --dataset MedMCQA  --retrieval_corpus_ids 0 --multi_query True  --rewrite_num 1 --infer_retri_num 3 >/dev/null 2>&1 &
-
-
+# nohup python run.py --ID MedMCQA_3 --gpu 3 --config llama2-7b_MedMCQA_MI_RA.yaml --dataset MedMCQA  --retrieval_corpus_ids 0 --multi_query True  --rewrite_num 1 --infer_retri_num 3 >/dev/null 2>&1 &
 
 
+# nohup python run.py --ID MedMCQA_0 --gpu 4 --config llama2-7b_MedMCQA_RA.yaml --dataset MedMCQA  >/dev/null 2>&1 & # acc 35.79, f1 33.49
+# nohup python run.py --ID MedMCQA_0 --gpu 4 --config llama2-7b_MedMCQA_RA.yaml --dataset MedMCQA --hierarchical_ratio 2  >/dev/null 2>&1 & #  acc 35.79
+# nohup python run.py --ID MedMCQA_0 --gpu 4 --config llama2-7b_MedMCQA_RA.yaml --dataset MedMCQA --hierarchical_ratio 1.2 >/dev/null 2>&1 & # acc 36.17
+
+nohup python run.py --ID MedMCQA_1 --gpu 1 --config llama2-7b_MedMCQA_MI_RA.yaml --dataset MedMCQA   >/dev/null 2>&1 &   
+nohup python run.py --ID MedMCQA_2 --gpu 2 --config llama2-7b_MedMCQA_MI_RA.yaml --dataset MedMCQA  --hierarchical_ratio 1.2 >/dev/null 2>&1 & 
+nohup python run.py --ID MedMCQA_3 --gpu 3 --config llama2-7b_MedMCQA_MI_RA.yaml --dataset MedMCQA  --hierarchical_ratio 1.5 >/dev/null 2>&1 & 
+nohup python run.py --ID MedMCQA_4 --gpu 4 --config llama2-7b_MedMCQA_MI_RA.yaml --dataset MedMCQA  --num_layers 2 >/dev/null 2>&1 & 
+nohup python run.py --ID MedMCQA_5 --gpu 5 --config llama2-7b_MedMCQA_MI_RA.yaml --dataset MedMCQA  --num_layers 3 >/dev/null 2>&1 & 
+
+nohup python run.py --ID MedMCQA_5 --gpu 7 --config llama2-7b_MedMCQA_MI_RA.yaml --dataset MedMCQA  --test_batch_size 3  --train_batch_size 3 >/dev/null 2>&1 & 

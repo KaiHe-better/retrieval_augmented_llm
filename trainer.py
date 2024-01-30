@@ -305,7 +305,7 @@ class My_Trainer:
         else:
             query_embs = query_embs
             query_attention_mask = query_input["attention_mask"]
-            
+
         return batch_infer_doc, batch_item_list, query_embs, query_attention_mask
 
     def return_input_dict(self, dev_data_loader, data_item, retrieve_docs):
@@ -353,19 +353,27 @@ class My_Trainer:
         return retrieve_docs
     
     def get_multi_query_input(self, questions, data_item):
-        if "rewrite_question" in data_item.keys():
-            if len(data_item["rewrite_question"])==0:
-                return questions
-        else:
-            return questions
-        
         if self.args.multi_query:
-            rewrite_questions = data_item["rewrite_question"]
-            query = []
-            for question, rewrite_question in zip(questions, rewrite_questions):
-                query.append(question)
-                query+=rewrite_question
-            return query
+            if "rewrite_question" in data_item.keys():
+                if len(data_item["rewrite_question"])==0:
+                    query = []
+                    for question in questions:
+                        query.append(question)
+                        query.append(question)
+                    return query
+                else:
+                    rewrite_questions = data_item["rewrite_question"]
+                    query = []
+                    for question, rewrite_question in zip(questions, rewrite_questions):
+                        query.append(question)
+                        query+=rewrite_question
+                    return query
+            else:
+                query = []
+                for question in questions:
+                    query.append(question)
+                    query.append(question)
+                return query
         else:
             return questions
 

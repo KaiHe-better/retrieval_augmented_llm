@@ -20,8 +20,8 @@ parser.add_argument("--LLM", type=str,  default="llama2-7b", choices=["llama2-7b
 parser.add_argument("--triever", type=str,  default="dragon+", choices=["dragon+", "NIL", ], help="triever to use")
 parser.add_argument("--num_layers", type=int,  default=1, help="num_layers")
 # data
-parser.add_argument('--dataset', type=str, default="HEADQA", choices=["USMLE", "MedMCQA", "HEADQA", "MMLU", "OTTQA"], help='train_file_path')
-parser.add_argument("--config", type=str, default="llama2-7b_HEADQA_MI_RA.yaml", help="Path to the config file")
+parser.add_argument('--dataset', type=str, default="MedMCQA", choices=["USMLE", "MedMCQA", "HEADQA", "MMLU", "OTTQA"], help='train_file_path')
+parser.add_argument("--config", type=str, default="llama2-7b_MedMCQA_MI_RA.yaml", help="Path to the config file")
 parser.add_argument('--chunk_size', type=int, default=512, help='chunk_sizen, not token length')
 parser.add_argument('--chunk_overlap', type=int, default=20, help='chunk_size')
 # retrieval
@@ -37,10 +37,10 @@ parser.add_argument('--retri_batch_size', type=int, default=320, help='batch_siz
 parser.add_argument('--retrieval_corpus_ids', type=str, default="0", help='0, 0_1, 0_1_2')
 # hierarchical retrieval
 parser.add_argument('--if_hierarchical_retrieval', type=bool, default=True, help='if_hierarchical_retrieval')
-parser.add_argument('--hierarchical_ratio', type=float, default=1.4, help='hierarchical_ratio')
-parser.add_argument('--quantile_num', type=float, default=0.95, help='quantile_num')
+parser.add_argument('--hierarchical_ratio', type=float, default=1.4, help='hierarchical_ratio, 1-2')
+parser.add_argument('--quantile_num', type=float, default=0.95, help='quantile_num, 0.8-1.1')
 # train
-parser.add_argument('--train_retri_num', type=int, default=3, help='max_document_num')
+parser.add_argument('--train_retri_num', type=int, default=5, help='max_document_num')
 parser.add_argument('--train_batch_size', type=int, default=2, help='train_batch_size')
 parser.add_argument('--accumulation_steps', type=int, default=1, help='accumulation_steps')
 parser.add_argument('--demonstration', type=bool, default=False, help='in_context learning')

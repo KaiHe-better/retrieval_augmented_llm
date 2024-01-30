@@ -60,7 +60,6 @@ class My_MI_learner(nn.Module):
             que_emb, att_weights  = self.multi_head_ques(raw_ques_emb, raw_doc_emb)
             doc_emb, _  = self.multi_head_doc(raw_doc_emb, que_emb)
 
-            # select_index = torch.where( att_weights.squeeze() >= torch.quantile(att_weights, self.args.quantile_num) )[0]
             select_index = torch.where( att_weights.squeeze() >= 1/len(bag)* self.args.quantile_num )[0]
             select_doc.append( combine_doc([bag[i] for i in select_index ]) )
             select_doc_num.append(len(select_index))
@@ -103,11 +102,14 @@ class CrossAttentionLayer(nn.Module):
     def __init__(self, args):
         super(CrossAttentionLayer, self).__init__()
         self.args = args
-        self.attention = nn.MultiheadAttention(embed_dim=self.args.d_model, num_heads=self.args.nhead, dropout=self.args.dropout, batch_first=True)
+        self.attention = nn.MultiheadAttention(embed_dim=self.args.d_model, 
+                                               num_heads=self.args.nhead, 
+                                               dropout=self.args.dropout, 
+                                               batch_first=True)
 
 
     def forward(self, query, key, value, key_padding_mask=None):
-        attn_output, attn_wieght = self.attention(query, key, value, key_padding_mask=key_padding_mask)
+        attn_output, attn_wieght = self.attention(query, key, value, key_padding_mask=key_padding_mask, average_attn_weights=True)
         return attn_output, attn_wieght
 
 class MultiLayerCrossAttention(nn.Module):
