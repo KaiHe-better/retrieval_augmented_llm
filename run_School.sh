@@ -276,23 +276,22 @@ nohup python run.py --ID USMLE_04  --gpu 4,5,6 --config llama2-13b_USMLE_MI_RA.y
 
 
 # 36.92
-nohup python run.py --ID USMLE_RA_noise   --gpu 1 --config llama2-7b_USMLE_RA.yaml    --dataset USMLE --retrieval_corpus_ids 2  --infer_retri_num 4    >/dev/null 2>&1 & 
+nohup python run.py --ID USMLE_RA_noise   --gpu 1 --config llama2-7b_USMLE_RA.yaml      --dataset USMLE --retrieval_corpus_ids 2  --infer_retri_num 4    >/dev/null 2>&1 & 
 nohup python run.py --ID USMLE_RA_gold    --gpu 2,7 --config llama2-7b_USMLE_RA.yaml    --dataset USMLE --infer_add_gold_retrieval True >/dev/null --infer_retri_num 4 2>&1 & 
-nohup python run.py --ID USMLE_ADRA_noise --gpu 3,4 --config llama2-7b_USMLE_MI_RA.yaml --dataset USMLE --retrieval_corpus_ids 2        --epoch 1 --if_hierarchical_retrieval True --multi_query True  >/dev/null --infer_retri_num 4 --train_retri_num 4 2>&1 & 
-nohup python run.py --ID USMLE_ADRA_gold  --gpu 5,6 --config llama2-7b_USMLE_MI_RA.yaml --dataset USMLE --infer_add_gold_retrieval True --epoch 1 --if_hierarchical_retrieval True --multi_query True  >/dev/null --infer_retri_num 4 --train_retri_num 4 2>&1 & 
+nohup python run.py --ID USMLE_ADRA_noise --gpu 3,4 --config llama2-7b_USMLE_MI_RA.yaml --dataset USMLE --retrieval_corpus_ids 2        --epoch 1 --if_hierarchical_retrieval True --multi_query True  --infer_retri_num 4 --train_retri_num 4 >/dev/null 2>&1 & 
+nohup python run.py --ID USMLE_ADRA_gold  --gpu 5,6 --config llama2-7b_USMLE_MI_RA.yaml --dataset USMLE --infer_add_gold_retrieval True --epoch 1 --if_hierarchical_retrieval True --multi_query True  --infer_retri_num 4 --train_retri_num 4 >/dev/null 2>&1 & 
 
 
+nohup python run.py --ID MedMCQA_RA_noise   --gpu 1 --config llama2-7b_MedMCQA_RA.yaml    --dataset MedMCQA --retrieval_corpus_ids 2      >/dev/null 2>&1 & 
+nohup python run.py --ID MedMCQA_RA_gold    --gpu 2 --config llama2-7b_MedMCQA_RA.yaml    --dataset MedMCQA --infer_add_gold_retrieval True --infer_retri_num 4 >/dev/null 2>&1 & 
+nohup python run.py --ID MedMCQA_ADRA_noise --gpu X --config llama2-7b_MedMCQA_MI_RA.yaml --dataset MedMCQA --retrieval_corpus_ids 2      --epoch 1 --if_hierarchical_retrieval True --multi_query True   --infer_retri_num 4 --train_retri_num 4   >/dev/null 2>&1 &
+nohup python run.py --ID MedMCQA_ADRA_gold  --gpu X --config llama2-7b_MedMCQA_MI_RA.yaml --dataset MedMCQA --infer_add_gold_retrieval True --epoch 1 --if_hierarchical_retrieval True --multi_query True --infer_retri_num 4 --train_retri_num 4   >/dev/null 2>&1 & 
 
-nohup python run.py --ID MedMCQA_RA_noise   --gpu 5 --config llama2-7b_MedMCQA_RA.yaml    --dataset MedMCQA --retrieval_corpus_ids 2      >/dev/null 2>&1 & 
-nohup python run.py --ID MedMCQA_RA_gold    --gpu 6 --config llama2-7b_MedMCQA_RA.yaml    --dataset MedMCQA --infer_add_gold_retrieval True --infer_retri_num 4 >/dev/null 2>&1 & 
-nohup python run.py --ID MedMCQA_ADRA_noise --gpu 7 --config llama2-7b_MedMCQA_MI_RA.yaml --dataset MedMCQA --retrieval_corpus_ids 2      --epoch 1 --if_hierarchical_retrieval True --multi_query True  >/dev/null 2>&1 --infer_retri_num 4 & 
-nohup python run.py --ID MedMCQA_ADRA_gold  --gpu 1 --config llama2-7b_MedMCQA_MI_RA.yaml --dataset MedMCQA --infer_add_gold_retrieval True --epoch 1 --if_hierarchical_retrieval True --multi_query True  >/dev/null 2>&1 & 
 
-
-nohup python run.py --ID HEADQA_RA_noise   --gpu 2 --config llama2-7b_HEADQA_RA.yaml    --dataset HEADQA --retrieval_corpus_ids 2  --infer_retri_num 4    >/dev/null 2>&1 & 
-nohup python run.py --ID HEADQA_RA_gold    --gpu 3 --config llama2-7b_HEADQA_RA.yaml    --dataset HEADQA --infer_add_gold_retrieval True >/dev/null 2>&1 & 
-nohup python run.py --ID HEADQA_ADRA_noise --gpu 4 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --retrieval_corpus_ids 2      --epoch 1 --if_hierarchical_retrieval True --multi_query True --infer_retri_num 4  >/dev/null 2>&1 & 
-nohup python run.py --ID HEADQA_ADRA_gold  --gpu 5 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --infer_add_gold_retrieval True --epoch 1 --if_hierarchical_retrieval True --multi_query True  >/dev/null 2>&1 & 
+nohup python run.py --ID HEADQA_RA_noise   --gpu X --config llama2-7b_HEADQA_RA.yaml    --dataset HEADQA --retrieval_corpus_ids 2  --infer_retri_num 4    >/dev/null 2>&1 & 
+nohup python run.py --ID HEADQA_RA_gold    --gpu X --config llama2-7b_HEADQA_RA.yaml    --dataset HEADQA --infer_add_gold_retrieval True >/dev/null 2>&1 & 
+nohup python run.py --ID HEADQA_ADRA_noise --gpu X --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --retrieval_corpus_ids 2      --epoch 1 --if_hierarchical_retrieval True --multi_query True   --infer_retri_num 4 --train_retri_num 4  >/dev/null 2>&1 & 
+nohup python run.py --ID HEADQA_ADRA_gold  --gpu X --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA --infer_add_gold_retrieval True --epoch 1 --if_hierarchical_retrieval True --multi_query True --infer_retri_num 4 --train_retri_num 4 >/dev/null 2>&1 & 
 
 
 

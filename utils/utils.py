@@ -144,8 +144,8 @@ def extracted_token_id_label(res, label, tokenizer, dataset, prompt, LLM):
             return "A", [label_list[0]], 0 
         if "B" in res:
             return "B", [label_list[1]], 0
-        if "C" in "C":
-            return res, [label_list[2]], 0
+        if "C" in res:
+            return "C", [label_list[2]], 0
         if "D" in res:
             return "D", [label_list[3]], 0
         

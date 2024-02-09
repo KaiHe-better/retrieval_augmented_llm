@@ -30,14 +30,14 @@ def get_loader(args, triever_tokenizer):
         train_file_path = "datasets/MedMCQA/train.json"
         dev_file_path = "datasets/MedMCQA/dev.json"
 
-        # test_file_path = "datasets/MedMCQA/dev.json"
-        test_file_path = "datasets/MedMCQA/test.json"
+        test_file_path = "datasets/MedMCQA/dev.json"
+        # test_file_path = "datasets/MedMCQA/test.json"
 
         rewrite_train_file_path = None
         rewrite_dev_file_path = "datasets/MedMCQA/rewrite_MedMCQA_dev.json"
 
-        # rewrite_test_file_path = "datasets/MedMCQA/rewrite_MedMCQA_dev.json"
-        rewrite_test_file_path = "datasets/MedMCQA/rewrite_MedMCQA_test.json"
+        rewrite_test_file_path = "datasets/MedMCQA/rewrite_MedMCQA_dev.json"
+        # rewrite_test_file_path = "datasets/MedMCQA/rewrite_MedMCQA_test.json"
 
         train_data_loader, dev_data_loader, test_data_loader, args = get_loader_MedMCQA(args, triever_tokenizer, train_file_path, dev_file_path, test_file_path,
                                                                                         rewrite_train_file_path, rewrite_dev_file_path, rewrite_test_file_path,

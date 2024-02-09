@@ -7,7 +7,7 @@ parser = argparse.ArgumentParser()
 
 # system settings
 parser.add_argument('--ID', type=str, default='1', help='run ID')
-parser.add_argument('--gpu', default="0", type=str, help='gpu device numbers')
+parser.add_argument('--gpu', default="1", type=str, help='gpu device numbers')
 parser.add_argument('--seed', default=42, help='trandom seed')
 parser.add_argument('--num_workers', default=16, type=int, help='data_loader_work')
 parser.add_argument("--test_code_flag", type=bool, default=False, help="if retrieval augmented")
