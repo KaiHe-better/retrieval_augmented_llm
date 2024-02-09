@@ -10,6 +10,5 @@ soft_weight: 0.7
 hard_weight: 0.3  
 num_layers: 1 
 lr: 1e-4
-retrieval_corpus_ids: 0
 
 

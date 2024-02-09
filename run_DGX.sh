@@ -48,17 +48,31 @@ nohup python run.py --ID 2 --gpu 3,4,7 --config llama2-70b_USMLE_MI_RA.yaml --da
 
 # nohup python run.py --ID USMLE_multi_Q --gpu 4 --config llama2-7b_USMLE_MI_RA.yaml --dataset USMLE --multi_query True --rewrite_num 1 --infer_retri_num 3 --train_retri_num 3 --epoch 1 >/dev/null 2>&1 & 
 
+# nohup python run.py --ID MedMCQA_7_0 --gpu 5 --config llama2-7b_MedMCQA.yaml --dataset MedMCQA  >/dev/null 2>&1 &  # acc 32.56, f1 14.33  3.65 min
+# nohup python run.py --ID MedMCQA_7_1 --gpu 6 --config llama2-7b_MedMCQA_RA.yaml --dataset MedMCQA  >/dev/null 2>&1 & 
+
+# nohup python run.py --ID MedMCQA_13_0 --gpu 5 --config llama2-13b_MedMCQA.yaml --dataset MedMCQA  >/dev/null 2>&1 & # acc 35.79, f1 35.46  2.76 min
+# nohup python run.py --ID MedMCQA_13_1 --gpu 6 --config llama2-13b_MedMCQA_RA.yaml --dataset MedMCQA  >/dev/null 2>&1 & # acc 37.56, f1 35.88  52.85 min
+
+# nohup python run.py --ID HEADQA_7_0 --gpu 4 --config llama2-7b_HEADQA.yaml --dataset HEADQA  >/dev/null 2>&1 &  # acc 26.84, f1 15.92  1.55 min
+# nohup python run.py --ID HEADQA_7_1 --gpu 5 --config llama2-7b_HEADQA_RA.yaml --dataset HEADQA  >/dev/null 2>&1 & # acc 43.91, f1 43.42 26.88min
+
+# nohup python run.py --ID HEADQA_13_0 --gpu 4 --config llama2-13b_HEADQA.yaml --dataset HEADQA  >/dev/null 2>&1 &  # acc 48.18, f1 47.59  2.18 min
+# nohup python run.py --ID HEADQA_13_1 --gpu 5 --config llama2-13b_HEADQA_RA.yaml --dataset HEADQA  >/dev/null 2>&1 & # acc 51.46, f1 50.14  38.36 min
+
+# nohup  bash run_tmp.sh >/dev/null 2>&1 & 
+# nohup python run.py --ID 0 --gpu 0,2,3 --config llama2-70b_MedMCQA.yaml    --dataset MedMCQA   >/dev/null 2>&1 & 
+# nohup python run.py --ID 0 --gpu 0,2,3 --config llama2-70b_MedMCQA_RA.yaml --dataset MedMCQA   >/dev/null 2>&1 & 
+# nohup python run.py --ID 0 --gpu 0,2,3 --config llama2-70b_HEADQA.yaml    --dataset HEADQA   >/dev/null 2>&1 & 
+# nohup python run.py --ID 0 --gpu 0,2,3 --config llama2-70b_HEADQA_RA.yaml --dataset HEADQA   >/dev/null 2>&1 & 
+
+# > 48.47
+# --if_hierarchical_retrieval True
+# nohup python run.py --ID USMLE_70_1 --gpu 5,6,7 --config llama2-70b_USMLE_MI_RA.yaml --dataset USMLE  >/dev/null 2>&1 &  # MI_47.92
+# nohup python run.py --ID USMLE_70_0 --gpu 5,6,7 --config llama2-70b_USMLE_MI_RA.yaml --dataset USMLE --multi_query True  --rewrite_num 1 --infer_retri_num 3 --train_retri_num 3 --quantile_num 1 >/dev/null 2>&1 &  # MI_46.03 
+
+# # --if_hierarchical_retrieval False
+# nohup python run.py --ID USMLE_70_0 --gpu 5,6,7 --config llama2-70b_USMLE_MI_RA.yaml --dataset USMLE >/dev/null 2>&1 & # 48.78
 
 
-nohup python run.py --ID MedMCQA_7_0 --gpu 5 --config llama2-7b_MedMCQA.yaml --dataset MedMCQA  >/dev/null 2>&1 &  # acc 32.56, f1 14.33  3.65 min
-nohup python run.py --ID MedMCQA_7_1 --gpu 6 --config llama2-7b_MedMCQA_RA.yaml --dataset MedMCQA  >/dev/null 2>&1 & 
-
-nohup python run.py --ID MedMCQA_13_0 --gpu 5 --config llama2-13b_MedMCQA.yaml --dataset MedMCQA  >/dev/null 2>&1 & # acc 35.79, f1 35.46  2.76 min
-nohup python run.py --ID MedMCQA_13_1 --gpu 6 --config llama2-13b_MedMCQA_RA.yaml --dataset MedMCQA  >/dev/null 2>&1 & # acc 37.56, f1 35.88  52.85 min
-
-nohup python run.py --ID HEADQA_7_0 --gpu 4 --config llama2-7b_HEADQA.yaml --dataset HEADQA  >/dev/null 2>&1 &  # acc 26.84, f1 15.92  1.55 min
-nohup python run.py --ID HEADQA_7_1 --gpu 5 --config llama2-7b_HEADQA_RA.yaml --dataset HEADQA  >/dev/null 2>&1 & # acc 43.91, f1 43.42 26.88min
-
-nohup python run.py --ID HEADQA_13_0 --gpu 4 --config llama2-13b_HEADQA.yaml --dataset HEADQA  >/dev/null 2>&1 &  # acc 48.18, f1 47.59  2.18 min
-nohup python run.py --ID HEADQA_13_1 --gpu 5 --config llama2-13b_HEADQA_RA.yaml --dataset HEADQA  >/dev/null 2>&1 & # acc 51.46, f1 50.14  38.36 min
-
+nohup python run.py --ID MedMCQA_70_0 --gpu 5,6,7 --config llama2-70b_MedMCQA_MI_RA.yaml --dataset MedMCQA >/dev/null 2>&1 & 

@@ -1,0 +1,90 @@
+2024-02-07 15:40:53,853 **************** Configuration **************** 
+2024-02-07 15:40:53,853 ID: MedMCQA_7_0_test
+2024-02-07 15:40:53,853 gpu: 6
+2024-02-07 15:40:53,853 seed: 42
+2024-02-07 15:40:53,853 num_workers: 16
+2024-02-07 15:40:53,853 test_code_flag: False
+2024-02-07 15:40:53,853 loading_ckpt_path: None
+2024-02-07 15:40:53,854 if_train: False
+2024-02-07 15:40:53,854 if_RA: False
+2024-02-07 15:40:53,854 if_MI_RA: False
+2024-02-07 15:40:53,854 LLM: llama2-7b
+2024-02-07 15:40:53,854 triever: dragon+
+2024-02-07 15:40:53,854 num_layers: 1
+2024-02-07 15:40:53,854 dataset: MedMCQA
+2024-02-07 15:40:53,854 config: llama2-7b_MedMCQA.yaml
+2024-02-07 15:40:53,854 chunk_size: 512
+2024-02-07 15:40:53,854 chunk_overlap: 20
+2024-02-07 15:40:53,854 train_add_gold_retrieval: False
+2024-02-07 15:40:53,854 infer_add_gold_retrieval: False
+2024-02-07 15:40:53,854 infer_retri_num: 5
+2024-02-07 15:40:53,854 pass_retri_num: 3
+2024-02-07 15:40:53,854 test_batch_size: 2
+2024-02-07 15:40:53,854 multi_query: False
+2024-02-07 15:40:53,854 rewrite_num: 1
+2024-02-07 15:40:53,854 OTTQA_more_passage: True
+2024-02-07 15:40:53,854 retri_batch_size: 640
+2024-02-07 15:40:53,854 retrieval_corpus_ids: 0
+2024-02-07 15:40:53,854 if_hierarchical_retrieval: False
+2024-02-07 15:40:53,854 hierarchical_ratio: 1.4
+2024-02-07 15:40:53,854 quantile_num: 0.95
+2024-02-07 15:40:53,854 train_retri_num: 5
+2024-02-07 15:40:53,854 train_batch_size: 2
+2024-02-07 15:40:53,854 accumulation_steps: 1
+2024-02-07 15:40:53,854 demonstration: False
+2024-02-07 15:40:53,854 demons_cnt: 1
+2024-02-07 15:40:53,854 l2_coef: 0
+2024-02-07 15:40:53,854 train_eval: 100
+2024-02-07 15:40:53,854 epoch: 1
+2024-02-07 15:40:53,854 lr: 0.0001
+2024-02-07 15:40:53,855 init_lr_num: 500
+2024-02-07 15:40:53,855 lr_decay: 0.9
+2024-02-07 15:40:53,855 lr_decay_interval: 400
+2024-02-07 15:40:53,855 loss_list: kl_soft+kl_hard
+2024-02-07 15:40:53,855 mse_weight: 0
+2024-02-07 15:40:53,855 soft_weight: 0.7
+2024-02-07 15:40:53,855 hard_weight: 0.3
+2024-02-07 15:40:53,855 d_model: 768
+2024-02-07 15:40:53,855 dim_feedforward: 2048
+2024-02-07 15:40:53,855 layer_norm_eps: 1e-05
+2024-02-07 15:40:53,855 nhead: 8
+2024-02-07 15:40:53,855 dropout: 0.1
+2024-02-07 15:40:53,855 temperature: 1e-09
+2024-02-07 15:40:53,855 top_p: 0
+2024-02-07 15:40:53,855 max_new_tokens: 1
+2024-02-07 15:40:53,855 max_length: 2048
+2024-02-07 15:40:53,855 device: cuda
+2024-02-07 15:40:53,855 prompt_file: prompts/MedMCQA.json
+2024-02-07 15:40:53,855 dir_path: ./results/output/ID_MedMCQA_7_0_test_gpu_6_config_llama2-7b_MedMCQA.yaml_dataset_MedMCQA_epoch_1_
+2024-02-07 15:40:53,855 print_logger: <Logger print (DEBUG)>
+2024-02-07 15:40:53,855 test_result_logger: <Logger test_result (DEBUG)>
+2024-02-07 15:40:53,855 train_result_logger: <Logger train_result (DEBUG)>
+2024-02-07 15:40:53,855 **************** Configuration **************** 
+
+
+2024-02-07 15:40:53,855 Loading ../LLM_models/llama2/Llama-2-7b-chat-hf in torch.bfloat16...
+2024-02-07 15:40:59,353 Finish loading in 0.09 mins.
+2024-02-07 15:40:59,450 Loading data ...
+2024-02-07 15:40:59,820 prompt_format: general-prompt 
+
+2024-02-07 15:40:59,821 
+ Start test ...  
+2024-02-07 15:41:00,360 testing process num: 0
+2024-02-07 15:41:11,126 testing process num: 200
+2024-02-07 15:41:21,138 testing process num: 400
+2024-02-07 15:41:31,209 testing process num: 600
+2024-02-07 15:41:41,208 testing process num: 800
+2024-02-07 15:41:51,250 testing process num: 1000
+2024-02-07 15:42:01,231 testing process num: 1200
+2024-02-07 15:42:11,380 testing process num: 1400
+2024-02-07 15:42:21,386 testing process num: 1600
+2024-02-07 15:42:31,433 testing process num: 1800
+2024-02-07 15:42:41,341 testing process num: 2000
+2024-02-07 15:42:51,483 testing process num: 2200
+2024-02-07 15:43:01,505 testing process num: 2400
+2024-02-07 15:43:11,638 testing process num: 2600
+2024-02-07 15:43:21,650 testing process num: 2800
+2024-02-07 15:43:31,705 testing process num: 3000
+2024-02-07 15:43:35,629 test: acc 0.0, f1 0.0, precision 0.0, recall 0.0, old_doc_len:0.0, new_doc_len:0.0, hallucination: 0.0 
+2024-02-07 15:43:35,629 cost_time: 2.595552333196004 
+ 

@@ -1,0 +1,9 @@
+---
+LLM: chatGPT 
+dataset: HEADQA
+prompt_file: "prompts/HEADQA.json"
+if_train: True
+if_RA: True
+if_MI_RA: True
+loss_list: kl_hard
+hard_weight: 1

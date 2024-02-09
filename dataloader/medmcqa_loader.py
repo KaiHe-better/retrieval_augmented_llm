@@ -31,7 +31,12 @@ class MedMCQA(Dataset):
 
         data_item = json.loads(self.data[index])  
         question = data_item['question']
-        answ = self.map_dic[str(data_item['cop'])]
+        id_item = data_item['id']
+
+        if 'cop' in data_item.keys():
+            answ = self.map_dic[str(data_item['cop'])]
+        else:
+            answ = ""
         
         label = [self.LLM_tokenizer._convert_token_to_id(answ)]
         # label = self.LLM_tokenizer._convert_token_to_id(answ)
@@ -42,17 +47,18 @@ class MedMCQA(Dataset):
         for k, v in zip(["A", "B", "C", "D"], ['opa', 'opb', 'opc', 'opd']):
             options += "<"+str(k) + "> " + str(data_item[v])+ ". " 
 
-        return {"question": question, 'options': options,  'label': label, "answer": answ,  "one_hot_label": one_hot_label}
+        return {"id_item":id_item, "question": question, 'options': options,  'label': label, "answer": answ,  "one_hot_label": one_hot_label}
 
 
 
 def collate_fn_MedMCQA(data):
-    batch_data = {'question': [],  'options': [], 'label': [], "answer":[], "one_hot_label":[] }
+    batch_data = {"id_item":[], 'question': [],  'options': [], 'label': [], "answer":[], "one_hot_label":[] }
     for data_item in data:
         for k, v in batch_data.items():
             tmp = data_item[k]
             batch_data[k].append(tmp)
             
+    batch_data['id_item'] = batch_data['id_item']
     batch_data['question'] = batch_data['question']
     batch_data['answer']   = batch_data['answer']
     batch_data['options']  = batch_data['options']  

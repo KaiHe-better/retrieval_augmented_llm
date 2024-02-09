@@ -136,20 +136,22 @@ def extracted_token_id_label(res, label, tokenizer, dataset, prompt, LLM):
         return res, res_tokenize, 0 
 
     else :
-        res = res[-2:]
+        # res = res[0]
+        res = res[-1]
         label_list = [tokenizer._convert_token_to_id("A"), tokenizer._convert_token_to_id("B"),tokenizer._convert_token_to_id("C"),tokenizer._convert_token_to_id("D")]
         
         if "A" in res:
-            return res, [label_list[0]], 0 
+            return "A", [label_list[0]], 0 
         if "B" in res:
-            return res, [label_list[1]], 0
-        if "C" in res:
+            return "B", [label_list[1]], 0
+        if "C" in "C":
             return res, [label_list[2]], 0
         if "D" in res:
-            return res, [label_list[3]], 0
+            return "D", [label_list[3]], 0
         
-        label_list.remove(int(label[0]))
-        # label_list.remove(int(label))
+        if int(label[0]) in label_list:
+            label_list.remove(int(label[0]))
+
         hall_label = random.choice(label_list)
         return res, [hall_label] , 1 
     

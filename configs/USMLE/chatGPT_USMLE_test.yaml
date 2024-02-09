@@ -1,5 +1,0 @@
----
-LLM: chatGPT
-dataset: USMLE
-prompt_file: "prompts/USMLE.json"
-test_code_flag: True

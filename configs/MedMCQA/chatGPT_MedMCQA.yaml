@@ -1,0 +1,8 @@
+---
+LLM: chatGPT
+dataset: MedMCQA
+prompt_file: "prompts/MedMCQA.json"
+if_train: False
+if_RA: False
+if_MI_RA: False
+

@@ -6,6 +6,7 @@ import torch.nn.functional as F
 import json
 import os
 import time
+import csv
 import re
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_loaders import TextLoader
@@ -98,6 +99,10 @@ class My_Trainer:
             tmp_file_list = ["raw_retrieval_corpus_0"]
         elif self.args.retrieval_corpus_ids == "0_1":
             tmp_file_list = ["raw_retrieval_corpus_0", "raw_retrieval_corpus_1"]
+        elif self.args.retrieval_corpus_ids == "2":
+            tmp_file_list = ["raw_retrieval_corpus_2"]
+        elif self.args.retrieval_corpus_ids == "0_2":
+            tmp_file_list = ["raw_retrieval_corpus_0", "raw_retrieval_corpus_2"]
         elif self.args.retrieval_corpus_ids == "0_1_2":
             tmp_file_list = ["raw_retrieval_corpus_0", "raw_retrieval_corpus_1", "raw_retrieval_corpus_2"]
         else:
@@ -215,8 +220,8 @@ class My_Trainer:
             self.print_logger.info(f"vectordb {file_type}, size: {self.vectordb[file_type].size()}")
         
     def retrieve(self, query, retri_num, train_flag):
-        if train_flag and retri_num<=1:
-            raise Exception("train need retrieve more than one docs !")
+        # if train_flag and retri_num<=1:
+        #     raise Exception("train need retrieve more than one docs !")
 
         # if self.args.multi_query:
         #     output_parser = LineListOutputParser()
@@ -444,11 +449,11 @@ class My_Trainer:
                         best_performce = test_performce
                         best_step = step_num
 
-                        if step_num>10:
-                            torch.save(self.MI_learner.state_dict(), self.args.dir_path+'/MI_' +str(best_performce)+'.pkl') 
+                        # if step_num>10:
+                        #     torch.save(self.MI_learner.state_dict(), self.args.dir_path+'/MI_' +str(best_performce)+'.pkl') 
 
-                # if step_num % 1 ==0 :
-                #     break
+                if step_num == 2000 :
+                    break
                         
             # if step_num ==100:
             #   break
@@ -460,6 +465,8 @@ class My_Trainer:
             
         self.print_logger.info("\n Start test ...  ")
         start_time = time.time()
+# 
+        all_batch_id = []
 
         all_test_labels = []
         all_test_prediction_ids = []
@@ -468,12 +475,16 @@ class My_Trainer:
         old_doc_len = 0
         new_doc_len = 0
         total_hallucination_cnt = 0
+
         for index, data_item in enumerate(test_data_loader):
             if index%200==0:
                 self.print_logger.info(f"testing process num: {index}")
             question = data_item['question']
             batch_label = data_item["label"]
             batch_answer = data_item["answer"]
+
+            # batch_id = data_item["id_item"]
+            # all_batch_id += batch_id
 
             if self.args.if_RA:
                 query = self.get_multi_query_input(question, data_item)
@@ -502,6 +513,8 @@ class My_Trainer:
             if break_cnt is not None and break_cnt<index:
                 break
         
+        # self.save_medCQA_res(all_batch_id, all_test_predictions)
+
         cost_time  = (time.time() - start_time)/60
         old_doc_len = old_doc_len / len(test_data_loader)   
         new_doc_len = new_doc_len / len(test_data_loader)   
@@ -527,6 +540,16 @@ class My_Trainer:
 
         return record_performance
     
+    def save_medCQA_res(self, all_batch_id, all_test_predictions):
+        rows = zip(all_batch_id, all_test_predictions)
+        filename =  self.args.dir_path+"/preds.csv"
+        with open(filename, 'w', newline='') as csvfile:
+            csvwriter = csv.writer(csvfile)
+            headers = ['id', 'Prediction (correct option)']
+            csvwriter.writerow(headers)
+            csvwriter.writerows(rows)
+
+
 
          
     def retrieve_save(self, query, retri_num, train_flag):
@@ -608,7 +631,8 @@ class My_Trainer:
             test_totel.append(batch_queries)
             # break
 
-        with open(self.args.dataset+"_test.json", "w") as f:
+        # _test.json" or _dev.json"
+        with open(self.args.dataset+"_dev.json", "w") as f:
             f.writelines(str(test_totel))
 
 
