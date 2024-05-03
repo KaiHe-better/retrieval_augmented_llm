@@ -75,4 +75,48 @@ nohup python run.py --ID 2 --gpu 3,4,7 --config llama2-70b_USMLE_MI_RA.yaml --da
 # nohup python run.py --ID USMLE_70_0 --gpu 5,6,7 --config llama2-70b_USMLE_MI_RA.yaml --dataset USMLE >/dev/null 2>&1 & # 48.78
 
 
-nohup python run.py --ID MedMCQA_70_0 --gpu 5,6,7 --config llama2-70b_MedMCQA_MI_RA.yaml --dataset MedMCQA >/dev/null 2>&1 & 
+nohup bash run_tmp.sh >/dev/null 2>&1 & 
+
+
+
+nohup python run.py --ID USMLE_70 --gpu 5,6,7 --config llama2-70b_USMLE_MI_RA.yaml --dataset USMLE --multi_query True  >/dev/null 2>&1 &  
+
+
+# nohup python run.py --ID MedMCQA_70 --gpu 0,1,2 --config llama2-70b_MedMCQA_MI_RA.yaml --dataset MedMCQA --multi_query True  >/dev/null 2>&1 & 
+nohup python run.py --ID HEADQA_70 --gpu 5,6,7 --config llama2-70b_HEADQA_MI_RA.yaml --dataset HEADQA --multi_query True --train_retri_num 3 --infer_retri_num 3 >/dev/null 2>&1 &  
+
+
+
+# 60.14
+nohup python run.py --ID HEADQA_~~70 --gpu 5,6,7 --config llama2-70b_HEADQA_MI_RA.yaml --dataset HEADQA  --train_retri_num 5 --infer_retri_num 5 >/dev/null 2>&1 &  
+nohup python run.py --ID HEADQA_~~70_0 --gpu 5,6,7 --config llama2-70b_HEADQA_MI_RA.yaml --dataset HEADQA --multi_query True --if_hierarchical_retrieval True --train_retri_num 3 --infer_retri_num 3 >/dev/null 2>&1 &  
+
+
+nohup python run.py --ID 0 --gpu 5 --config llama2-7b_USMLE_MI_RA.yaml --dataset USMLE  --retrieval_corpus_ids 0   >/dev/null 2>&1 &    # MI_38.88
+nohup python run.py --ID 1 --gpu 6 --config llama2-7b_USMLE_MI_RA.yaml --dataset USMLE  --retrieval_corpus_ids 0_1   >/dev/null 2>&1 &    
+
+
+nohup python run.py --ID s1 --gpu 5 --config llama2-7b_USMLE_MI_RA.yaml --dataset USMLE  --retrieval_corpus_ids 0_1 --loss_list kl_soft >/dev/null 2>&1 &    
+nohup python run.py --ID s2 --gpu 6 --config llama2-7b_USMLE_MI_RA.yaml --dataset USMLE  --retrieval_corpus_ids 0_1 --loss_list kl_hard >/dev/null 2>&1 &    
+
+
+nohup python run.py --ID MedMCQAs1 --gpu 5 --config llama2-7b_MedMCQA_MI_RA.yaml --dataset MedMCQA  --retrieval_corpus_ids 0_1 --loss_list kl_soft >/dev/null 2>&1 &    
+nohup python run.py --ID MedMCQAs2 --gpu 6 --config llama2-7b_MedMCQA_MI_RA.yaml --dataset MedMCQA  --retrieval_corpus_ids 0_1 --loss_list kl_hard >/dev/null 2>&1 &    
+
+nohup python run.py --ID HEADQAs1 --gpu 7 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA  --retrieval_corpus_ids 0_1 --loss_list kl_soft >/dev/null 2>&1 &    
+nohup python run.py --ID HEADQAs2 --gpu 6 --config llama2-7b_HEADQA_MI_RA.yaml --dataset HEADQA  --retrieval_corpus_ids 0_1 --loss_list kl_hard >/dev/null 2>&1 &    
+
+
+nohup python run.py --ID USMLE_02 --gpu 4 --config llama2-7b_USMLE.yaml --dataset USMLE >/dev/null 2>&1 &  
+nohup python run.py --ID USMLE_03 --gpu 7 --config llama2-7b_USMLE_RA.yaml --dataset USMLE  >/dev/null 2>&1 &  
+
+
+nohup python run.py --ID USMLE_04_\(      --gpu 4 --config llama2-7b_USMLE_MI_RA.yaml --dataset USMLE  >/dev/null 2>&1 &  
+nohup python run.py --ID USMLE_05_\(_Loss --gpu 7 --config llama2-7b_USMLE_MI_RA.yaml --dataset USMLE --loss_list kl_soft+kl_hard+len_penalty  >/dev/null 2>&1 &
+
+
+nohup python run.py --ID USMLE_06_\<      --gpu 7 --config llama2-7b_USMLE_MI_RA.yaml --dataset USMLE  >/dev/null 2>&1 &  
+nohup python run.py --ID USMLE_07_\<_Loss --gpu 4 --config llama2-7b_USMLE_MI_RA.yaml --dataset USMLE --loss_list kl_soft+kl_hard+len_penalty  >/dev/null 2>&1 &
+
+
+

@@ -1,0 +1,8 @@
+python run.py --ID USMLE_0010 --gpu 0,1,2,3,4,5,6,7 --config llama2-70b_USMLE_MI_RA.yaml --dataset USMLE --infer_retri_num 10 --train_retri_num 10 --epoch 1 --train_batch_size 1 --test_batch_size 1 --if_hierarchical_retrieval True --multi_query True 
+python run.py --ID USMLE_009  --gpu 0,1,2,5,6,7 --config llama2-70b_USMLE_MI_RA.yaml --dataset USMLE --infer_retri_num 9 --train_retri_num 9   --epoch 1 --train_batch_size 1 --test_batch_size 1 --if_hierarchical_retrieval True --multi_query True 
+python run.py --ID USMLE_008~~~  --gpu 0,1,2,5,6,7 --config llama2-70b_USMLE_MI_RA.yaml --dataset USMLE --infer_retri_num 8 --train_retri_num 8   --epoch 1 --train_batch_size 1 --test_batch_size 1 --if_hierarchical_retrieval True --multi_query True 
+python run.py --ID USMLE_007~~~  --gpu 0,1,2,5,6,7 --config llama2-70b_USMLE_MI_RA.yaml --dataset USMLE --infer_retri_num 7 --train_retri_num 7   --epoch 1 --train_batch_size 1 --test_batch_size 1 --if_hierarchical_retrieval True --multi_query True 
+python run.py --ID USMLE_006  --gpu 1,2,5,6,7 --config llama2-70b_USMLE_MI_RA.yaml --dataset USMLE --infer_retri_num 6 --train_retri_num 6   --epoch 1 --train_batch_size 1 --test_batch_size 1 --if_hierarchical_retrieval True --multi_query True 
+python run.py --ID USMLE_004  --gpu 3,4,5 --config llama2-70b_USMLE_MI_RA.yaml --dataset USMLE --infer_retri_num 4 --train_retri_num 4   --epoch 1 --train_batch_size 1 --test_batch_size 1 --if_hierarchical_retrieval True --multi_query True 
+
+nohup  python run.py --ID USMLE_007~~~  --gpu 0,1,2,5,6,7 --config llama2-70b_USMLE_MI_RA.yaml --dataset USMLE --infer_retri_num 7 --train_retri_num 7   --epoch 1 --train_batch_size 1 --test_batch_size 1 --if_hierarchical_retrieval True --multi_query True   >/dev/null 2>&1 &

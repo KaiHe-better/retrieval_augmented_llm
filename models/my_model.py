@@ -19,8 +19,11 @@ class My_MI_learner(nn.Module):
         self.multi_head_ques = MultiLayerCrossAttention(args, num_layers=self.args.num_layers).to(self.args.device)
         self.multi_head_doc = MultiLayerCrossAttention(args, num_layers=self.args.num_layers).to(self.args.device)
 
-        self.linear_mse = Linear(self.args.d_model, 1).to(self.args.device)
-        self.linear_kl = Linear(self.args.d_model, vocab_size).to(self.args.device)
+        # self.linear_mse = Linear(self.args.d_model, 1).to(self.args.device)
+        # self.linear_kl = Linear(self.args.d_model, vocab_size).to(self.args.device)
+        # new change
+        self.linear_mse = Linear(self.args.d_model*2, 1).to(self.args.device)
+        self.linear_kl = Linear(self.args.d_model*2, vocab_size).to(self.args.device)
 
         self.mse_loss = nn.MSELoss()
         self.kl_loss = nn.KLDivLoss(reduction="batchmean", log_target=True)
@@ -36,6 +39,13 @@ class My_MI_learner(nn.Module):
         new_bag_list = [i.page_content for i in chunks]
         return new_bag_list
     
+    def len_loss_function(self,n, n_ref, epsilon=0.01):
+        loss = abs(n - n_ref) / (n_ref + epsilon)
+        loss = min(loss, 1.0)
+        
+        return loss
+
+
     def forward(self, query_emb, ques_att_masks, bags_list, batch_logit_log_softmax, one_hot_labels, batch_loss, retriever, triever_tokenizer, train_flag):
         total_mse_logit = []
         total_kl_logit = []
@@ -58,7 +68,9 @@ class My_MI_learner(nn.Module):
             raw_doc_emb  = self.trans_doc(raw_doc_emb, src_key_padding_mask=doc_att_mask)[:, 0, :].unsqueeze(0)
 
             que_emb, att_weights  = self.multi_head_ques(raw_ques_emb, raw_doc_emb)
-            doc_emb, _  = self.multi_head_doc(raw_doc_emb, que_emb)
+            # doc_emb, _  = self.multi_head_doc(raw_doc_emb, que_emb)
+            # new change
+            doc_emb, _  = self.multi_head_doc(raw_doc_emb, raw_ques_emb)
 
             select_index = torch.where( att_weights.squeeze() >= 1/len(bag)* self.args.quantile_num )[0]
             select_doc.append( combine_doc([bag[i] for i in select_index ]) )
@@ -66,6 +78,8 @@ class My_MI_learner(nn.Module):
            
             if train_flag:
                 doc_emb = torch.mean(doc_emb, dim=1).squeeze()
+                # new change
+                doc_emb = torch.cat((doc_emb, que_emb.squeeze()), dim=0)
 
                 if "mse" in self.args.loss_list:
                     mse_logit = self.linear_mse(doc_emb) 
@@ -82,9 +96,9 @@ class My_MI_learner(nn.Module):
         kl_soft_loss = 0
         kl_hard_loss = 0
         if train_flag:
-            if "mse" in self.args.loss_list:
-                mse_loss = self.mse_loss(torch.stack(total_mse_logit).squeeze(), batch_loss.detach().float()) 
-                mse_loss = self.args.mse_weight * mse_loss
+            if "len_penalty" in self.args.loss_list:
+                len_penalty_loss = self.len_loss_function( sum(select_doc_num),  len(bags_list)*len(bags_list[0]) ) 
+                len_penalty_loss = self.args.len_penalty_weight * len_penalty_loss
 
             if "kl_soft" in self.args.loss_list:
                 kl_soft_loss = self.kl_loss(torch.stack(total_kl_logit), batch_logit_log_softmax.to(MI_logit_log_softmax.device)) 

@@ -7,21 +7,21 @@ parser = argparse.ArgumentParser()
 
 # system settings
 parser.add_argument('--ID', type=str, default='1', help='run ID')
-parser.add_argument('--gpu', default="1", type=str, help='gpu device numbers')
+parser.add_argument('--gpu', default="7", type=str, help='gpu device numbers')
 parser.add_argument('--seed', default=42, help='trandom seed')
 parser.add_argument('--num_workers', default=16, type=int, help='data_loader_work')
 parser.add_argument("--test_code_flag", type=bool, default=False, help="if retrieval augmented")
 parser.add_argument("--loading_ckpt_path", type=str, default=None, help="loading_ckpt_path, None ")
 # model and name
-parser.add_argument("--if_train", type=bool, default=True, help="if retrieval augmented")
+parser.add_argument("--if_train", type=bool, default=False, help="if retrieval augmented")
 parser.add_argument("--if_RA", type=bool, default=True, help="if retrieval augmented")
 parser.add_argument("--if_MI_RA", type=bool, default=True, help="if_MI_RA")
 parser.add_argument("--LLM", type=str,  default="chatGPT", choices=["llama2-7b", "chatGPT", ], help="LLM to use")
 parser.add_argument("--triever", type=str,  default="dragon+", choices=["dragon+", "NIL", ], help="triever to use")
 parser.add_argument("--num_layers", type=int,  default=1, help="num_layers")
 # data
-parser.add_argument('--dataset', type=str, default="MedMCQA", choices=["USMLE", "MedMCQA", "HEADQA", "MMLU", "OTTQA"], help='train_file_path')
-parser.add_argument("--config", type=str, default="llama2-7b_MedMCQA_RA.yaml", help="Path to the config file")
+parser.add_argument('--dataset', type=str, default="USMLE", choices=["USMLE", "MedMCQA", "HEADQA", "MMLU", "OTTQA"], help='train_file_path')
+parser.add_argument("--config", type=str, default="llama2-7b_USMLE_MI_RA.yaml", help="Path to the config file")
 parser.add_argument('--chunk_size', type=int, default=512, help='chunk_sizen, not token length')
 parser.add_argument('--chunk_overlap', type=int, default=20, help='chunk_size')
 # retrieval
@@ -34,7 +34,7 @@ parser.add_argument('--multi_query', type=bool, default=False, help='multi_query
 parser.add_argument('--rewrite_num', type=int, default=1, help='1 or 2')
 parser.add_argument('--OTTQA_more_passage', type=bool, default=True, help='OTTQA_more_passage')
 parser.add_argument('--retri_batch_size', type=int, default=640, help='batch_size')
-parser.add_argument('--retrieval_corpus_ids', type=str, default="2", help='0, 2, 0_1, 0_2, 0_1_2')
+parser.add_argument('--retrieval_corpus_ids', type=str, default="0", help='0, 2, 0_1, 0_2, 0_1_2')
 # hierarchical retrieval
 parser.add_argument('--if_hierarchical_retrieval', type=bool, default=False, help='if_hierarchical_retrieval')
 parser.add_argument('--hierarchical_ratio', type=float, default=1.4, help='hierarchical_ratio, 1-2')
@@ -54,8 +54,8 @@ parser.add_argument('--init_lr_num', type=int, default=500, help='lr for retriev
 parser.add_argument('--lr_decay', type=float, default=0.9, help='lr for retriever')
 parser.add_argument('--lr_decay_interval', type=int, default=400, help='lr for retriever')
 # loss
-parser.add_argument('--loss_list', type=str, default="kl_soft+kl_hard", help='kl_soft+kl_hard+mse')
-parser.add_argument('--mse_weight', type=float, default=0, help='soft_weight')
+parser.add_argument('--loss_list', type=str, default="kl_soft+kl_hard", help='kl_soft+kl_hard+len_penalty')
+parser.add_argument('--len_penalty_weight', type=float, default=1, help='soft_weight')
 parser.add_argument('--soft_weight', type=float, default=0.7, help='soft_weight')
 parser.add_argument('--hard_weight', type=float, default=0.3, help='hard_weight')
 # model parameters
@@ -139,9 +139,9 @@ def main(args):
     
     if args.if_train and args.if_RA and args.if_MI_RA and (args.dataset!= "MMLU"):
         trainer.train_proc(train_data_loader, dev_data_loader, test_data_loader)
-
-    # test_data_loader = dev_data_loader
-    trainer.test_proc(test_data_loader, dev_data_loader)
+    else:
+        # test_data_loader = dev_data_loader
+        trainer.test_proc(test_data_loader, dev_data_loader)
     
 
 

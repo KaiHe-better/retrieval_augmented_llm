@@ -1,0 +1,7 @@
+---
+LLM: llama2-70b
+dataset: MedMCQA
+max_new_tokens: 1
+if_train: True
+if_RA: True
+if_MI_RA: True

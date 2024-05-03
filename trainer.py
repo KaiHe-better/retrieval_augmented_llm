@@ -452,7 +452,7 @@ class My_Trainer:
                         # if step_num>10:
                         #     torch.save(self.MI_learner.state_dict(), self.args.dir_path+'/MI_' +str(best_performce)+'.pkl') 
 
-                if step_num == 2000 :
+                if step_num == 400 :
                     break
                         
             # if step_num ==100:
@@ -462,6 +462,7 @@ class My_Trainer:
         
         if ((self.args.if_RA or self.args.if_MI_RA) and (self.args.if_train is False)) or ( self.args.dataset =="MMLU"):
             self.updata_retri_embedding()
+       
             
         self.print_logger.info("\n Start test ...  ")
         start_time = time.time()
